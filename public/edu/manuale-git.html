@@ -355,10 +355,10 @@
     <!-- Sezione 4 -->
     <section>
         <h2><span class="num">4</span> Gestione dei branch e merge</h2>
-        <p>I <strong>branch</strong> (rami) ti permettono di sviluppare nuove funzionalità in isolamento senza rischiare di danneggiare il codice funzionante presente nel ramo principale (<code>main</code>).</p>
+        <p>I <strong>branch</strong> (rami) ti permettono di sviluppare nuove funzionalità in isolamento senza rischiare di danneggiare il codice funzionante presente nel branch principale (<code>main</code>).</p>
 
         <h3>Creare e passare a un nuovo branch</h3>
-        <p>Usa la sintassi moderna <code>git switch</code> per creare un nuovo ramo e spostartici immediatamente:</p>
+        <p>Usa la sintassi moderna <code>git switch</code> per creare un nuovo branch e spostartici immediatamente:</p>
         <pre><code><span class="cmd">git</span> switch -c <span class="arg">feature-login</span></code></pre>
 
         <h3>Spostarsi tra Branch esistenti</h3>
@@ -369,9 +369,9 @@
 <span class="cmd">git</span> switch <span class="arg">feature-login</span></code></pre>
 
         <h3>Unire le modifiche (merge)</h3>
-        <p>Quando hai completato e testato il lavoro sul ramo secondario, uniscilo nel ramo principale:</p>
+        <p>Quando hai completato e testato il lavoro sul branch secondario, uniscilo nel branch principale:</p>
         <ol>
-            <li>Spostati sul ramo di destinazione: <code>git switch main</code></li>
+            <li>Spostati sul branch di destinazione: <code>git switch main</code></li>
             <li>Esegui la fusione: <code>git merge feature-login</code></li>
         </ol>
         <pre><code><span class="cmd">git</span> switch <span class="arg">main</span>
@@ -465,12 +465,12 @@ Codice del branch che stai unendo (es. feature-login)
                     <td>Scarica e integra i commit dal server remoto.</td>
                 </tr>
                 <tr>
-                    <td><code>git switch -c ramo</code></td>
+                    <td><code>git switch -c branch</code></td>
                     <td>Crea un nuovo branch e ci si sposta sopra.</td>
                 </tr>
                 <tr>
-                    <td><code>git merge ramo</code></td>
-                    <td>Unisce il ramo specificato in quello corrente.</td>
+                    <td><code>git merge branch</code></td>
+                    <td>Unisce il branch specificato in quello corrente.</td>
                 </tr>
                 <tr>
                     <td><code>git restore file</code></td>
