@@ -3,26 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manuale Git</title>
+    <title>Guida Git</title>
+    <link rel="stylesheet" href="/common.css">
     <style>
         :root {
-            --bg-primary: #0f172a;
-            --bg-card: #1e293b;
-            --bg-code: #090d16;
-            --border-color: #334155;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent-blue: #38bdf8;
-            --accent-green: #4ade80;
-            --accent-amber: #fbbf24;
-            --accent-rose: #fb7185;
-            --accent-purple: #c084fc;
-        }
+            --text-code: #68dd02;
+            --text-code-comment: #7c91ad;
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+            --notify: #38bdf8;
+            --success: #4ade80;
+            --warning: #fbbf24;
+            --error: #fb7185;
         }
 
         body {
@@ -66,34 +57,10 @@
             margin: 2rem 0;
         }
 
-        .arch-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1.2rem;
-            text-align: center;
-        }
-
-        .arch-card h4 {
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .arch-card.wd h4 { color: var(--accent-amber); }
-        .arch-card.sa h4 { color: var(--accent-blue); }
-        .arch-card.lr h4 { color: var(--accent-green); }
-        .arch-card.rr h4 { color: var(--accent-purple); }
-
-        .arch-card p {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
         /* Sections */
         section {
-            background: var(--bg-card);
+            background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
             padding: 1.75rem;
             margin-bottom: 2rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
@@ -111,7 +78,7 @@
         }
 
         h2 .num {
-            background: var(--accent-blue);
+            background: var(--accent);
             color: var(--bg-primary);
             width: 28px;
             height: 28px;
@@ -125,7 +92,6 @@
 
         h3 {
             font-size: 1.1rem;
-            color: var(--accent-blue);
             margin: 1.25rem 0 0.5rem 0;
         }
 
@@ -146,7 +112,7 @@
 
         /* Code formatting */
         pre {
-            background: var(--bg-code);
+            background: var(--bg-primary);
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 1rem 1.2rem;
@@ -154,16 +120,21 @@
             font-family: "Fira Code", "Cascadia Code", Consolas, Monaco, monospace;
             font-size: 0.9rem;
             margin: 0.75rem 0 1.25rem 0;
-            color: #e2e8f0;
+            color: var(--text-code);
         }
 
         code {
             font-family: "Fira Code", "Cascadia Code", Consolas, Monaco, monospace;
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--accent-amber);
+            background: var(--bg-primary);
+            color: var(--text-code);
             padding: 0.15rem 0.4rem;
             border-radius: 4px;
             font-size: 0.88em;
+        }
+
+        :not(pre) > code {
+            border: 1px solid var(--border-color);
+            white-space: nowrap;
         }
 
         pre code {
@@ -172,30 +143,29 @@
             padding: 0;
         }
 
-        /* Code syntax highlighting elements */
-        .cmd { color: var(--accent-blue); font-weight: bold; }
-        .arg { color: var(--accent-green); }
-        .opt { color: var(--accent-purple); }
-        .cmt { color: #64748b; font-style: italic; }
-        .str { color: var(--accent-amber); }
+        .cmt { color: var(--text-code-comment); font-style: italic; }
 
         /* Callout Boxes */
         .callout {
-            border-left: 4px solid var(--accent-blue);
-            background: rgba(56, 189, 248, 0.08);
+            border-left: 4px solid var(--notify);
+            background: color-mix(in srgb, black 90%, var(--notify));
             padding: 1rem 1.2rem;
-            border-radius: 0 8px 8px 0;
             margin: 1rem 0;
         }
 
-        .callout.warning {
-            border-left-color: var(--accent-rose);
-            background: rgba(251, 113, 133, 0.08);
+        .callout.success {
+            border-left-color: var(--success);
+            background: color-mix(in srgb, black 90%, var(--success));
         }
 
-        .callout.tip {
-            border-left-color: var(--accent-green);
-            background: rgba(74, 222, 128, 0.08);
+        .callout.warning {
+            border-left-color: var(--warning);
+            background: color-mix(in srgb, black 90%, var(--warning));
+        }
+
+        .callout.error {
+            border-left-color: var(--error);
+            background: color-mix(in srgb, black 90%, var(--error));
         }
 
         .callout-title {
@@ -204,9 +174,10 @@
             margin-bottom: 0.3rem;
         }
 
-        .callout.warning .callout-title { color: var(--accent-rose); }
-        .callout.tip .callout-title { color: var(--accent-green); }
-        .callout .callout-title { color: var(--accent-blue); }
+        .callout .callout-title { color: var(--notify); }
+        .callout.success .callout-title { color: var(--success); }
+        .callout.warning .callout-title { color: var(--warning); }
+        .callout.error .callout-title { color: var(--error); }
 
         /* Tables */
         table {
@@ -224,33 +195,11 @@
 
         th {
             background-color: rgba(255, 255, 255, 0.05);
-            color: var(--accent-blue);
             font-weight: 600;
         }
 
         tr:hover {
             background-color: rgba(255, 255, 255, 0.02);
-        }
-
-        /* Print styles for export */
-        @media print {
-            body {
-                background-color: #ffffff;
-                color: #1e293b;
-            }
-            section, .arch-card, pre {
-                background: #f8fafc !important;
-                border: 1px solid #cbd5e1 !important;
-                color: #0f172a !important;
-                box-shadow: none !important;
-            }
-            h1, h2, h3 { color: #0f172a !important; }
-            .cmd { color: #0284c7 !important; }
-            .arg { color: #16a34a !important; }
-            .opt { color: #9333ea !important; }
-            .cmt { color: #64748b !important; }
-            .str { color: #d97706 !important; }
-            code { background: #e2e8f0 !important; color: #0f172a !important; }
         }
     </style>
 </head>
@@ -260,25 +209,25 @@
 
     <header>
         <h1>Guida pratica all'uso di Git da linea di comando</h1>
-        <p>I comandi fondamentali per gestire il controllo versione nei tuoi progetti</p>
+        <p>I comandi principali da conoscere per gestire il controllo versione di un progetto con Git.</p>
     </header>
 
     <!-- Architettura Git -->
     <div class="architecture-grid">
-        <div class="arch-card wd">
-            <h4>1. Working Directory</h4>
+        <div class="card">
+            <h4>Working directory</h4>
             <p>La cartella dove scrivi e modifichi il codice sorgente.</p>
         </div>
-        <div class="arch-card sa">
-            <h4>2. Staging Area</h4>
+        <div class="card">
+            <h4>Staging area</h4>
             <p>L'area dove sposti le modifiche per che vuoi aggiungere nel commit.</p>
         </div>
-        <div class="arch-card lr">
-            <h4>3. Local Repository</h4>
+        <div class="card">
+            <h4>Local repository</h4>
             <p>L'archivio locale sul PC che contiene la cronologia dei commit (la storia del progetto).</p>
         </div>
-        <div class="arch-card rr">
-            <h4>4. Remote Repository</h4>
+        <div class="card">
+            <h4>Remote repository</h4>
             <p>Il server remoto che utilizzi per condividere il codice. Di default viene chiamato <code>origin</code>.</p>
         </div>
     </div>
@@ -314,7 +263,7 @@
         <p>Usa questo comando frequentemente per sapere in quali condizioni si trovano i tuoi file (modificati, non tracciati, pronti per il commit).</p>
         <pre><code><span class="cmd">git</span> status</code></pre>
 
-        <h3>Passaggio 2: Spostare le modifiche nella Staging Area</h3>
+        <h3>Passaggio 2: Spostare le modifiche nella staging area</h3>
         <p>Seleziona i file che intendi salvare nel prossimo punto di ripristino.</p>
         <pre><code><span class="cmt"># Aggiungi un singolo file specifico</span>
 <span class="cmd">git</span> add <span class="arg">index.html</span>
@@ -328,13 +277,14 @@
 
         <h3>Passaggio 4: Consultare lo storico dei salvataggi</h3>
         <pre><code><span class="cmt"># Visualizzazione sintetica dei commit</span>
-<span class="cmd">git</span> log <span class="opt">--oneline</span></code>
-<code><span class="cmt"># Visualizzazione sintetica dei commit con grafo</span>
+<span class="cmd">git</span> log <span class="opt">--oneline</span>
+
+<span class="cmt"># Visualizzazione sintetica dei commit con grafo</span>
 <span class="cmd">git</span> log <span class="opt">--oneline --graph</span></code></pre>
 
-        <div class="callout tip">
+        <div class="callout">
             <div class="callout-title">Best practice per i commit</div>
-            <p>Fai commit piccoli, frequenti e focalizzati su una singola funzionalità o correzione. Un buon messaggio descrive <em>cosa</em> è stato fatto e <em>perché</em>.</p>
+            <p>Fai commit piccoli, frequenti e focalizzati su una singola funzionalità o correzione. Un buon messaggio descrive <em>cosa</em> è stato fatto o quali funzionalità sono state aggiunte.</p>
         </div>
     </section>
 
@@ -370,20 +320,42 @@
 
         <h3>Unire le modifiche (merge)</h3>
         <p>Quando hai completato e testato il lavoro sul branch secondario, uniscilo nel branch principale:</p>
-        <ol>
-            <li>Spostati sul branch di destinazione: <code>git switch main</code></li>
-            <li>Esegui la fusione: <code>git merge feature-login</code></li>
-        </ol>
-        <pre><code><span class="cmd">git</span> switch <span class="arg">main</span>
-<span class="cmd">git</span> merge <span class="arg">feature-login</span></code></pre>
+        <pre><code><span class="cmt"># Ritorna nel branch principale</span>
+git switch main
 
-        <h3>Eliminare un branch completato</h3>
-        <pre><code><span class="cmd">git</span> branch -d <span class="arg">feature-login</span></code></pre>
+<span class="cmt"># Porta le modifiche fatte nel branch secondario in quello principale</span>
+git merge feature-login
+
+<span class="cmt"># Cancella il branch secondario (opzionale)</span>
+git branch -d feature-login</code></pre>
+
+        <h3>Conflitti di merge</h3>
+        <p>Un conflitto si verifica quando due persone modificano le stesse righe di uno stesso file e Git non può decidere in autonomia quale versione mantenere. Si possono verificare a seguito di un <code>merge</code> o anche di un <code>pull</code>.</p>
+
+        <div class="callout">
+            <div class="callout-title">Come risolvere un conflitto:</div>
+            <ol>
+                <li>Apri il file segnalato in conflitto dal tuo editor di testo.</li>
+                <li>Individua i marcatori visivi inseriti da Git:
+<pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+Codice del tuo branch corrente (es. main)
+=======
+Codice del branch che stai unendo (es. feature-login)
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature-login</code></pre>
+                </li>
+                <li>Cancella i marcatori e modifica il codice mantenendo solo la versione corretta (o una combinazione di entrambe).</li>
+                <li>Salva il file, aggiungilo in staging e completa la fusione con un commit:
+<pre><code><span class="cmd">git</span> add <span class="arg">nome_file.js</span>
+<span class="cmd">git</span> commit -m <span class="str">"Risolto conflitto di merge su nome_file.js"</span></code></pre>
+                </li>
+            </ol>
+        </div>
+
     </section>
 
     <!-- Sezione 5 -->
     <section>
-        <h2><span class="num">5</span> Concetti indispensabili e risoluzione conflitti</h2>
+        <h2><span class="num">5</span> Altri concetti utili</h2>
 
         <h3>Il file <code>.gitignore</code></h3>
         <p>Non tutto deve finire su Git. File compilati, cartelle di dipendenze pesanti e dati sensibili vanno ignorati.</p>
@@ -404,32 +376,10 @@ __pycache__/
 <span class="cmt"># Credenziali e chiavi private</span>
 .env</code></pre>
 
-        <h3>Risoluzione dei conflitti di merge</h3>
-        <p>Un conflitto si verifica quando due persone modificano le stesse righe di uno stesso file e Git non può decidere in autonomia quale versione mantenere.</p>
-
-        <div class="callout warning">
-            <div class="callout-title">Come risolvere un conflitto:</div>
-            <ol>
-                <li>Apri il file segnalato in conflitto dal tuo editor di testo.</li>
-                <li>Individua i marcatori visivi inseriti da Git:
-<pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-Codice del tuo branch corrente (es. main)
-=======
-Codice del branch che stai unendo (es. feature-login)
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature-login</code></pre>
-                </li>
-                <li>Cancella i marcatori e modifica il codice mantenendo solo la versione corretta (o una combinazione di entrambe).</li>
-                <li>Salva il file, aggiungilo in staging e completa la fusione con un commit:
-<pre><code><span class="cmd">git</span> add <span class="arg">nome_file.js</span>
-<span class="cmd">git</span> commit -m <span class="str">"Risolto conflitto di merge su nome_file.js"</span></code></pre>
-                </li>
-            </ol>
-        </div>
-
         <h3>Annullare modifiche locali</h3>
-        <p>Se desideri annullare le modifiche locali apportate a un file non ancora aggiunto alla staging area:</p>
+        <p>Se vuoi annullare le modifiche locali apportate a un file non ancora aggiunto alla staging area:</p>
         <pre><code><span class="cmd">git</span> restore <span class="arg">percorso/del/file</span></code></pre>
-        <p>Se togliere delle modifiche locali dalla staging area:</p>
+        <p>Se vuoi togliere delle modifiche locali dalla staging area:</p>
         <pre><code><span class="cmd">git</span> restore --staged <span class="arg">percorso/del/file</span></code></pre>
     </section>
 
@@ -446,14 +396,18 @@ Codice del branch che stai unendo (es. feature-login)
             <tbody>
                 <tr>
                     <td><code>git status</code></td>
-                    <td>Mostra lo stato del workspace e della Staging Area.</td>
+                    <td>Mostra lo stato del workspace e della staging area.</td>
                 </tr>
                 <tr>
                     <td><code>git add .</code></td>
-                    <td>Aggiunge tutti i file modificati in Staging Area.</td>
+                    <td>Aggiunge tutti i file modificati in staging area.</td>
                 </tr>
                 <tr>
-                    <td><code>git commit -m "msg"</code></td>
+                    <td><code>git add percorso/del/file/o/cartella</code></td>
+                    <td>Aggiunge il file o la cartella specificata alla staging area.</td>
+                </tr>
+                <tr>
+                    <td><code>git commit -m "descrizione"</code></td>
                     <td>Salva le modifiche nel repository locale.</td>
                 </tr>
                 <tr>
@@ -465,17 +419,20 @@ Codice del branch che stai unendo (es. feature-login)
                     <td>Scarica e integra i commit dal server remoto.</td>
                 </tr>
                 <tr>
-                    <td><code>git switch -c branch</code></td>
-                    <td>Crea un nuovo branch e ci si sposta sopra.</td>
+                    <td><code>git switch -c nome_branch</code></td>
+                    <td>Crea un nuovo branch chiamato "nome_branch" e ci si sposta sopra.</td>
                 </tr>
                 <tr>
-                    <td><code>git merge branch</code></td>
-                    <td>Unisce il branch specificato in quello corrente.</td>
+                    <td><code>git switch nome_branch</code></td>
+                    <td>Cambia il branch corrente a "nome_branch".</td>
                 </tr>
                 <tr>
-                    <td><code>git restore file</code></td>
-                    <td>Annulla le modifiche non ancora messe in staging.</td>
+                    <td><code>git merge nome_branch</code></td>
+                    <td>Unisce il branch chiamato "nome_branch" in quello corrente.</td>
                 </tr>
+                <tr>
+                    <td><code>git restore percorso/del/file/o/cartella</code></td>
+                    <td>Annulla le modifiche non ancora messe in staging per il file o cartella specificata. Aggiungere <code>--staged</code> per togliere le modifiche dalla staging area.</td>
             </tbody>
         </table>
     </section>
