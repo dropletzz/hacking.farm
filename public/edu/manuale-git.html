@@ -232,55 +232,53 @@
         </div>
     </div>
 
-    <!-- Sezione 1 -->
     <section>
         <h2><span class="num">1</span> Configurazione e setup iniziale</h2>
         <p>Prima di iniziare a lavorare con Git sul tuo computer, devi configurare la tua identità di sviluppatore. Questa operazione va fatta <strong>una sola volta</strong> per macchina.</p>
         
         <pre><code><span class="cmt"># Imposta il tuo nome e cognome</span>
-<span class="cmd">git</span> config --global user.name <span class="str">"Nome Cognome"</span>
+git config --global user.name "Nome Cognome"
 
 <span class="cmt"># Imposta la tua email (utilizzata su GitHub / GitLab)</span>
-<span class="cmd">git</span> config --global user.email <span class="str">"nome.cognome@studente.it"</span></code></pre>
+git</span> config --global user.email "nome.cognome@studente.it"</code></pre>
 
         <h3>Ottenere o inizializzare un progetto</h3>
         <p>A seconda di come inizia il tuo lavoro, segui uno dei due scenari:</p>
 
         <p><strong>Caso A: scaricare un repository remoto già esistente</strong></p>
-        <pre><code><span class="cmd">git</span> clone <span class="arg">https://codeberg.org/nome_utente/nome_repo</span></code></pre>
+        <pre><code>git clone https://codeberg.org/nome_utente/nome_repo</code></pre>
 
         <p><strong>Caso B: Inizializzare una nuova cartella locale come repository Git</strong></p>
-        <pre><code><span class="cmd">cd</span> <span class="arg">percorso/della/tua/cartella</span>
-<span class="cmd">git</span> init</code></pre>
+        <pre><code>cd percorso/della/tua/cartella
+git init</code></pre>
     </section>
 
-    <!-- Sezione 2 -->
     <section>
         <h2><span class="num">2</span> Il flusso di lavoro locale (add & commit)</h2>
         <p>Ogni volta che scrivi nuovo codice o modifichi file esistenti, segui questa sequenza standard di lavoro:</p>
 
         <h3>Passaggio 1: Verificare lo stato dei file</h3>
         <p>Usa questo comando frequentemente per sapere in quali condizioni si trovano i tuoi file (modificati, non tracciati, pronti per il commit).</p>
-        <pre><code><span class="cmd">git</span> status</code></pre>
+        <pre><code>git status</code></pre>
 
         <h3>Passaggio 2: Spostare le modifiche nella staging area</h3>
         <p>Seleziona i file che intendi salvare nel prossimo punto di ripristino.</p>
         <pre><code><span class="cmt"># Aggiungi un singolo file specifico</span>
-<span class="cmd">git</span> add <span class="arg">index.html</span>
+git add index.html
 
 <span class="cmt"># Oppure aggiungi TUTTE le modifiche presenti nella cartella corrente</span>
-<span class="cmd">git</span> add <span class="arg">.</span></code></pre>
+git add .</code></pre>
 
         <h3>Passaggio 3: Salvare le modifiche (commit)</h3>
         <p>Crea una "fotografia" dello stato attuale del codice. Accompagna sempre il commit con un messaggio chiaro e sintetico.</p>
-        <pre><code><span class="cmd">git</span> commit -m <span class="str">"Aggiunta gestione dell'autenticazione utente"</span></code></pre>
+        <pre><code>git commit -m "Aggiunta gestione dell'autenticazione utente"</code></pre>
 
         <h3>Passaggio 4: Consultare lo storico dei salvataggi</h3>
         <pre><code><span class="cmt"># Visualizzazione sintetica dei commit</span>
-<span class="cmd">git</span> log <span class="opt">--oneline</span>
+git log --oneline
 
 <span class="cmt"># Visualizzazione sintetica dei commit con grafo</span>
-<span class="cmd">git</span> log <span class="opt">--oneline --graph</span></code></pre>
+git log --oneline --graph</code></pre>
 
         <div class="callout">
             <div class="callout-title">Best practice per i commit</div>
@@ -288,35 +286,33 @@
         </div>
     </section>
 
-    <!-- Sezione 3 -->
     <section>
         <h2><span class="num">3</span> Sincronizzazione con il remote</h2>
         <p>Per lavorare in team o mantenere un backup su internet, devi sincronizzare il repository locale con quello remoto.</p>
 
         <h3>Scaricare gli aggiornamenti dal server (pull)</h3>
         <p>Prima di iniziare a scrivere nuovo codice o prima di inviare le tue modifiche, scarica i commit aggiornati inviati dai tuoi compagni:</p>
-        <pre><code><span class="cmd">git</span> pull origin <span class="arg">main</span></code></pre>
+        <pre><code>git pull origin main</code></pre>
 
         <h3>Inviare i propri commit al server (push)</h3>
         <p>Trasferisci i tuoi salvataggi locali al repository remoto per renderli visibili al team:</p>
-        <pre><code><span class="cmd">git</span> push origin <span class="arg">main</span></code></pre>
+        <pre><code>git push origin main</code></pre>
     </section>
 
-    <!-- Sezione 4 -->
     <section>
         <h2><span class="num">4</span> Gestione dei branch e merge</h2>
         <p>I <strong>branch</strong> (rami) ti permettono di sviluppare nuove funzionalità in isolamento senza rischiare di danneggiare il codice funzionante presente nel branch principale (<code>main</code>).</p>
 
         <h3>Creare e passare a un nuovo branch</h3>
         <p>Usa la sintassi moderna <code>git switch</code> per creare un nuovo branch e spostartici immediatamente:</p>
-        <pre><code><span class="cmd">git</span> switch -c <span class="arg">feature-login</span></code></pre>
+        <pre><code>git switch -c feature-login</code></pre>
 
         <h3>Spostarsi tra Branch esistenti</h3>
         <pre><code><span class="cmt"># Torna al branch principale</span>
-<span class="cmd">git</span> switch <span class="arg">main</span>
+git switch main
 
 <span class="cmt"># Torna al branch di sviluppo</span>
-<span class="cmd">git</span> switch <span class="arg">feature-login</span></code></pre>
+git switch feature-login</code></pre>
 
         <h3>Unire le modifiche (merge)</h3>
         <p>Quando hai completato e testato il lavoro sul branch secondario, uniscilo nel branch principale:</p>
@@ -345,15 +341,14 @@ Codice del branch che stai unendo (es. feature-login)
                 </li>
                 <li>Cancella i marcatori e modifica il codice mantenendo solo la versione corretta (o una combinazione di entrambe).</li>
                 <li>Salva il file, aggiungilo in staging e completa la fusione con un commit:
-<pre><code><span class="cmd">git</span> add <span class="arg">nome_file.js</span>
-<span class="cmd">git</span> commit -m <span class="str">"Risolto conflitto di merge su nome_file.js"</span></code></pre>
+<pre><code>git add nome_file.js
+git commit -m "Risolto conflitto di merge su nome_file.js"</code></pre>
                 </li>
             </ol>
         </div>
 
     </section>
 
-    <!-- Sezione 5 -->
     <section>
         <h2><span class="num">5</span> Altri concetti utili</h2>
 
@@ -378,9 +373,9 @@ __pycache__/
 
         <h3>Annullare modifiche locali</h3>
         <p>Se vuoi annullare le modifiche locali apportate a un file non ancora aggiunto alla staging area:</p>
-        <pre><code><span class="cmd">git</span> restore <span class="arg">percorso/del/file</span></code></pre>
+        <pre><code>git restore percorso/del/file</code></pre>
         <p>Se vuoi togliere delle modifiche locali dalla staging area:</p>
-        <pre><code><span class="cmd">git</span> restore --staged <span class="arg">percorso/del/file</span></code></pre>
+        <pre><code>git restore --staged percorso/del/file</code></pre>
     </section>
 
     <!-- Tabella Riassuntiva -->
@@ -389,7 +384,7 @@ __pycache__/
         <table>
             <thead>
                 <tr>
-                    <th>Comando</th>
+                    <th class="command">Comando</th>
                     <th>Descrizione</th>
                 </tr>
             </thead>
@@ -433,6 +428,7 @@ __pycache__/
                 <tr>
                     <td><code>git restore percorso/del/file/o/cartella</code></td>
                     <td>Annulla le modifiche non ancora messe in staging per il file o cartella specificata. Aggiungere <code>--staged</code> per togliere le modifiche dalla staging area.</td>
+                </tr>
             </tbody>
         </table>
     </section>
