@@ -49,7 +49,6 @@
             font-size: 1.1rem;
         }
 
-        /* Git Architecture Schema */
         .architecture-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -57,7 +56,6 @@
             margin: 2rem 0;
         }
 
-        /* Sections */
         section {
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
@@ -110,7 +108,6 @@
             margin-bottom: 0.4rem;
         }
 
-        /* Code formatting */
         pre {
             background: var(--bg-primary);
             border: 1px solid var(--border-color);
@@ -122,7 +119,6 @@
             margin: 0.75rem 0 1.25rem 0;
             color: var(--text-code);
         }
-
         code {
             font-family: "Fira Code", "Cascadia Code", Consolas, Monaco, monospace;
             background: var(--bg-primary);
@@ -131,12 +127,10 @@
             border-radius: 4px;
             font-size: 0.88em;
         }
-
         :not(pre) > code {
             border: 1px solid var(--border-color);
             white-space: nowrap;
         }
-
         pre code {
             background: transparent;
             color: inherit;
@@ -145,60 +139,49 @@
 
         .cmt { color: var(--text-code-comment); font-style: italic; }
 
-        /* Callout Boxes */
         .callout {
             border-left: 4px solid var(--notify);
             background: color-mix(in srgb, black 90%, var(--notify));
             padding: 1rem 1.2rem;
             margin: 1rem 0;
         }
-
         .callout.success {
             border-left-color: var(--success);
             background: color-mix(in srgb, black 90%, var(--success));
         }
-
         .callout.warning {
             border-left-color: var(--warning);
             background: color-mix(in srgb, black 90%, var(--warning));
         }
-
         .callout.error {
             border-left-color: var(--error);
             background: color-mix(in srgb, black 90%, var(--error));
         }
-
         .callout-title {
             font-weight: 700;
             font-size: 0.95rem;
             margin-bottom: 0.3rem;
         }
-
         .callout .callout-title { color: var(--notify); }
         .callout.success .callout-title { color: var(--success); }
         .callout.warning .callout-title { color: var(--warning); }
         .callout.error .callout-title { color: var(--error); }
 
-        /* Tables */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1.25rem 0;
-            font-size: 0.9rem;
+        #cmd-explanation-section {
+            overflow-x: scroll;
         }
-
-        th, td {
+        #cmd-explanation-section h2 {
+            margin-bottom: 0;
+        }
+        .cmd-explanation {
             padding: 0.75rem 1rem;
             text-align: left;
             border-bottom: 1px solid var(--border-color);
         }
-
-        th {
-            background-color: rgba(255, 255, 255, 0.05);
-            font-weight: 600;
+        .cmd-explanation .cmd {
+            margin-bottom: 0.5rem;
         }
-
-        tr:hover {
+        .cmd-explanation:hover {
             background-color: rgba(255, 255, 255, 0.02);
         }
     </style>
@@ -209,7 +192,7 @@
 
     <header>
         <h1>Guida pratica all'uso di Git da linea di comando</h1>
-        <p>I comandi principali da conoscere per gestire il controllo versione di un progetto con Git.</p>
+        <p>I comandi principali da conoscere per gestire il controllo versione di un progetto con Git</p>
     </header>
 
     <!-- Architettura Git -->
@@ -378,59 +361,48 @@ __pycache__/
         <pre><code>git restore --staged percorso/del/file</code></pre>
     </section>
 
-    <!-- Tabella Riassuntiva -->
-    <section>
-        <h2><span class="num">6</span> Tabella Riassuntiva dei Comandi</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th class="command">Comando</th>
-                    <th>Descrizione</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>git status</code></td>
-                    <td>Mostra lo stato del workspace e della staging area.</td>
-                </tr>
-                <tr>
-                    <td><code>git add .</code></td>
-                    <td>Aggiunge tutti i file modificati in staging area.</td>
-                </tr>
-                <tr>
-                    <td><code>git add percorso/del/file/o/cartella</code></td>
-                    <td>Aggiunge il file o la cartella specificata alla staging area.</td>
-                </tr>
-                <tr>
-                    <td><code>git commit -m "descrizione"</code></td>
-                    <td>Salva le modifiche nel repository locale.</td>
-                </tr>
-                <tr>
-                    <td><code>git push origin main</code></td>
-                    <td>Invia i commit locali al server remoto.</td>
-                </tr>
-                <tr>
-                    <td><code>git pull origin main</code></td>
-                    <td>Scarica e integra i commit dal server remoto.</td>
-                </tr>
-                <tr>
-                    <td><code>git switch -c nome_branch</code></td>
-                    <td>Crea un nuovo branch chiamato "nome_branch" e ci si sposta sopra.</td>
-                </tr>
-                <tr>
-                    <td><code>git switch nome_branch</code></td>
-                    <td>Cambia il branch corrente a "nome_branch".</td>
-                </tr>
-                <tr>
-                    <td><code>git merge nome_branch</code></td>
-                    <td>Unisce il branch chiamato "nome_branch" in quello corrente.</td>
-                </tr>
-                <tr>
-                    <td><code>git restore percorso/del/file/o/cartella</code></td>
-                    <td>Annulla le modifiche non ancora messe in staging per il file o cartella specificata. Aggiungere <code>--staged</code> per togliere le modifiche dalla staging area.</td>
-                </tr>
-            </tbody>
-        </table>
+    <section id="cmd-explanation-section">
+        <h2><span class="num">6</span> Tabella riassuntiva dei comandi</h2>
+        <div class="cmd-explanation">
+            <div class="cmd"><code>git status</code></div>
+            <div>Mostra lo stato del workspace e della staging area.</div>
+        </div>
+        <div class="cmd-explanation">
+            <div class="cmd"><code>git add .</code></div>
+            <div>Aggiunge tutti i file modificati in staging area.</div>
+        </div>
+        <div class="cmd-explanation">
+            <div class="cmd"><code>git add percorso/del/file/o/cartella</code></div>
+            <div>Aggiunge il file o la cartella specificata alla staging area.</div>
+        </div>
+        <div class="cmd-explanation">
+            <div class="cmd"><code>git commit -m "descrizione"</code></div>
+            <div>Salva le modifiche nel repository locale.</div>
+        </div>
+        <div class="cmd-explanation">
+            <div class="cmd"><code>git push origin main</code></div>
+            <div>Invia i commit locali al server remoto.</div>
+        </div>
+        <div class="cmd-explanation">
+            <div class="cmd"><code>git pull origin main</code></div>
+            <div>Scarica e integra i commit dal server remoto.</div>
+        </div>
+        <div class="cmd-explanation">
+            <div class="cmd"><code>git switch -c nome_branch</code></div>
+            <div>Crea un nuovo branch chiamato "nome_branch" e ci si sposta sopra.</div>
+        </div>
+        <div class="cmd-explanation">
+            <div class="cmd"><code>git switch nome_branch</code></div>
+            <div>Cambia il branch corrente a "nome_branch".</div>
+        </div>
+        <div class="cmd-explanation">
+            <div class="cmd"><code>git merge nome_branch</code></div>
+            <div>Unisce il branch chiamato "nome_branch" in quello corrente.</div>
+        </div>
+        <div class="cmd-explanation">
+            <div class="cmd"><code>git restore percorso/del/file/o/cartella</code></div>
+            <div>Annulla le modifiche non ancora messe in staging per il file o cartella specificata. Aggiungere <code>--staged</code> per togliere le modifiche dalla staging area.</div>
+        </div>
     </section>
 </div>
 
