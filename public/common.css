@@ -8,6 +8,11 @@
     --border-color: color-mix(in srgb, white 20%, var(--bg-primary));
 }
 
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-main);
+}
+
 * {
     box-sizing: border-box;
     margin: 0;

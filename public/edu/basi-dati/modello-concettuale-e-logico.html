@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modello concettuale e modello logico</title>
+    <link rel="stylesheet" href="../../common.css">
+    <link rel="stylesheet" href="../common.css">
+    <style>
+
+        .container {
+            max-width: 700px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+        th {
+            background: var(--bg-primary);
+            color: var(--accent);
+            font-weight: 700;
+        }
+        td:first-child {
+            background: var(--bg-primary);
+            color: var(--accent);
+            font-weight: 700;
+            text-align: right;
+        }
+        tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.02);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Modello concettuale e modello logico</h1>
+        <p>Le due fasi fondamentali della progettazione di una base di dati</p>
+    </header>
+
+        <p>Il modello concettuale e il modello logico rappresentano due fasi consecutive e fondamentali della progettazione di una base di dati. Si distinguono principalmente per il <strong>livello di astrazione</strong>, i <strong>destinatari</strong> a cui si rivolgono e il grado di dettaglio tecnico.</p><br/>
+
+    <section>
+        <h2><span class="num">1</span> Modello concettuale</h2>
+        <p>Descrive cosa deve contenere la base di dati a un livello di astrazione elevato, focalizzandosi esclusivamente sui requisiti informativi del dominio applicativo. È del tutto indipendente dal software che gestirà i dati (DBMS), dal paradigma utilizzato (relazionale, a oggetti, NoSQL) e dai vincoli tecnologici.</p>
+
+        <p><strong>Scopo:</strong> creare una rappresentazione condivisa della realtà di interesse che possa essere facilmente discussa e validata con i committenti e gli utenti finali non tecnici.</p>
+        <p><strong>Strumento principale:</strong> diagramma entità-relazione (E-R) o diagramma delle classi UML.</p>
+
+        <h3>Elementi principali</h3>
+        <ul>
+            <li><strong>Entità:</strong> oggetti di interesse per la nostra applicazione, ciò che ci interessa salvare nella base dati (es. cliente, ordine).</li>
+            <li><strong>Attributi:</strong> proprietà  o attributi delle entità (es. nome, data ordine).</li>
+            <li><strong>Relazioni:</strong> legami logici tra entità con relative cardinalità (es. 1:1, 1:N, N:M).</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2><span class="num">2</span> Modello logico</h2>
+        <p>Traduce le informazioni del modello concettuale in una struttura dati definita secondo un preciso paradigma di modellazione (il più comune è il modello relazionale). Definisce come i dati saranno organizzati all'interno della base di dati, mantenendo comunque l'indipendenza dalla specifica tecnologia DBMS che verrà utilizzata e quindi anche dall'hardware (come le informazioni vengono salvate ed organizzate sul disco).</p>
+
+        <p><strong>Scopo:</strong> strutturare i dati in modo efficiente, eliminando ridondanze (tramite processi di normalizzazione) e definendo le regole di integrità dei dati.</p>
+        <p><strong>Strumento principale:</strong> schema relazionale (tabelle, colonne e vincoli).</p>
+
+        <h3>Elementi principali</h3>
+        <ul>
+            <li><strong>Tabelle (o relazioni):</strong> strutture bidimensionali composte da righe e colonne.</li>
+            <li><strong>Chiavi primarie (Primary Key - PK):</strong> attributi che identificano univocamente ogni riga di una tabella.</li>
+            <li><strong>Chiavi esterne (Foreign Key - FK):</strong> attributi usati per creare collegamenti tra tabelle diverse.</li>
+            <li><strong>Tipi di dato logici e vincoli:</strong> tipi di attributo (es. stringa, intero, data) e vincoli (es. NOT NULL, UNIQUE).</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2><span class="num">3</span> Tabella comparativa</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Modello concettuale</th>
+                        <th>Modello logico</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Livello di astrazione</td>
+                        <td>Molto alto (orientato al dominio/business)</td>
+                        <td>Medio (orientato alla struttura dati)</td>
+                    </tr>
+                    <tr>
+                        <td>Destinatari</td>
+                        <td>Analisti, utenti finali, committenti</td>
+                        <td>Progettisti di basi di dati, sviluppatori</td>
+                    </tr>
+                    <tr>
+                        <td>Dipendenza dal paradigma DBMS</td>
+                        <td>Totalmente indipendente</td>
+                        <td>Dipendente dal paradigma (es. relazionale vs documentale)</td>
+                    </tr>
+                    <tr>
+                        <td>Rappresentazione</td>
+                        <td>Diagramma entità-relazione (E-R)</td>
+                        <td>Schema relazionale (tabelle e chiavi)</td>
+                    </tr>
+                    <tr>
+                        <td>Gestione relazioni molti-a-molti (N:M)</td>
+                        <td>Rappresentate direttamente come relazioni</td>
+                        <td>Tradotte creando una tabella intermedia di unione</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+:root {
+    --text-code: #68dd02;
+    --text-code-comment: #7c91ad;
+
+    --notify: #38bdf8;
+    --success: #4ade80;
+    --warning: #fbbf24;
+    --error: #fb7185;
+}
+
+body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text-main);
+    line-height: 1.6;
+    padding: 2rem 1rem;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 2.5rem;
+}
+
+h1 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.025em;
+}
+
+header p {
+    color: var(--text);
+    font-size: 1.1rem;
+}
+
+section {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    padding: 1.75rem;
+    margin-bottom: 2rem;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: #ffffff;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.6rem;
+}
+
+h2 .num {
+    background: var(--accent);
+    color: var(--bg-primary);
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+h3 {
+    font-size: 1.1rem;
+    margin: 1.25rem 0 0.5rem 0;
+}
+
+p {
+    margin-bottom: 0.75rem;
+    color: var(--text-main);
+}
+
+ul, ol {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-main);
+}
+
+li {
+    margin-bottom: 0.4rem;
+}
+
+pre {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    overflow-x: auto;
+    font-family: "Fira Code", "Cascadia Code", Consolas, Monaco, monospace;
+    font-size: 0.9rem;
+    margin: 0.75rem 0 1.25rem 0;
+    color: var(--text-code);
+}
+code {
+    font-family: "Fira Code", "Cascadia Code", Consolas, Monaco, monospace;
+    background: var(--bg-primary);
+    color: var(--text-code);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.88em;
+}
+:not(pre) > code {
+    border: 1px solid var(--border-color);
+    white-space: nowrap;
+}
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+
+.cmt { color: var(--text-code-comment); font-style: italic; }
+
+.callout {
+    border-left: 4px solid var(--notify);
+    background: color-mix(in srgb, black 90%, var(--notify));
+    padding: 1rem 1.2rem;
+    margin: 1rem 0;
+}
+.callout.success {
+    border-left-color: var(--success);
+    background: color-mix(in srgb, black 90%, var(--success));
+}
+.callout.warning {
+    border-left-color: var(--warning);
+    background: color-mix(in srgb, black 90%, var(--warning));
+}
+.callout.error {
+    border-left-color: var(--error);
+    background: color-mix(in srgb, black 90%, var(--error));
+}
+.callout-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+}
+.callout .callout-title { color: var(--notify); }
+.callout.success .callout-title { color: var(--success); }
+.callout.warning .callout-title { color: var(--warning); }
+.callout.error .callout-title { color: var(--error); }
