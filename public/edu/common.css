@@ -153,3 +153,39 @@ pre code {
 .callout.success .callout-title { color: var(--success); }
 .callout.warning .callout-title { color: var(--warning); }
 .callout.error .callout-title { color: var(--error); }
+
+.quote {
+    margin: 1.5rem 0;
+    padding: 0 2rem;
+}
+
+.quote p {
+    margin: 0;
+    color: var(--text-main);
+}
+
+.quote p::before,
+.quote p::after {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 3rem;
+    line-height: 0.1em;
+    color: var(--accent);
+}
+
+.quote p::before {
+    content: "\201C";
+    margin-right: 0.15em;
+    vertical-align: -0.35em;
+}
+
+.quote p::after {
+    content: "\201D";
+    margin-left: 0.15em;
+    vertical-align: -0.35em;
+}
+
+.quote footer {
+    text-align: right;
+    font-style: italic;
+    color: var(--text-muted);
+}
