@@ -85,14 +85,19 @@ ul, ol {
     margin-bottom: 1rem;
     color: var(--text-main);
 }
+ul {
+    list-style-type: "🞳 ";
+}
 
 li {
     margin-bottom: 0.4rem;
 }
+li::marker {
+    /* color: var(--accent); */
+}
 
 pre {
     background: var(--bg-primary);
-    /* border: 1px solid var(--border-color); */
     border-radius: 8px;
     padding: 1rem 1.2rem;
     overflow-x: auto;

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistemi distribuiti</title>
+    <link rel="stylesheet" href="../../common.css">
+    <link rel="stylesheet" href="../common.css">
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Sistemi distribuiti</h1>
+        <p>Definizioni, caratteristiche principali, vantaggi e svantaggi</p>
+    </header>
+
+    <section>
+        <h2><span class="num">1</span> Cos'è un sistema distribuito</h2>
+        <p>Un sistema distribuito è un insieme di computer autonomi collegati tra loro tramite una rete e dotati di un software specifico che consente loro di coordinare le attività e di apparire agli utenti come un unico, coerente sistema. In pratica, invece di avere un'unica grande macchina che fa tutto (applicazione monolitica), il lavoro viene suddiviso tra più macchine che collaborano. I computer che fanno parte di un sistema distribuito sono chiamati anche <strong>nodi</strong>.</p>
+        <p>Di seguito alcune note definizioni di sistema distribuito.</p>
+        
+        <div class="callout">
+            <div class="callout-title">Leslie Lamport</div>
+            <p>«Un sistema distribuito è quello in cui il guasto di un computer di cui non eri nemmeno a conoscenza può rendere il tuo computer inutilizzabile.»</p>
+        </div>
+        <p>La definizione di Lamport fa riferimento al fatto che in un sistema distribuito si fa spesso affidamento su servizi e computer esterni su cui non si ha un controllo diretto. Ad esempio, se un'applicazione si appoggia a Google per l'autenticazione, un malfunzionamento dei server di Google può bloccare l'applicazione stessa.</p>
+
+        <div class="callout">
+            <div class="callout-title">Andrew S. Tanenbaum</div>
+            <p>«Un sistema distribuito è una collezione di computer indipendenti che appare ai suoi utenti come un unico sistema coerente.»</p>
+        </div>
+        <p>La definizione di Tanenbaum invece fa riferimento ad un'altra caratteristica importante dei sistemi distribuiti chiamata <strong>trasparenza</strong>.</p>
+    </section>
+
+    <section>
+        <h2><span class="num">2</span> Caratteristiche principali</h2>
+        <ul>
+            <li><strong>Autonomia:</strong> ogni nodo ha la propria memoria e il proprio processore e può eseguire compiti in modo indipendente.</li>
+            <li><strong>Condivisione di risorse:</strong> i nodi comunicano e collaborano tra loro scambiandosi messaggi attraverso la rete per condividere risorse (es. file, memoria, potenza di calcolo).</li>
+            <li><strong>Trasparenza:</strong> la complessità di un sistema distribuito è nascosta all'utente finale. L'utente interagisce con il sistema come se fosse un'unica entità, senza doversi preoccupare di dove e come vengono eseguiti i calcoli o immagazzinati i dati.</li>
+            <li><strong>Concorrenza:</strong> le diverse componenti del sistema operano in parallelo, eseguendo attività simultaneamente.</li>
+            <li><strong>Mancanza di un orologio globale:</strong> ogni nodo ha il proprio orologio interno e non esiste un unico punto di riferimento temporale per l'intero sistema. Questo rende la coordinazione e la ricostruzione dell'ordine temporale degli eventi una delle sfide principali.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2><span class="num">3</span> Vantaggi e svantaggi</h2>
+        
+        <h3>Vantaggi</h3>
+        <ul>
+            <li><strong>Scalabilità:</strong> è possibile aumentare la potenza del sistema sia potenziando i singoli nodi (scalabilità verticale) che aggiungendo nuovi nodi alla rete (scalabilità orizzontale).</li>
+            <li><strong>Tolleranza ai guasti (fault tolerance):</strong> se un singolo nodo si guasta, il sistema nel suo complesso può continuare a funzionare, se ci sono altri nodi che possono prenderne il posto.</li>
+            <li><strong>Prestazioni:</strong> suddividere un compito complesso tra più macchine può permettere di risolverlo in modo più veloce ed efficiente.</li>
+        </ul>
+
+        <h3>Svantaggi</h3>
+        <ul>
+            <li><strong>Complessità:</strong> progettare, implementare, gestire e (soprattutto) testare un sistema distribuito è esponenzialmente più difficile rispetto ad un'applicazione monolitica.</li>
+            <li><strong>Sincronizzazione e consistenza:</strong> l'assenza di un orologio globale e l'asincronicità della rete (tempi di risposta imprevedibili) rendono difficile sapere con esattezza in che ordine sono avvenuti gli eventi. Garantire che tutti i nodi abbiano la stessa versione dei dati (consistenza dei dati) è un problema molto complesso.</li>
+            <li><strong>Sicurezza:</strong> avere molti nodi e molti canali di comunicazione aumenta la "superficie di attacco". Proteggere i dati quando sono fermi sui nodi e (soprattutto) quando sono in transito sulla rete richiede strategie di sicurezza complesse.</li>
+            <li><strong>Debugging e monitoraggio:</strong> se qualcosa va storto, dov'è il problema? Potrebbe essere un bug nel codice sul nodo A, un rallentamento della rete tra B e C, o un guasto hardware sul nodo D. Capirlo richiede sistemi sofisticati di logging, tracing e monitoraggio centralizzati.</li>
+        </ul>
+    </section>
+
+</div>
+
+</body>
+</html>
