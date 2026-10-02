@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paradigmi di comunicazione</title>
+    <link rel="stylesheet" href="../../common.css">
+    <link rel="stylesheet" href="../common.css">
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Paradigmi di comunicazione</h1>
+        <p>I diversi modelli di interazione tra client e server nel web</p>
+    </header>
+
+    <section>
+        <h2><span class="num">1</span> Guidati dal client (client-driven)</h2>
+        <p>L'iniziativa della comunicazione parte sempre dal client.</p>
+
+        <h3>Richiesta-risposta (request-response)</h3>
+        <p>È il paradigma più comune del web. Il client invia una richiesta a un server e attende una risposta. La connessione viene generalmente chiusa dopo la risposta. È un modello stateless, nel senso che ogni richiesta è indipendente dalle altre.</p>
+        <ul>
+            <li><strong>Tecnologie:</strong> HTTP/HTTPS, il protocollo su cui si basa l'intero World Wide Web.</li>
+            <li><strong>Utilizzo:</strong> sicuramente il paradigma più diffuso e fondamentale per le applicazioni client-server. Tutte o quasi tutte le applicazioni web utilizzano questa modalità di comunicazione, a volte combinandola con le altre.</li>
+        </ul>
+
+        <h3>Polling</h3>
+        <p>Il client contatta il server a intervalli regolari per verificare se ci sono nuove informazioni. È semplice da implementare ma molto inefficiente, in quanto genera molto traffico di rete inutile se non ci sono aggiornamenti frequenti.</p>
+        <ul>
+            <li><strong>Tecnologie:</strong> HTTP/HTTPS.</li>
+            <li><strong>Utilizzo:</strong> notifiche, chat, grafici che si aggiornano in automatico.</li>
+        </ul>
+
+        <h3>Long polling</h3>
+        <p>Una versione ottimizzata del polling. Il client invia una richiesta al server, ma il server la tiene "in sospeso" finché non ha effettivamente nuove informazioni da inviare. Una volta inviata la risposta, il client ne effettua immediatamente un'altra. Riduce la latenza rispetto al polling tradizionale.</p>
+        <ul>
+            <li><strong>Tecnologie:</strong> HTTP/HTTPS.</li>
+            <li><strong>Utilizzo:</strong> notifiche, chat, grafici che si aggiornano in automatico.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2><span class="num">2</span> Guidati dal server (server-driven)</h2>
+        <p>È il server a poter iniziare la comunicazione verso il client.</p>
+
+        <h3>Server-Sent Events (SSE)</h3>
+        <p>Il client stabilisce una connessione persistente con il server, attraverso la quale il server può inviare dati al client in qualsiasi momento. La comunicazione, però, è monodirezionale: solo dal server al client. È più leggero dei WebSocket ed è ideale per aggiornamenti "in tempo reale" che non richiedono un input dal client sulla stessa connessione.</p>
+        <ul>
+            <li><strong>Tecnologie:</strong> EventSource API in JavaScript.</li>
+            <li><strong>Utilizzo:</strong> notifiche, aggiornamento di feed di notizie, risultati sportivi in diretta.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2><span class="num">3</span> Bidirezionali</h2>
+        <p>Entrambe le parti possono iniziare la comunicazione in qualsiasi momento su una connessione aperta.</p>
+
+        <h3>Canale di comunicazione bidirezionale</h3>
+        <p>Un canale di comunicazione full-duplex (bidirezionale e simultaneo) tra client e server con una latenza generalmente bassa.</p>
+        <ul>
+            <li><strong>Tecnologie:</strong> TCP, UDP, WebSocket API (socket gestiti dal browser).</li>
+            <li><strong>Utilizzo:</strong> applicazioni di chat, editor di documenti collaborativi.</li>
+        </ul>
+
+        <h3>Canale di comunicazione peer-to-peer (P2P)</h3>
+        <p>Questo paradigma è specializzato per la comunicazione diretta tra i browser, senza che i dati debbano passare necessariamente attraverso un server centrale. Un server c'è comunque ma viene usato principalmente per il signaling, ovvero per coordinare la connessione iniziale tra i due peer e permettere loro di comunicare senza intermediari.</p>
+        <ul>
+            <li><strong>Tecnologie:</strong> WebRTC (Web Real-Time Communication).</li>
+            <li><strong>Utilizzo:</strong> videochiamate, giochi multiplayer online, file sharing diretto tra utenti.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2><span class="num">4</span> Basati su messaggi o eventi (message/event-driven)</h2>
+        <p>Questi modelli sono fondamentali in architetture a microservizi e sistemi distribuiti, ma i loro principi si applicano anche alle applicazioni web complesse.</p>
+
+        <h3>Publisher-subscriber (Pub/Sub)</h3>
+        <p>Un componente (il publisher) invia un messaggio a un "canale" o "topic" specifico, senza sapere chi lo riceverà. Altri componenti (i subscriber) si iscrivono a quel topic e ricevono tutti i messaggi inviati su di esso. Questo disaccoppia fortemente i componenti del sistema.</p>
+        <ul>
+            <li><strong>Tecnologie:</strong> MQTT, Redis Pub/Sub.</li>
+            <li><strong>Utilizzo:</strong> applicazioni IoT (internet of things).</li>
+        </ul>
+
+        <h3>Code di messaggi (message queuing)</h3>
+        <p>Simile al Pub/Sub, ma focalizzato sulla consegna garantita di un messaggio a un singolo consumatore. I messaggi vengono inseriti in una coda (queue) e i processi worker li prelevano uno alla volta per elaborarli. È un modello fondamentale per le operazioni asincrone e per garantire l'affidabilità.</p>
+        <ul>
+            <li><strong>Tecnologie:</strong> RabbitMQ (AMQP).</li>
+            <li><strong>Utilizzo:</strong> elaborazione di ordini, invio di email di conferma, processi di background lunghi avviati da un'azione dell'utente.</li>
+        </ul>
+    </section>
+
+</div>
+
+</body>
+</html>

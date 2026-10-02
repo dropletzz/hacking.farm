@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REST e SOAP</title>
+    <link rel="stylesheet" href="../../common.css">
+    <link rel="stylesheet" href="../common.css">
+    <style>
+        .table-container {
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+        th {
+            background: var(--bg-primary);
+            color: var(--accent);
+            font-weight: 700;
+        }
+        tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.02);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>REST e SOAP</h1>
+        <p>Due approcci alla comunicazione tra applicazioni sul web</p>
+    </header>
+
+    <section>
+        <h2><span class="num">1</span> Introduzione e concetti base</h2>
+        <p>Nel web moderno, software sviluppati con linguaggi e tecnologie differenti devono potersi scambiare dati e coordinarsi. Per farlo utilizzano le Web API, cioè interfacce che definiscono le regole formali con cui un client richiede informazioni o invia comandi a un server.</p>
+        
+        <p>SOAP e REST rappresentano i due approcci fondamentali per la progettazione di queste interfacce, ma si basano su filosofie molto diverse:</p>
+        <ul>
+            <li><strong>REST (stile architetturale):</strong> un approccio leggero e flessibile che non definisce nuovi protocolli, ma sfrutta direttamente le funzionalità native del web (il protocollo HTTP) e trasmette dati in formati essenziali come JSON.</li>
+            <li><strong>SOAP (protocollo formale):</strong> uno standard rigido basato su regole severe e messaggi incapsulati in XML. Offre garanzie avanzate per la sicurezza e le transazioni, pagando però un prezzo in termini di complessità e peso dei dati scambiati (overhead).</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2><span class="num">2</span> REST (REpresentational State Transfer)</h2>
+        <p>REST non è un protocollo, ma uno stile architetturale basato sugli standard nativi del web. Si focalizza sulle risorse, ovvero entità o dati identificati univocamente tramite URI, e sulle operazioni eseguibili su di esse.</p>
+
+        <h3>Come funziona REST</h3>
+        <p>REST utilizza i metodi standard del protocollo HTTP per gestire il ciclo di vita delle risorse:</p>
+        <ul>
+            <li><strong>Risorsa:</strong> qualsiasi entità gestita dall'applicazione (es. utenti, prodotti, previsioni).</li>
+            <li><strong>Verbi HTTP:</strong>
+                <ul>
+                    <li><code>GET</code>: recupera i dati di una risorsa senza modificarli.</li>
+                    <li><code>POST</code>: crea una nuova risorsa.</li>
+                    <li><code>PUT</code> / <code>PATCH</code>: aggiorna una risorsa esistente.</li>
+                    <li><code>DELETE</code>: rimuove una risorsa.</li>
+                </ul>
+            </li>
+        </ul>
+        <p>I dati vengono trasferiti prevalentemente, ma non necessariamente, in formato JSON, una struttura leggera con basso overhead di rete (rispetto ad XML).</p>
+
+        <h3>Esempio di funzionamento</h3>
+        <p>Un client richiede i dati meteo effettuando una richiesta HTTP <code>GET</code> direttamente all'endpoint della risorsa:</p>
+        <pre><code>GET /previsioni/roma HTTP/1.1
+Host: api.meteo.com</code></pre>
+
+        <p>Il server risponde restituendo la rappresentazione dello stato della risorsa in formato JSON:</p>
+        <pre><code>{
+  "citta": "Roma",
+  "temperatura": "22°C",
+  "condizioni": "Soleggiato"
+}</code></pre>
+    </section>
+
+    <section>
+        <h2><span class="num">3</span> SOAP (Simple Object Access Protocol)</h2>
+        <p>SOAP è un protocollo formale standardizzato dal W3C. Impone regole rigide per la struttura dei messaggi, la codifica dei dati e l'esecuzione di procedure remote.</p>
+
+        <h3>Come funziona SOAP</h3>
+        <p>La comunicazione avviene esclusivamente tramite messaggi XML strutturati che incapsulano le informazioni in una struttura ben definita:</p>
+        <ul>
+            <li><strong>Envelope (busta):</strong> l'elemento radice obbligatorio che definisce l'inizio e la fine del messaggio.</li>
+            <li><strong>Header (intestazione):</strong> elemento opzionale contenente metadati come informazioni sulla transazione o sulla sicurezza.</li>
+            <li><strong>Body (corpo):</strong> contiene la chiamata alla funzione specifica o i dati restituiti dal server.</li>
+        </ul>
+        <p>Questo approccio garantisce l'interoperabilità tra sistemi complessi e supporta standard avanzati di sicurezza aziendale (WS-Security), ma comporta un consumo significativo di banda e risorse a causa della verbosità dell'XML.</p>
+
+        <h3>Esempio di funzionamento</h3>
+        <p>Per invocare la funzione di lettura meteo, il client genera un documento XML con l'operazione esplicita <code>GetMeteoRequest</code> e lo invia al server tramite una richiesta HTTP <code>POST</code>:</p>
+
+        <p><strong>Richiesta SOAP:</strong></p>
+        <pre><code>&lt;soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"&gt;
+  &lt;soap:Body&gt;
+    &lt;GetMeteoRequest&gt;
+      &lt;Citta&gt;Roma&lt;/Citta&gt;
+    &lt;/GetMeteoRequest&gt;
+  &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;</code></pre>
+
+        <p><strong>Risposta SOAP:</strong></p>
+        <pre><code>&lt;soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"&gt;
+  &lt;soap:Body&gt;
+    &lt;GetMeteoResponse&gt;
+      &lt;Temperatura&gt;22°C&lt;/Temperatura&gt;
+      &lt;Condizioni&gt;Soleggiato&lt;/Condizioni&gt;
+    &lt;/GetMeteoResponse&gt;
+  &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;</code></pre>
+    </section>
+
+    <section>
+        <h2><span class="num">4</span> Tabella comparativa</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Caratteristica</th>
+                        <th>SOAP</th>
+                        <th>REST</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Tipo di approccio</td>
+                        <td>Protocollo standard formale definito da regole rigide.</td>
+                        <td>Stile architetturale basato su linee guida e convenzioni.</td>
+                    </tr>
+                    <tr>
+                        <td>Formato dei dati</td>
+                        <td>Esclusivamente XML, strutturato e verboso.</td>
+                        <td>Principalmente JSON (leggero), ma supporta anche XML e testo.</td>
+                    </tr>
+                    <tr>
+                        <td>Complessità ed efficienza</td>
+                        <td>Alta complessità; generato da messaggi pesanti con elevato overhead di rete.</td>
+                        <td>Bassa complessità; messaggi leggeri, veloci ed efficienti nel parsing.</td>
+                    </tr>
+                    <tr>
+                        <td>Sicurezza</td>
+                        <td>Standard aziendali complessi integrati a livello applicativo (es. WS-Security).</td>
+                        <td>Si affida ai protocolli standard del web sottostanti (es. HTTPS, OAuth).</td>
+                    </tr>
+                    <tr>
+                        <td>Gestione dello stato</td>
+                        <td>Supporta sia comunicazioni con stato (stateful) che senza stato (stateless).</td>
+                        <td>Rigidamente senza stato (stateless); ogni richiesta contiene tutto il contesto necessario.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>In sintesi</h3>
+        <p>REST ha vinto la battaglia della popolarità per la maggior parte delle applicazioni web e mobili perché è molto più semplice, veloce e flessibile.</p>
+        <p>SOAP non è "morto", ma viene usato in contesti aziendali dove servono garanzie ferree sulle transazioni e sulla sicurezza, che sono già integrate nel protocollo.</p>
+    </section>
+
+</div>
+
+</body>
+</html>
