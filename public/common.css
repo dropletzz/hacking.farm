@@ -6,11 +6,14 @@
     --text-main: #e1e1e1;
     --text-muted: color-mix(in srgb, black 15%, var(--text-main));
     --border-color: color-mix(in srgb, white 20%, var(--bg-primary));
+
+    font-size: 18px;
 }
 
 body {
     background-color: var(--bg-primary);
     color: var(--text-main);
+    font-family: 'Atkinson';
 }
 
 * {
@@ -35,5 +38,209 @@ body {
 .card p {
     font-size: 0.85rem;
     color: var(--text-muted);
+}
+
+
+@font-face {
+    font-family: 'AtkinsonMono';
+    src: url('fonts/Atkinson Hyperlegible Mono/AtkinsonHyperlegibleMono-ExtraLight.otf') format('opentype');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'AtkinsonMono';
+    src: url('fonts/Atkinson Hyperlegible Mono/AtkinsonHyperlegibleMono-ExtraLightItalic.otf') format('opentype');
+    font-weight: 200;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'AtkinsonMono';
+    src: url('fonts/Atkinson Hyperlegible Mono/AtkinsonHyperlegibleMono-Light.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'AtkinsonMono';
+    src: url('fonts/Atkinson Hyperlegible Mono/AtkinsonHyperlegibleMono-LightItalic.otf') format('opentype');
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'AtkinsonMono';
+    src: url('fonts/Atkinson Hyperlegible Mono/AtkinsonHyperlegibleMono-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'AtkinsonMono';
+    src: url('fonts/Atkinson Hyperlegible Mono/AtkinsonHyperlegibleMono-RegularItalic.otf') format('opentype');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'AtkinsonMono';
+    src: url('fonts/Atkinson Hyperlegible Mono/AtkinsonHyperlegibleMono-Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'AtkinsonMono';
+    src: url('fonts/Atkinson Hyperlegible Mono/AtkinsonHyperlegibleMono-MediumItalic.otf') format('opentype');
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'AtkinsonMono';
+    src: url('fonts/Atkinson Hyperlegible Mono/AtkinsonHyperlegibleMono-SemiBold.otf') format('opentype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'AtkinsonMono';
+    src: url('fonts/Atkinson Hyperlegible Mono/AtkinsonHyperlegibleMono-SemiBoldItalic.otf') format('opentype');
+    font-weight: 600;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'AtkinsonMono';
+    src: url('fonts/Atkinson Hyperlegible Mono/AtkinsonHyperlegibleMono-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'AtkinsonMono';
+    src: url('fonts/Atkinson Hyperlegible Mono/AtkinsonHyperlegibleMono-BoldItalic.otf') format('opentype');
+    font-weight: 700;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'AtkinsonMono';
+    src: url('fonts/Atkinson Hyperlegible Mono/AtkinsonHyperlegibleMono-ExtraBold.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'AtkinsonMono';
+    src: url('fonts/Atkinson Hyperlegible Mono/AtkinsonHyperlegibleMono-ExtraBoldItalic.otf') format('opentype');
+    font-weight: 800;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Atkinson';
+    src: url('fonts/Atkinson Hyperlegible Next/AtkinsonHyperlegibleNext-ExtraLight.otf') format('opentype');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Atkinson';
+    src: url('fonts/Atkinson Hyperlegible Next/AtkinsonHyperlegibleNext-ExtraLightItalic.otf') format('opentype');
+    font-weight: 200;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Atkinson';
+    src: url('fonts/Atkinson Hyperlegible Next/AtkinsonHyperlegibleNext-Light.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Atkinson';
+    src: url('fonts/Atkinson Hyperlegible Next/AtkinsonHyperlegibleNext-LightItalic.otf') format('opentype');
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Atkinson';
+    src: url('fonts/Atkinson Hyperlegible Next/AtkinsonHyperlegibleNext-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Atkinson';
+    src: url('fonts/Atkinson Hyperlegible Next/AtkinsonHyperlegibleNext-RegularItalic.otf') format('opentype');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Atkinson';
+    src: url('fonts/Atkinson Hyperlegible Next/AtkinsonHyperlegibleNext-Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Atkinson';
+    src: url('fonts/Atkinson Hyperlegible Next/AtkinsonHyperlegibleNext-MediumItalic.otf') format('opentype');
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Atkinson';
+    src: url('fonts/Atkinson Hyperlegible Next/AtkinsonHyperlegibleNext-SemiBold.otf') format('opentype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Atkinson';
+    src: url('fonts/Atkinson Hyperlegible Next/AtkinsonHyperlegibleNext-SemiBoldItalic.otf') format('opentype');
+    font-weight: 600;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Atkinson';
+    src: url('fonts/Atkinson Hyperlegible Next/AtkinsonHyperlegibleNext-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Atkinson';
+    src: url('fonts/Atkinson Hyperlegible Next/AtkinsonHyperlegibleNext-BoldItalic.otf') format('opentype');
+    font-weight: 700;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Atkinson';
+    src: url('fonts/Atkinson Hyperlegible Next/AtkinsonHyperlegibleNext-ExtraBold.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Atkinson';
+    src: url('fonts/Atkinson Hyperlegible Next/AtkinsonHyperlegibleNext-ExtraBoldItalic.otf') format('opentype');
+    font-weight: 800;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Monoid';
+    src: url('fonts/MonoidNerdFont-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 
