@@ -1,4 +1,3 @@
-
 const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
 
@@ -62,7 +61,7 @@ function draw() {
     ctx.translate(W/2, H/2);
 
     for (let i = 0; i < dimensions.length; i++) {
-        drawSlice(ctx, i, radius, innerMargin);
+        drawSlice(ctx, i, radius, innerMargin, margin);
     }
 
     ctx.restore();
@@ -70,7 +69,7 @@ function draw() {
     requestAnimationFrame(draw);
 }
 
-function drawSlice(ctx, index, radius, margin) {
+function drawSlice(ctx, index, radius, margin, outerMargin) {
     const angle = TAU / dimensions.length;
     const startAngle = angle * index;
     const endAngle = startAngle + angle;
@@ -92,6 +91,29 @@ function drawSlice(ctx, index, radius, margin) {
         radialSplit2 + margin, radius, startAngle, endAngle,
         color, dimension.levels[0]
     );
+
+    const midAngle = startAngle + angle / 2;
+    const labelRadius = radius + outerMargin / 2;
+    const labelFontSize = Math.round(outerMargin * 0.3);
+
+    ctx.save();
+    ctx.translate(
+        labelRadius * Math.cos(midAngle),
+        labelRadius * Math.sin(midAngle)
+    );
+
+    ctx.rotate(midAngle + Math.PI / 2);
+    if (midAngle > 0 && midAngle < Math.PI) {
+        ctx.rotate(Math.PI);
+    }
+
+    ctx.fillStyle = "#111";
+    ctx.font = `${labelFontSize}px sans-serif`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(dimension.name, 0, 0);
+
+    ctx.restore();
 }
 
 function drawSlicePiece(ctx, radialStart, radialEnd, startAngle, endAngle, color, text, radial = false) {
@@ -107,29 +129,24 @@ function drawSlicePiece(ctx, radialStart, radialEnd, startAngle, endAngle, color
 
     const x = midRadius * Math.cos(midAngle);
     const y = midRadius * Math.sin(midAngle);
+    const radialHeight = radialEnd - radialStart;
     let fontSize = 0;
 
     ctx.save();
     ctx.translate(x, y);
 
     if (radial) {
-        const angleSpan = endAngle - startAngle;
-        fontSize = angleSpan * 8;
+        fontSize = radialHeight * 0.1;
 
         ctx.rotate(midAngle);
-
-        // Flip the text so it never reads upside down
         if (midAngle > Math.PI / 2 && midAngle < (3 * Math.PI) / 2) {
             ctx.rotate(Math.PI);
         }
     }
     else {
-        const radialHeight = radialEnd - radialStart;
         fontSize = radialHeight * 0.25;
 
         ctx.rotate(midAngle + Math.PI / 2);
-
-        // Flip the text so it never reads upside down
         if (midAngle > 0 && midAngle < Math.PI) {
             ctx.rotate(Math.PI);
         }
