@@ -156,8 +156,43 @@ function drawSlicePiece(ctx, radialStart, radialEnd, startAngle, endAngle, color
     ctx.font = `${fontSize}px sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(text, 0, 0);
+
+    const lines = splitIntoLines(text, 12);
+    const lineHeight = fontSize * 1.2;
+    const totalHeight = lines.length * lineHeight;
+
+    lines.forEach((line, i) => {
+        const y = -totalHeight / 2 + lineHeight * (i + 0.5);
+        ctx.fillText(line, 0, y);
+    });
+
     ctx.restore();
+}
+
+function splitIntoLines(text, maxCharactersPerLine) {
+    const result = [];
+    const words = text.split(/\s+/).filter(word => word.length > 0);
+
+    let currentLine = "";
+
+    for (const word of words) {
+        if (currentLine === "") {
+            currentLine = word;
+        }
+        else if ((currentLine + " " + word).length <= maxCharactersPerLine) {
+            currentLine += " " + word;
+        }
+        else {
+            result.push(currentLine);
+            currentLine = word;
+        }
+    }
+
+    if (currentLine !== "") {
+        result.push(currentLine);
+    }
+
+    return result;
 }
 
 requestAnimationFrame(draw);
