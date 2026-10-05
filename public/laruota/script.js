@@ -41,6 +41,15 @@ const dimensions = loadDimensions();
 
 const backgroundColor = "#ffffff";
 
+const dimensionNameMaxCharsBase = 30;
+const levelMaxCharsBase = 20;
+const radialLevelMaxChars = 12;
+const maxCharsMin = 5;
+
+function getMaxCharsPerLine(base, slope) {
+    return Math.max(maxCharsMin, Math.round(base - dimensions.length * slope));
+}
+
 function getSliceColor(index) {
     return `hsl(${45 + 360 * index / dimensions.length}, 100%, 75%)`;
 }
@@ -105,6 +114,7 @@ function drawSlice(ctx, index, radius, margin, outerMargin) {
     const midAngle = startAngle + angle / 2;
     const labelRadius = radius + outerMargin / 2;
     const labelFontSize = Math.round(outerMargin * 0.3);
+    const maxCharsPerLine = getMaxCharsPerLine(dimensionNameMaxCharsBase, 1.5);
 
     ctx.save();
     ctx.translate(
@@ -121,7 +131,15 @@ function drawSlice(ctx, index, radius, margin, outerMargin) {
     ctx.font = `${labelFontSize}px sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(dimension.name, 0, 0);
+
+    const lines = splitIntoLines(dimension.name, maxCharsPerLine);
+    const lineHeight = labelFontSize * 1.2;
+    const totalHeight = lines.length * lineHeight;
+
+    lines.forEach((line, i) => {
+        const y = -totalHeight / 2 + lineHeight * (i + 0.5);
+        ctx.fillText(line, 0, y);
+    });
 
     ctx.restore();
 }
@@ -135,27 +153,52 @@ function drawSlicePiece(ctx, radialStart, radialEnd, startAngle, endAngle, color
     ctx.fill();
 
     const midAngle = (startAngle + endAngle) / 2;
-    const midRadius = (radialStart + radialEnd) / 2;
+    const radialHeight = radialEnd - radialStart;
+
+    const fontSize = radial
+        ? radialHeight * 0.1
+        : radialHeight * 0.25;
+
+    ctx.font = `${fontSize}px sans-serif`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    const lines = splitIntoLines(
+        text,
+        radial ? radialLevelMaxChars : getMaxCharsPerLine(levelMaxCharsBase, 0.75)
+    );
+
+    // Radial text runs along the radius; push it as far from the center as
+    // possible while keeping it inside its piece.
+    let midRadius;
+    if (radial) {
+        let maxLineWidth = 0;
+        for (const line of lines) {
+            maxLineWidth = Math.max(maxLineWidth, ctx.measureText(line).width);
+        }
+        const radialPadding = radialHeight * 0.05;
+        midRadius = Math.max(
+            (radialStart + radialEnd) / 2,
+            radialEnd - maxLineWidth / 2 - radialPadding
+        );
+    }
+    else {
+        midRadius = (radialStart + radialEnd) / 2;
+    }
 
     const x = midRadius * Math.cos(midAngle);
     const y = midRadius * Math.sin(midAngle);
-    const radialHeight = radialEnd - radialStart;
-    let fontSize = 0;
 
     ctx.save();
     ctx.translate(x, y);
 
     if (radial) {
-        fontSize = radialHeight * 0.1;
-
         ctx.rotate(midAngle);
         if (midAngle > Math.PI / 2 && midAngle < (3 * Math.PI) / 2) {
             ctx.rotate(Math.PI);
         }
     }
     else {
-        fontSize = radialHeight * 0.25;
-
         ctx.rotate(midAngle + Math.PI / 2);
         if (midAngle > 0 && midAngle < Math.PI) {
             ctx.rotate(Math.PI);
@@ -163,11 +206,7 @@ function drawSlicePiece(ctx, radialStart, radialEnd, startAngle, endAngle, color
     }
 
     ctx.fillStyle = "#222";
-    ctx.font = `${fontSize}px sans-serif`;
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
 
-    const lines = splitIntoLines(text, 12);
     const lineHeight = fontSize * 1.2;
     const totalHeight = lines.length * lineHeight;
 
