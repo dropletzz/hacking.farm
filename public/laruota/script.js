@@ -199,7 +199,7 @@ function drawSlicePiece(ctx, radialStart, radialEnd, startAngle, endAngle, color
         for (const line of lines) {
             maxLineWidth = Math.max(maxLineWidth, ctx.measureText(line).width);
         }
-        const radialPadding = radialHeight * 0.05;
+        const radialPadding = radialHeight * 0.07;
         midRadius = Math.max(
             (radialStart + radialEnd) / 2,
             radialEnd - maxLineWidth / 2 - radialPadding
