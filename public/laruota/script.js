@@ -37,7 +37,7 @@ const dimensions = [
 const backgroundColor = "#ffffff";
 
 function getSliceColor(index) {
-    return `hsl(${45 + 360 * index / dimensions.length}, 100%, 50%)`;
+    return `hsl(${45 + 360 * index / dimensions.length}, 100%, 75%)`;
 }
 
 const TAU = 2 * Math.PI;
@@ -75,22 +75,72 @@ function drawSlice(ctx, index, radius, margin) {
     const startAngle = angle * index;
     const endAngle = startAngle + angle;
     const color = getSliceColor(index);
+    const dimension = dimensions[index];
 
-    const halfRadius = radius * 0.5;
-    const radialSplit1 = radius * 0.4;
-    const radialSplit2 = radius * 0.7;
-    drawSlicePiece(ctx, 0, radialSplit1 - margin, startAngle, endAngle, color);
-    drawSlicePiece(ctx, radialSplit1 + margin, radialSplit2 - margin, startAngle, endAngle, color);
-    drawSlicePiece(ctx, radialSplit2 + margin, radius, startAngle, endAngle, color);
+    const radialSplit1 = radius * 0.5;
+    const radialSplit2 = radius * 0.75;
+
+    drawSlicePiece(ctx,
+        0, radialSplit1 - margin, startAngle, endAngle,
+        color, dimension.levels[2], true
+    );
+    drawSlicePiece(ctx,
+        radialSplit1 + margin, radialSplit2 - margin, startAngle, endAngle,
+        color, dimension.levels[1]
+    );
+    drawSlicePiece(ctx,
+        radialSplit2 + margin, radius, startAngle, endAngle,
+        color, dimension.levels[0]
+    );
 }
 
-function drawSlicePiece(ctx, radialStart, radialEnd, startAngle, endAngle, color) {
+function drawSlicePiece(ctx, radialStart, radialEnd, startAngle, endAngle, color, text, radial = false) {
     ctx.fillStyle = color;
     ctx.beginPath();
     ctx.arc(0, 0, radialStart, startAngle, endAngle);
     ctx.arc(0, 0, radialEnd, endAngle, startAngle, true);
     ctx.closePath();
     ctx.fill();
+
+    const midAngle = (startAngle + endAngle) / 2;
+    const midRadius = (radialStart + radialEnd) / 2;
+
+    const x = midRadius * Math.cos(midAngle);
+    const y = midRadius * Math.sin(midAngle);
+    let fontSize = 0;
+
+    ctx.save();
+    ctx.translate(x, y);
+
+    if (radial) {
+        const angleSpan = endAngle - startAngle;
+        fontSize = angleSpan * 8;
+
+        ctx.rotate(midAngle);
+
+        // Flip the text so it never reads upside down
+        if (midAngle > Math.PI / 2 && midAngle < (3 * Math.PI) / 2) {
+            ctx.rotate(Math.PI);
+        }
+    }
+    else {
+        const radialHeight = radialEnd - radialStart;
+        fontSize = radialHeight * 0.25;
+
+        ctx.rotate(midAngle + Math.PI / 2);
+
+        // Flip the text so it never reads upside down
+        if (midAngle > 0 && midAngle < Math.PI) {
+            ctx.rotate(Math.PI);
+        }
+    }
+
+    ctx.fillStyle = "#222";
+    ctx.font = `${fontSize}px sans-serif`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(text, 0, 0);
+    ctx.restore();
 }
 
 requestAnimationFrame(draw);
