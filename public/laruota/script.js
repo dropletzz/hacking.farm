@@ -1,3 +1,5 @@
+const STORAGE_KEY = "laruota.dimensions";
+
 // wheel drawing
 
 const canvas = document.getElementById("wheel");
@@ -12,7 +14,7 @@ function resize() {
 window.addEventListener("resize", resize);
 resize();
 
-const dimensions = [
+const defaultDimensions = [
     {
         name: "Condizione economica",
         levels: [ "Indigenza", "Nella media", "Agiatezza" ],
@@ -34,6 +36,8 @@ const dimensions = [
         levels: [ "Visibile", "Non visibile", "Nessuna" ],
     },
 ];
+
+const dimensions = loadDimensions();
 
 const backgroundColor = "#ffffff";
 
@@ -230,6 +234,7 @@ function renderDimensions() {
         nameInput.placeholder = "Nome della dimensione";
         nameInput.addEventListener("input", () => {
             dimension.name = nameInput.value;
+            saveDimensions();
         });
 
         const removeButton = document.createElement("button");
@@ -239,13 +244,14 @@ function renderDimensions() {
         removeButton.textContent = "×";
         removeButton.addEventListener("click", () => {
             dimensions.splice(index, 1);
+            saveDimensions();
             renderDimensions();
         });
 
         header.append(nameInput, removeButton);
         card.appendChild(header);
 
-        // The three levels
+        // The three dimensio levels
         const levels = document.createElement("div");
         levels.className = "levels";
 
@@ -262,6 +268,7 @@ function renderDimensions() {
             input.placeholder = `Livello ${levelIndex + 1}`;
             input.addEventListener("input", () => {
                 dimension.levels[levelIndex] = input.value;
+                saveDimensions();
             });
 
             row.append(number, input);
@@ -278,7 +285,38 @@ addDimensionButton.addEventListener("click", () => {
         name: "Nuova dimensione",
         levels: ["Livello 1", "Livello 2", "Livello 3"],
     });
+    saveDimensions();
     renderDimensions();
 });
 
 renderDimensions();
+
+function loadDimensions() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed)) {
+                return parsed
+                    .filter(d => d && typeof d.name === "string" && Array.isArray(d.levels))
+                    .map(d => ({
+                        name: d.name,
+                        levels: [
+                            String(d.levels[0] ?? ""),
+                            String(d.levels[1] ?? ""),
+                            String(d.levels[2] ?? ""),
+                        ],
+                    }));
+            }
+        }
+    } catch (error) {
+        // Corrupted data: fall through to defaults below.
+    }
+
+    return defaultDimensions.map(d => ({ name: d.name, levels: [...d.levels] }));
+}
+
+function saveDimensions() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(dimensions));
+}
+
