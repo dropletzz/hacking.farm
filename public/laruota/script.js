@@ -41,6 +41,15 @@ const dimensions = loadDimensions();
 
 const backgroundColor = "#ffffff";
 
+const rainbowColors = [
+    "#e40303", // red
+    "#ff8c00", // orange
+    "#ffed00", // yellow
+    "#008026", // green
+    "#24408e", // blue
+    "#732982", // violet
+];
+
 const dimensionNameMaxCharsBase = 30;
 const levelMaxCharsBase = 20;
 const radialLevelMaxChars = 12;
@@ -57,6 +66,15 @@ function getSliceColor(index) {
 const TAU = 2 * Math.PI;
 const radialPercentages = [ 0.4, 0.3, 0.3 ];
 
+function drawRainbowFlag(ctx, W, H) {
+    const stripeHeight = H / rainbowColors.length;
+
+    rainbowColors.forEach((color, i) => {
+        ctx.fillStyle = color;
+        ctx.fillRect(0, i * stripeHeight, W, stripeHeight + 1);
+    });
+}
+
 function renderWheel(ctx, W, H) {
     const side = Math.min(W, H);
 
@@ -66,6 +84,11 @@ function renderWheel(ctx, W, H) {
 
     ctx.fillStyle = backgroundColor;
     ctx.fillRect(0, 0, W, H);
+
+    if (dimensions.length === 0) {
+        drawRainbowFlag(ctx, W, H);
+        return;
+    }
 
     ctx.save();
     ctx.translate(W / 2, H / 2);
