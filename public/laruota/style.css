@@ -169,7 +169,12 @@ input[type="text"]:focus {
     background: rgba(255, 107, 107, 0.12);
 }
 
-#add-dimension {
+#add-dimension-top {
+    display: none;
+}
+
+#add-dimension,
+#add-dimension-top {
     font: inherit;
     font-weight: 600;
     color: var(--bg-primary);
@@ -180,7 +185,8 @@ input[type="text"]:focus {
     cursor: pointer;
 }
 
-#add-dimension:hover {
+#add-dimension:hover,
+#add-dimension-top:hover {
     filter: brightness(1.08);
 }
 
@@ -224,5 +230,13 @@ input[type="text"]:focus {
 
     .panel {
         width: auto;
+    }
+
+    #add-dimension-top {
+        display: block;
+    }
+
+    #add-dimension-top.hidden {
+        display: none;
     }
 }

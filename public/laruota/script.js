@@ -274,10 +274,13 @@ requestAnimationFrame(draw);
 
 const dimensionsList = document.getElementById("dimensions-list");
 const addDimensionButton = document.getElementById("add-dimension");
+const addDimensionTopButton = document.getElementById("add-dimension-top");
 
 let editingIndex = null;
 
 function renderDimensions() {
+    addDimensionTopButton.classList.toggle("hidden", dimensions.length === 0);
+
     dimensionsList.innerHTML = "";
 
     if (dimensions.length === 0) {
@@ -398,6 +401,16 @@ addDimensionButton.addEventListener("click", () => {
         levels: ["Livello 1", "Livello 2", "Livello 3"],
     });
     editingIndex = dimensions.length - 1;
+    saveDimensions();
+    renderDimensions();
+});
+
+addDimensionTopButton.addEventListener("click", () => {
+    dimensions.unshift({
+        name: "Nuova dimensione",
+        levels: ["Livello 1", "Livello 2", "Livello 3"],
+    });
+    editingIndex = 0;
     saveDimensions();
     renderDimensions();
 });
