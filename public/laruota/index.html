@@ -5,20 +5,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>La Ruota</title>
+
 <link rel="stylesheet" href="../common.css">
 <link rel="stylesheet" href="../fonts.css">
 <link rel="stylesheet" href="./style.css">
 <script defer type="text/javascript" src="./script.js"></script>
 
-<style>
-</style>
-
 </head>
 
 <body>
-    <div class="container">
-        <canvas id="wheel">
-        </canvas>
+    <div class="layout">
+        <aside class="panel">
+            <h2>Dimensioni</h2>
+            <div id="dimensions-list"></div>
+            <button id="add-dimension" type="button">+ Aggiungi dimensione</button>
+        </aside>
+
+        <main class="canvas-wrap">
+            <canvas id="wheel"></canvas>
+        </main>
     </div>
 </body>
 

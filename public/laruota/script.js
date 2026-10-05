@@ -1,3 +1,5 @@
+// wheel drawing
+
 const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
 
@@ -196,3 +198,87 @@ function splitIntoLines(text, maxCharactersPerLine) {
 }
 
 requestAnimationFrame(draw);
+
+
+// dimensions editor
+
+const dimensionsList = document.getElementById("dimensions-list");
+const addDimensionButton = document.getElementById("add-dimension");
+
+function renderDimensions() {
+    dimensionsList.innerHTML = "";
+
+    if (dimensions.length === 0) {
+        const empty = document.createElement("p");
+        empty.className = "empty";
+        empty.textContent = "Nessuna dimensione. Aggiungine una per iniziare.";
+        dimensionsList.appendChild(empty);
+        return;
+    }
+
+    dimensions.forEach((dimension, index) => {
+        const card = document.createElement("div");
+        card.className = "dimension";
+
+        // Name + remove button
+        const header = document.createElement("header");
+
+        const nameInput = document.createElement("input");
+        nameInput.className = "dimension-name";
+        nameInput.type = "text";
+        nameInput.value = dimension.name;
+        nameInput.placeholder = "Nome della dimensione";
+        nameInput.addEventListener("input", () => {
+            dimension.name = nameInput.value;
+        });
+
+        const removeButton = document.createElement("button");
+        removeButton.className = "remove";
+        removeButton.type = "button";
+        removeButton.title = "Rimuovi dimensione";
+        removeButton.textContent = "×";
+        removeButton.addEventListener("click", () => {
+            dimensions.splice(index, 1);
+            renderDimensions();
+        });
+
+        header.append(nameInput, removeButton);
+        card.appendChild(header);
+
+        // The three levels
+        const levels = document.createElement("div");
+        levels.className = "levels";
+
+        dimension.levels.forEach((level, levelIndex) => {
+            const row = document.createElement("label");
+            row.className = "level";
+
+            const number = document.createElement("span");
+            number.textContent = levelIndex + 1;
+
+            const input = document.createElement("input");
+            input.type = "text";
+            input.value = level;
+            input.placeholder = `Livello ${levelIndex + 1}`;
+            input.addEventListener("input", () => {
+                dimension.levels[levelIndex] = input.value;
+            });
+
+            row.append(number, input);
+            levels.appendChild(row);
+        });
+
+        card.appendChild(levels);
+        dimensionsList.appendChild(card);
+    });
+}
+
+addDimensionButton.addEventListener("click", () => {
+    dimensions.push({
+        name: "Nuova dimensione",
+        levels: ["Livello 1", "Livello 2", "Livello 3"],
+    });
+    renderDimensions();
+});
+
+renderDimensions();
