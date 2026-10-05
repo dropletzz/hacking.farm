@@ -42,12 +42,12 @@ const dimensions = loadDimensions();
 const backgroundColor = "#ffffff";
 
 const rainbowColors = [
-    "#e40303", // red
-    "#ff8c00", // orange
-    "#ffed00", // yellow
-    "#008026", // green
-    "#24408e", // blue
-    "#732982", // violet
+    "#e40303",
+    "#ff8c00",
+    "#ffed00",
+    "#008026",
+    "#24408e",
+    "#732982",
 ];
 
 const dimensionNameMaxCharsBase = 30;
@@ -113,7 +113,9 @@ function draw() {
 
 function drawSlice(ctx, index, radius, margin, outerMargin) {
     const angle = TAU / dimensions.length;
-    const startAngle = angle * index;
+
+    // 90° offset so the first slice starts at the bottom.
+    const startAngle = (angle * index + TAU / 4) % TAU;
     const endAngle = startAngle + angle;
     const color = getSliceColor(index);
     const dimension = dimensions[index];
@@ -134,7 +136,7 @@ function drawSlice(ctx, index, radius, margin, outerMargin) {
         color, dimension.levels[0]
     );
 
-    const midAngle = startAngle + angle / 2;
+    const midAngle = (startAngle + angle / 2) % TAU;
     const labelRadius = radius + outerMargin / 2;
     const labelFontSize = Math.round(outerMargin * 0.3);
     const maxCharsPerLine = getMaxCharsPerLine(dimensionNameMaxCharsBase, 1.5);
@@ -175,7 +177,7 @@ function drawSlicePiece(ctx, radialStart, radialEnd, startAngle, endAngle, color
     ctx.closePath();
     ctx.fill();
 
-    const midAngle = (startAngle + endAngle) / 2;
+    const midAngle = ((startAngle + endAngle) / 2) % TAU;
     const radialHeight = radialEnd - radialStart;
 
     const fontSize = radial
