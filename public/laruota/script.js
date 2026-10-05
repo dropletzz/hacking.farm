@@ -291,22 +291,30 @@ addDimensionButton.addEventListener("click", () => {
 
 renderDimensions();
 
+function parseDimensions(parsed) {
+    if (!Array.isArray(parsed)) {
+        return null;
+    }
+
+    return parsed
+        .filter(d => d && typeof d.name === "string" && Array.isArray(d.levels))
+        .map(d => ({
+            name: d.name,
+            levels: [
+                String(d.levels[0] ?? ""),
+                String(d.levels[1] ?? ""),
+                String(d.levels[2] ?? ""),
+            ],
+        }));
+}
+
 function loadDimensions() {
     try {
         const raw = localStorage.getItem(STORAGE_KEY);
         if (raw) {
-            const parsed = JSON.parse(raw);
-            if (Array.isArray(parsed)) {
-                return parsed
-                    .filter(d => d && typeof d.name === "string" && Array.isArray(d.levels))
-                    .map(d => ({
-                        name: d.name,
-                        levels: [
-                            String(d.levels[0] ?? ""),
-                            String(d.levels[1] ?? ""),
-                            String(d.levels[2] ?? ""),
-                        ],
-                    }));
+            const parsed = parseDimensions(JSON.parse(raw));
+            if (parsed) {
+                return parsed;
             }
         }
     } catch (error) {
@@ -319,4 +327,62 @@ function loadDimensions() {
 function saveDimensions() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(dimensions));
 }
+
+function setDimensions(next) {
+    dimensions.length = 0;
+    dimensions.push(...next);
+    saveDimensions();
+    renderDimensions();
+}
+
+function downloadDimensions() {
+    const blob = new Blob([JSON.stringify(dimensions, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "dimensioni.json";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+}
+
+function handleDimensionFile(file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+        try {
+            const parsed = parseDimensions(JSON.parse(reader.result));
+            if (parsed) {
+                setDimensions(parsed);
+            }
+            else {
+                alert("File non valido: deve essere un array di dimensioni.");
+            }
+        }
+        catch (error) {
+            alert("File non valido: JSON illeggibile.");
+        }
+    };
+    reader.readAsText(file);
+}
+
+// --- Topbar actions ----------------------------------------------------------
+
+document.getElementById("save-file").addEventListener("click", downloadDimensions);
+
+document.getElementById("load-file").addEventListener("click", () => {
+    document.getElementById("load-file-input").click();
+});
+
+document.getElementById("load-file-input").addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        handleDimensionFile(file);
+    }
+    event.target.value = "";
+});
+
+document.getElementById("reset").addEventListener("click", () => {
+    setDimensions(defaultDimensions.map(d => ({ name: d.name, levels: [...d.levels] })));
+});
 
