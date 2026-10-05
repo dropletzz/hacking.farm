@@ -48,29 +48,33 @@ function getSliceColor(index) {
 const TAU = 2 * Math.PI;
 const radialPercentages = [ 0.4, 0.3, 0.3 ];
 
-function draw() {
-    const dpr = window.devicePixelRatio || 1;
-    const W = canvas.width / dpr;
-    const H = canvas.height / dpr;
+function renderWheel(ctx, W, H) {
     const side = Math.min(W, H);
 
     const margin = side * 0.1;
     const radius = side * 0.5 - margin;
     const innerMargin = side * 0.003;
 
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
     ctx.fillStyle = backgroundColor;
     ctx.fillRect(0, 0, W, H);
 
     ctx.save();
-    ctx.translate(W/2, H/2);
+    ctx.translate(W / 2, H / 2);
 
     for (let i = 0; i < dimensions.length; i++) {
         drawSlice(ctx, i, radius, innerMargin, margin);
     }
 
     ctx.restore();
+}
+
+function draw() {
+    const dpr = window.devicePixelRatio || 1;
+    const W = canvas.width / dpr;
+    const H = canvas.height / dpr;
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    renderWheel(ctx, W, H);
 
     requestAnimationFrame(draw);
 }
@@ -347,6 +351,32 @@ function downloadDimensions() {
     URL.revokeObjectURL(url);
 }
 
+function downloadWheelPng() {
+    const size = 1024;
+    const exportCanvas = document.createElement("canvas");
+    exportCanvas.width = size;
+    exportCanvas.height = size;
+
+    const exportCtx = exportCanvas.getContext("2d");
+    renderWheel(exportCtx, size, size);
+
+    exportCanvas.toBlob((blob) => {
+        if (!blob) {
+            alert("Errore durante l'esportazione dell'immagine.");
+            return;
+        }
+
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "ruota.png";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+    }, "image/png");
+}
+
 function handleDimensionFile(file) {
     const reader = new FileReader();
     reader.onload = () => {
@@ -366,9 +396,12 @@ function handleDimensionFile(file) {
     reader.readAsText(file);
 }
 
-// --- Topbar actions ----------------------------------------------------------
+
+// topbar actions
 
 document.getElementById("save-file").addEventListener("click", downloadDimensions);
+
+document.getElementById("download-png").addEventListener("click", downloadWheelPng);
 
 document.getElementById("load-file").addEventListener("click", () => {
     document.getElementById("load-file-input").click();
