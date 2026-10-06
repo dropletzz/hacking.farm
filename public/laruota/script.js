@@ -66,6 +66,20 @@ function getSliceColor(index) {
 const TAU = 2 * Math.PI;
 const radialPercentages = [ 0.4, 0.3, 0.3 ];
 
+function mod(a, n) {
+    return ((a % n) + n) % n;
+}
+
+function isWheelTopside(angle) {
+    const a = mod(angle, TAU);
+    return a > 0 && a < Math.PI;
+}
+
+function isWheelLeftside(angle) {
+    const a = mod(angle, TAU);
+    return a > Math.PI / 2 && a < (3 * Math.PI) / 2;
+}
+
 function drawRainbowFlag(ctx, W, H) {
     const stripeHeight = H / rainbowColors.length;
 
@@ -136,7 +150,7 @@ function drawSlice(ctx, index, radius, margin, outerMargin) {
         color, dimension.levels[0]
     );
 
-    const midAngle = (startAngle + angle / 2) % TAU;
+    const midAngle = startAngle + angle / 2;
     const labelRadius = radius + outerMargin / 2;
     const labelFontSize = Math.round(outerMargin * 0.3);
     const maxCharsPerLine = getMaxCharsPerLine(dimensionNameMaxCharsBase, 1.5);
@@ -148,7 +162,7 @@ function drawSlice(ctx, index, radius, margin, outerMargin) {
     );
 
     ctx.rotate(midAngle + Math.PI / 2);
-    if (midAngle > 0 && midAngle < Math.PI) {
+    if (isWheelTopside(midAngle)) {
         ctx.rotate(Math.PI);
     }
 
@@ -177,7 +191,7 @@ function drawSlicePiece(ctx, radialStart, radialEnd, startAngle, endAngle, color
     ctx.closePath();
     ctx.fill();
 
-    const midAngle = ((startAngle + endAngle) / 2) % TAU;
+    const midAngle = (startAngle + endAngle) / 2;
     const radialHeight = radialEnd - radialStart;
 
     const fontSize = radial
@@ -219,15 +233,11 @@ function drawSlicePiece(ctx, radialStart, radialEnd, startAngle, endAngle, color
 
     if (radial) {
         ctx.rotate(midAngle);
-        if (midAngle > Math.PI / 2 && midAngle < (3 * Math.PI) / 2) {
-            ctx.rotate(Math.PI);
-        }
+        if (isWheelLeftside(midAngle)) ctx.rotate(Math.PI);
     }
     else {
         ctx.rotate(midAngle + Math.PI / 2);
-        if (midAngle > 0 && midAngle < Math.PI) {
-            ctx.rotate(Math.PI);
-        }
+        if (isWheelTopside(midAngle)) ctx.rotate(Math.PI);
     }
 
     ctx.fillStyle = "#222";
