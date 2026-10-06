@@ -60,7 +60,9 @@ function getMaxCharsPerLine(base, slope) {
 }
 
 function getSliceColor(index) {
-    return `hsl(${45 + 360 * index / dimensions.length}, 100%, 75%)`;
+    const goldenAngle = 137.508;
+    const hue = (45 + index * goldenAngle) % 360;
+    return `hsl(${hue}, 100%, 75%)`;
 }
 
 const TAU = 2 * Math.PI;
