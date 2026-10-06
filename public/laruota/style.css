@@ -139,6 +139,23 @@ body {
     min-width: 0;
 }
 
+.center-field {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.center-field span {
+    width: 3.5rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.center-field input {
+    flex: 1;
+    min-width: 0;
+}
+
 input[type="text"] {
     font: inherit;
     color: var(--text-main);

@@ -37,7 +37,12 @@ const defaultDimensions = [
     },
 ];
 
-const dimensions = loadDimensions();
+const defaultWheelDescription = {
+    center: "Potere",
+    dimensions: defaultDimensions,
+};
+
+const wheelDescription = loadWheelDescription();
 
 const backgroundColor = "#ffffff";
 
@@ -56,7 +61,7 @@ const radialLevelMaxChars = 12;
 const maxCharsMin = 5;
 
 function getMaxCharsPerLine(base, slope) {
-    return Math.max(maxCharsMin, Math.round(base - dimensions.length * slope));
+    return Math.max(maxCharsMin, Math.round(base - wheelDescription.dimensions.length * slope));
 }
 
 function getSliceColor(index) {
@@ -101,7 +106,7 @@ function renderWheel(ctx, W, H) {
     ctx.fillStyle = backgroundColor;
     ctx.fillRect(0, 0, W, H);
 
-    if (dimensions.length === 0) {
+    if (wheelDescription.dimensions.length === 0) {
         drawRainbowFlag(ctx, W, H);
         return;
     }
@@ -109,7 +114,9 @@ function renderWheel(ctx, W, H) {
     ctx.save();
     ctx.translate(W / 2, H / 2);
 
-    for (let i = 0; i < dimensions.length; i++) {
+    drawCenter(ctx, wheelDescription.center, radius);
+
+    for (let i = 0; i < wheelDescription.dimensions.length; i++) {
         drawSlice(ctx, i, radius, innerMargin, margin);
     }
 
@@ -128,19 +135,20 @@ function draw() {
 }
 
 function drawSlice(ctx, index, radius, margin, outerMargin) {
-    const angle = TAU / dimensions.length;
+    const angle = TAU / wheelDescription.dimensions.length;
 
     // 90° offset so the first slice starts at the bottom.
     const startAngle = (angle * index + TAU / 4) % TAU;
     const endAngle = startAngle + angle;
     const color = getSliceColor(index);
-    const dimension = dimensions[index];
+    const dimension = wheelDescription.dimensions[index];
 
+    const radialSplit0 = radius * 0.2;
     const radialSplit1 = radius * 0.5;
     const radialSplit2 = radius * 0.75;
 
     drawSlicePiece(ctx,
-        0, radialSplit1 - margin, startAngle, endAngle,
+        radialSplit0 + margin, radialSplit1 - margin, startAngle, endAngle,
         color, dimension.levels[2], true
     );
     drawSlicePiece(ctx,
@@ -185,6 +193,31 @@ function drawSlice(ctx, index, radius, margin, outerMargin) {
     ctx.restore();
 }
 
+function drawCenter(ctx, text, radius) {
+    const centerRadius = radius * 0.2; // matches radialSplit0 in drawSlice
+
+    ctx.fillStyle = "#000000";
+    ctx.beginPath();
+    ctx.arc(0, 0, centerRadius, 0, TAU);
+    ctx.fill();
+
+    ctx.fillStyle = "#ffffff";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    const lines = splitIntoLines(text, 12);
+    const fontSize = centerRadius * 0.4;
+    ctx.font = `${fontSize}px sans-serif`;
+
+    const lineHeight = fontSize * 1.2;
+    const totalHeight = lines.length * lineHeight;
+
+    lines.forEach((line, i) => {
+        const y = -totalHeight / 2 + lineHeight * (i + 0.5);
+        ctx.fillText(line, 0, y);
+    });
+}
+
 function drawSlicePiece(ctx, radialStart, radialEnd, startAngle, endAngle, color, text, radial = false) {
     ctx.fillStyle = color;
     ctx.beginPath();
@@ -194,10 +227,10 @@ function drawSlicePiece(ctx, radialStart, radialEnd, startAngle, endAngle, color
     ctx.fill();
 
     const midAngle = (startAngle + endAngle) / 2;
-    const radialHeight = radialEnd - radialStart;
+    const radialHeight = Math.abs(radialEnd - radialStart);
 
     const fontSize = radial
-        ? radialHeight * 0.1
+        ? radialHeight * 0.13
         : radialHeight * 0.25;
 
     ctx.font = `${fontSize}px sans-serif`;
@@ -289,15 +322,18 @@ requestAnimationFrame(draw);
 const dimensionsList = document.getElementById("dimensions-list");
 const addDimensionButton = document.getElementById("add-dimension");
 const addDimensionTopButton = document.getElementById("add-dimension-top");
+const centerInput = document.getElementById("center-input");
 
 let editingIndex = null;
 
 function renderDimensions() {
-    addDimensionTopButton.classList.toggle("hidden", dimensions.length === 0);
+    centerInput.value = wheelDescription.center;
+
+    addDimensionTopButton.classList.toggle("hidden", wheelDescription.dimensions.length === 0);
 
     dimensionsList.innerHTML = "";
 
-    if (dimensions.length === 0) {
+    if (wheelDescription.dimensions.length === 0) {
         const empty = document.createElement("p");
         empty.className = "empty";
         empty.textContent = "Nessuna dimensione. Aggiungine una per iniziare.";
@@ -305,7 +341,7 @@ function renderDimensions() {
         return;
     }
 
-    dimensions.forEach((dimension, index) => {
+    wheelDescription.dimensions.forEach((dimension, index) => {
         const card = index === editingIndex
             ? createDimensionEditor(dimension, index)
             : createDimensionSummary(dimension, index);
@@ -357,7 +393,7 @@ function createDimensionEditor(dimension, index) {
     nameInput.placeholder = "Nome della dimensione";
     nameInput.addEventListener("input", () => {
         dimension.name = nameInput.value;
-        saveDimensions();
+        saveWheelDescription();
     });
 
     const removeButton = document.createElement("button");
@@ -366,14 +402,14 @@ function createDimensionEditor(dimension, index) {
     removeButton.title = "Rimuovi dimensione";
     removeButton.textContent = "×";
     removeButton.addEventListener("click", () => {
-        dimensions.splice(index, 1);
+        wheelDescription.dimensions.splice(index, 1);
         if (editingIndex === index) {
             editingIndex = null;
         }
         else if (editingIndex > index) {
             editingIndex--;
         }
-        saveDimensions();
+        saveWheelDescription();
         renderDimensions();
     });
 
@@ -397,7 +433,7 @@ function createDimensionEditor(dimension, index) {
         input.placeholder = `Livello ${levelIndex + 1}`;
         input.addEventListener("input", () => {
             dimension.levels[levelIndex] = input.value;
-            saveDimensions();
+            saveWheelDescription();
         });
 
         row.append(number, input);
@@ -410,23 +446,28 @@ function createDimensionEditor(dimension, index) {
 }
 
 addDimensionButton.addEventListener("click", () => {
-    dimensions.push({
+    wheelDescription.dimensions.push({
         name: "Nuova dimensione",
         levels: ["Livello 1", "Livello 2", "Livello 3"],
     });
-    editingIndex = dimensions.length - 1;
-    saveDimensions();
+    editingIndex = wheelDescription.dimensions.length - 1;
+    saveWheelDescription();
     renderDimensions();
 });
 
 addDimensionTopButton.addEventListener("click", () => {
-    dimensions.unshift({
+    wheelDescription.dimensions.unshift({
         name: "Nuova dimensione",
         levels: ["Livello 1", "Livello 2", "Livello 3"],
     });
     editingIndex = 0;
-    saveDimensions();
+    saveWheelDescription();
     renderDimensions();
+});
+
+centerInput.addEventListener("input", () => {
+    wheelDescription.center = centerInput.value;
+    saveWheelDescription();
 });
 
 renderDimensions();
@@ -448,40 +489,67 @@ function parseDimensions(parsed) {
         }));
 }
 
-function loadDimensions() {
+function normalizeWheelDescription(parsed) {
+    if (Array.isArray(parsed)) {
+        // Legacy format: a plain array of dimensions.
+        return {
+            center: defaultWheelDescription.center,
+            dimensions: parseDimensions(parsed) ?? [],
+        };
+    }
+
+    if (parsed && typeof parsed === "object") {
+        return {
+            center: typeof parsed.center === "string" ? parsed.center : defaultWheelDescription.center,
+            dimensions: parseDimensions(parsed.dimensions) ?? [],
+        };
+    }
+
+    return null;
+}
+
+function defaultWheelDescriptionCopy() {
+    return {
+        center: defaultWheelDescription.center,
+        dimensions: defaultWheelDescription.dimensions.map(d => ({ name: d.name, levels: [...d.levels] })),
+    };
+}
+
+function loadWheelDescription() {
     try {
         const raw = localStorage.getItem(STORAGE_KEY);
         if (raw) {
-            const parsed = parseDimensions(JSON.parse(raw));
-            if (parsed) {
-                return parsed;
+            const normalized = normalizeWheelDescription(JSON.parse(raw));
+            if (normalized) {
+                return normalized;
             }
         }
     } catch (error) {
         // Corrupted data: fall through to defaults below.
     }
 
-    return defaultDimensions.map(d => ({ name: d.name, levels: [...d.levels] }));
+    return defaultWheelDescriptionCopy();
 }
 
-function saveDimensions() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(dimensions));
+function saveWheelDescription() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(wheelDescription));
 }
 
-function setDimensions(next) {
-    dimensions.length = 0;
-    dimensions.push(...next);
+function setWheelDescription(next) {
+    wheelDescription.center = next.center;
+    wheelDescription.dimensions.length = 0;
+    wheelDescription.dimensions.push(...next.dimensions);
     editingIndex = null;
-    saveDimensions();
+    saveWheelDescription();
     renderDimensions();
 }
 
-function downloadDimensions() {
-    const blob = new Blob([JSON.stringify(dimensions, null, 2)], { type: "application/json" });
+function downloadWheelDescription() {
+    const blob = new Blob([JSON.stringify(wheelDescription, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "dimensioni.json";
+    link.download = "ruota.json";
     document.body.appendChild(link);
     link.click();
     link.remove();
@@ -514,16 +582,16 @@ function downloadWheelPng() {
     }, "image/png");
 }
 
-function handleDimensionFile(file) {
+function handleWheelDescriptionFile(file) {
     const reader = new FileReader();
     reader.onload = () => {
         try {
-            const parsed = parseDimensions(JSON.parse(reader.result));
-            if (parsed) {
-                setDimensions(parsed);
+            const normalized = normalizeWheelDescription(JSON.parse(reader.result));
+            if (normalized) {
+                setWheelDescription(normalized);
             }
             else {
-                alert("File non valido: deve essere un array di dimensioni.");
+                alert("File non valido: deve essere una descrizione della ruota.");
             }
         }
         catch (error) {
@@ -536,7 +604,7 @@ function handleDimensionFile(file) {
 
 // topbar actions
 
-document.getElementById("save-file").addEventListener("click", downloadDimensions);
+document.getElementById("save-file").addEventListener("click", downloadWheelDescription);
 
 document.getElementById("download-png").addEventListener("click", downloadWheelPng);
 
@@ -547,12 +615,12 @@ document.getElementById("load-file").addEventListener("click", () => {
 document.getElementById("load-file-input").addEventListener("change", (event) => {
     const file = event.target.files[0];
     if (file) {
-        handleDimensionFile(file);
+        handleWheelDescriptionFile(file);
     }
     event.target.value = "";
 });
 
 document.getElementById("reset").addEventListener("click", () => {
-    setDimensions(defaultDimensions.map(d => ({ name: d.name, levels: [...d.levels] })));
+    setWheelDescription(defaultWheelDescriptionCopy());
 });
 
