@@ -96,6 +96,21 @@ function drawRainbowFlag(ctx, W, H) {
     });
 }
 
+function draw() {
+    const dpr = window.devicePixelRatio || 1;
+    const W = canvas.width / dpr;
+    const H = canvas.height / dpr;
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    renderWheel(ctx, W, H);
+
+    requestAnimationFrame(draw);
+}
+
+const radialRatio0 = 0.2;
+const radialRatio1 = 0.5;
+const radialRatio2 = 0.75;
+
 function renderWheel(ctx, W, H) {
     const side = Math.min(W, H);
 
@@ -114,7 +129,7 @@ function renderWheel(ctx, W, H) {
     ctx.save();
     ctx.translate(W / 2, H / 2);
 
-    drawCenter(ctx, wheelDescription.center, radius);
+    drawCenter(ctx, wheelDescription.center, radius * radialRatio0 - innerMargin);
 
     for (let i = 0; i < wheelDescription.dimensions.length; i++) {
         drawSlice(ctx, i, radius, innerMargin, margin);
@@ -123,29 +138,17 @@ function renderWheel(ctx, W, H) {
     ctx.restore();
 }
 
-function draw() {
-    const dpr = window.devicePixelRatio || 1;
-    const W = canvas.width / dpr;
-    const H = canvas.height / dpr;
-
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    renderWheel(ctx, W, H);
-
-    requestAnimationFrame(draw);
-}
-
 function drawSlice(ctx, index, radius, margin, outerMargin) {
     const angle = TAU / wheelDescription.dimensions.length;
 
-    // 90° offset so the first slice starts at the bottom.
-    const startAngle = (angle * index + TAU / 4) % TAU;
+    const startAngle = angle * index + TAU / 4;
     const endAngle = startAngle + angle;
     const color = getSliceColor(index);
     const dimension = wheelDescription.dimensions[index];
 
-    const radialSplit0 = radius * 0.2;
-    const radialSplit1 = radius * 0.5;
-    const radialSplit2 = radius * 0.75;
+    const radialSplit0 = radius * radialRatio0;
+    const radialSplit1 = radius * radialRatio1;
+    const radialSplit2 = radius * radialRatio2;
 
     drawSlicePiece(ctx,
         radialSplit0 + margin, radialSplit1 - margin, startAngle, endAngle,
@@ -193,9 +196,7 @@ function drawSlice(ctx, index, radius, margin, outerMargin) {
     ctx.restore();
 }
 
-function drawCenter(ctx, text, radius) {
-    const centerRadius = radius * 0.2; // matches radialSplit0 in drawSlice
-
+function drawCenter(ctx, text, centerRadius) {
     ctx.fillStyle = "#000000";
     ctx.beginPath();
     ctx.arc(0, 0, centerRadius, 0, TAU);
