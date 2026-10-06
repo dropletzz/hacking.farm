@@ -152,7 +152,7 @@ function drawSlice(ctx, index, radius, margin, outerMargin) {
 
     drawSlicePiece(ctx,
         radialSplit0 + margin, radialSplit1 - margin, startAngle, endAngle,
-        color, dimension.levels[2], true
+        color, dimension.levels[2]
     );
     drawSlicePiece(ctx,
         radialSplit1 + margin, radialSplit2 - margin, startAngle, endAngle,
@@ -219,7 +219,7 @@ function drawCenter(ctx, text, centerRadius) {
     });
 }
 
-function drawSlicePiece(ctx, radialStart, radialEnd, startAngle, endAngle, color, text, radial = false) {
+function drawSlicePiece(ctx, radialStart, radialEnd, startAngle, endAngle, color, text) {
     ctx.fillStyle = color;
     ctx.beginPath();
     ctx.arc(0, 0, radialStart, startAngle, endAngle);
@@ -229,10 +229,15 @@ function drawSlicePiece(ctx, radialStart, radialEnd, startAngle, endAngle, color
 
     const midAngle = (startAngle + endAngle) / 2;
     const radialHeight = Math.abs(radialEnd - radialStart);
+    const radialMid = (radialStart + radialEnd) / 2
+    const arcAngle = Math.abs(endAngle - startAngle);
+    const arcLength = radialMid * arcAngle;
 
-    const fontSize = radial
+    const isRadialOriented = radialHeight > arcLength;
+
+    const fontSize = isRadialOriented
         ? radialHeight * 0.13
-        : radialHeight * 0.25;
+        : Math.min(arcLength * 0.1, radialHeight * 0.25);
 
     ctx.font = `${fontSize}px sans-serif`;
     ctx.textAlign = "center";
@@ -240,13 +245,13 @@ function drawSlicePiece(ctx, radialStart, radialEnd, startAngle, endAngle, color
 
     const lines = splitIntoLines(
         text,
-        radial ? radialLevelMaxChars : getMaxCharsPerLine(levelMaxCharsBase, 0.75)
+        isRadialOriented ? radialLevelMaxChars : getMaxCharsPerLine(levelMaxCharsBase, 0.75)
     );
 
     // Radial text runs along the radius; push it as far from the center as
     // possible while keeping it inside its piece.
     let midRadius;
-    if (radial) {
+    if (isRadialOriented) {
         let maxLineWidth = 0;
         for (const line of lines) {
             maxLineWidth = Math.max(maxLineWidth, ctx.measureText(line).width);
@@ -267,7 +272,7 @@ function drawSlicePiece(ctx, radialStart, radialEnd, startAngle, endAngle, color
     ctx.save();
     ctx.translate(x, y);
 
-    if (radial) {
+    if (isRadialOriented) {
         ctx.rotate(midAngle);
         if (isWheelLeftside(midAngle)) ctx.rotate(Math.PI);
     }
