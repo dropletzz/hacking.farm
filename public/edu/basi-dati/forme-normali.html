@@ -16,30 +16,64 @@
         <p>Regole ed esempi pratici per 1NF, 2NF e 3NF</p>
     </header>
 
+    <p>La normalizzazione è un processo che riorganizza le tabelle di una base di dati per <strong>eliminare ridondanze</strong> (dati ripetuti inutilmente) e <strong>prevenire anomalie</strong> durante le operazioni di inserimento, modifica e cancellazione. Si procede applicando in sequenza le <strong>forme normali</strong> (1NF, 2NF, 3NF, ...), ognuna delle quali impone vincoli sempre più stringenti sullo schema.</p>
+
     <section>
         <h2><span class="num">1</span> Prima Forma Normale (1NF)</h2>
         <p>Una tabella è in 1NF quando rispetta i seguenti requisiti:</p>
         <ul>
-            <li>I valori in ogni colonna sono atomici (non divisibili; non sono ammesse liste, array o gruppi di valori nella stessa cella).</li>
             <li>Tutte le righe sono distinte grazie a una chiave primaria definita.</li>
+            <li>L'ordine delle righe non ha nessun significato implicito.</li>
+            <li>I valori in ogni colonna sono atomici (non divisibili; non sono ammesse liste, array o gruppi di valori nella stessa cella).</li>
             <li>Non esistono colonne duplicate o gruppi di colonne simili per memorizzare elenchi di dati.</li>
         </ul>
 
         <h3>Esempio</h3>
-        <p><strong>Non in 1NF:</strong> la colonna <code>Telefoni</code> contiene più valori nella stessa cella.</p>
+        <p><strong>Non in 1NF:</strong> la colonna <code>telefoni</code> contiene più valori nella stessa cella, è violata la terza regola.</p>
+
         <div class="table-container">
             <table class="data">
+                <caption class="table-name">utenti</caption>
                 <thead>
                     <tr>
-                        <th>ID_Studente</th>
-                        <th>Nome</th>
-                        <th>Telefoni</th>
+                        <th>id_utente</th>
+                        <th>nome</th>
+                        <th>email</th>
+                        <th>telefono1</th>
+                        <th>telefono2</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>1</td>
                         <td>Mario</td>
+                        <td>mario@esempio.it</td>
+                        <td>3331111</td>
+                        <td>3332222</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="vspace"></div>
+
+        <p><strong>Non in 1NF:</strong> le due colonne <code>telefono1</code> e <code>telefono2</code> sono usate per simulare un elenco, è violata la quarta regola.</p>
+
+        <div class="table-container">
+            <table class="data">
+                <caption class="table-name">utenti</caption>
+                <thead>
+                    <tr>
+                        <th>id_utente</th>
+                        <th>nome</th>
+                        <th>email</th>
+                        <th>telefoni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Mario</td>
+                        <td>mario@esempio.it</td>
                         <td>3331111, 3332222</td>
                     </tr>
                 </tbody>
@@ -50,22 +84,26 @@
         <p><strong>In 1NF:</strong> ogni riga contiene un singolo valore atomico per colonna.</p>
         <div class="table-container">
             <table class="data">
+                <caption class="table-name">utenti</caption>
                 <thead>
                     <tr>
-                        <th>ID_Studente</th>
-                        <th>Nome</th>
-                        <th>Telefono</th>
+                        <th>id_utente</th>
+                        <th>nome</th>
+                        <th>email</th>
+                        <th>telefono</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>1</td>
                         <td>Mario</td>
+                        <td>mario@esempio.it</td>
                         <td>3331111</td>
                     </tr>
                     <tr>
                         <td>1</td>
                         <td>Mario</td>
+                        <td>mario@esempio.it</td>
                         <td>3332222</td>
                     </tr>
                 </tbody>
@@ -82,28 +120,29 @@
         </ul>
 
         <h3>Esempio</h3>
-        <p><strong>Non in 2NF:</strong> la chiave primaria è composta da <code>(ID_Studente, ID_Corso)</code>. L'attributo <code>Nome_Studente</code> dipende soltanto da <code>ID_Studente</code>, non dall'intera chiave.</p>
+        <p><strong>Non in 2NF:</strong> la chiave primaria è composta da <code>(id_utente, id_corso)</code>. L'attributo <code>nome</code> dipende soltanto da <code>id_utente</code>, non dall'intera chiave.</p>
         <div class="table-container">
             <table class="data">
+                <caption class="table-name">iscrizioni</caption>
                 <thead>
                     <tr>
-                        <th>ID_Studente</th>
-                        <th>ID_Corso</th>
-                        <th>Nome_Studente</th>
-                        <th>Voto</th>
+                        <th>id_utente</th>
+                        <th>id_corso</th>
+                        <th>nome</th>
+                        <th>voto</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>1</td>
                         <td>101</td>
-                        <td>Mario Rossi</td>
+                        <td>Mario</td>
                         <td>28</td>
                     </tr>
                     <tr>
                         <td>1</td>
                         <td>102</td>
-                        <td>Mario Rossi</td>
+                        <td>Mario</td>
                         <td>30</td>
                     </tr>
                 </tbody>
@@ -112,33 +151,33 @@
         <div class="vspace"></div>
 
         <p><strong>In 2NF:</strong> i dati vengono separati in due tabelle distinte.</p>
-        <p><em>Tabella Studenti:</em></p>
         <div class="table-container">
             <table class="data">
+                <caption class="table-name">utenti</caption>
                 <thead>
                     <tr>
-                        <th>ID_Studente</th>
-                        <th>Nome_Studente</th>
+                        <th>id_utente</th>
+                        <th>nome</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>1</td>
-                        <td>Mario Rossi</td>
+                        <td>Mario</td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div class="vspace"></div>
 
-        <p><em>Tabella Esami:</em></p>
         <div class="table-container">
             <table class="data">
+                <caption class="table-name">iscrizioni</caption>
                 <thead>
                     <tr>
-                        <th>ID_Studente</th>
-                        <th>ID_Corso</th>
-                        <th>Voto</th>
+                        <th>id_utente</th>
+                        <th>id_corso</th>
+                        <th>voto</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -166,15 +205,16 @@
         </ul>
 
         <h3>Esempio</h3>
-        <p><strong>Non in 3NF:</strong> la chiave primaria è <code>ID_Impiegato</code>. L'attributo <code>Nome_Dipartimento</code> dipende da <code>ID_Dipartimento</code>, che a sua volta dipende da <code>ID_Impiegato</code>.</p>
+        <p><strong>Non in 3NF:</strong> la chiave primaria è <code>id_impiegato</code>. L'attributo <code>nome_dipartimento</code> dipende da <code>id_dipartimento</code>, che a sua volta dipende da <code>id_impiegato</code>.</p>
         <div class="table-container">
             <table class="data">
+                <caption class="table-name">impiegati</caption>
                 <thead>
                     <tr>
-                        <th>ID_Impiegato</th>
-                        <th>Nome</th>
-                        <th>ID_Dipartimento</th>
-                        <th>Nome_Dipartimento</th>
+                        <th>id_impiegato</th>
+                        <th>nome</th>
+                        <th>id_dipartimento</th>
+                        <th>nome_dipartimento</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -183,6 +223,18 @@
                         <td>Luca</td>
                         <td>D1</td>
                         <td>Informatica</td>
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td>Lucia</td>
+                        <td>D1</td>
+                        <td>Informatica</td>
+                    </tr>
+                    <tr>
+                        <td>12</td>
+                        <td>Miria</td>
+                        <td>D7</td>
+                        <td>Cybersecurity</td>
                     </tr>
                 </tbody>
             </table>
@@ -190,14 +242,14 @@
         <div class="vspace"></div>
 
         <p><strong>In 3NF:</strong> rimozione della dipendenza transitiva dividendo l'entità dipartimento in una tabella separata.</p>
-        <p><em>Tabella Impiegati:</em></p>
         <div class="table-container">
             <table class="data">
+                <caption class="table-name">impiegati</caption>
                 <thead>
                     <tr>
-                        <th>ID_Impiegato</th>
-                        <th>Nome</th>
-                        <th>ID_Dipartimento</th>
+                        <th>id_impiegato</th>
+                        <th>nome</th>
+                        <th>id_dipartimento</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -206,24 +258,38 @@
                         <td>Luca</td>
                         <td>D1</td>
                     </tr>
+                    <tr>
+                        <td>11</td>
+                        <td>Lucia</td>
+                        <td>D1</td>
+                    </tr>
+                    <tr>
+                        <td>12</td>
+                        <td>Miria</td>
+                        <td>D7</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
         <div class="vspace"></div>
 
-        <p><em>Tabella Dipartimenti:</em></p>
         <div class="table-container">
             <table class="data">
+                <caption class="table-name">dipartimenti</caption>
                 <thead>
                     <tr>
-                        <th>ID_Dipartimento</th>
-                        <th>Nome_Dipartimento</th>
+                        <th>id_dipartimento</th>
+                        <th>nome_dipartimento</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>D1</td>
                         <td>Informatica</td>
+                    </tr>
+                    <tr>
+                        <td>D7</td>
+                        <td>Cybersecurity</td>
                     </tr>
                 </tbody>
             </table>

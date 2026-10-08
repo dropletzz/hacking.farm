@@ -1,7 +1,4 @@
 :root {
-    --text-code: #68dd02;
-    --text-code-comment: #7c91ad;
-
     --notify: #38bdf8;
     --success: #4ade80;
     --warning: #fbbf24;
@@ -22,7 +19,8 @@ body {
 
 header {
     text-align: center;
-    margin-bottom: 3rem;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 2rem;
 }
 
 h1 {
@@ -34,7 +32,8 @@ h1 {
 }
 
 header p {
-    color: var(--text);
+    color: var(--text-muted);
+    font-style: italic;
     font-size: 1.1rem;
 }
 
@@ -112,7 +111,7 @@ pre {
 code {
     font-family: "AtkinsonMono", "Fira Code", "Cascadia Code", Consolas, Monaco, monospace;
     background: var(--bg-primary);
-    color: var(--text-code);
+    /* color: var(--text-code); */
     padding: 0.15rem 0.4rem;
     border-radius: 4px;
     font-size: 0.88em;
@@ -164,22 +163,29 @@ table.default.col-header th:first-child {
 
 table.data {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 3px;
+}
+table.data caption.table-name {
+    background: var(--accent);
+    color: var(--bg-primary);
+    font-weight: 700;
+    text-align: center;
+    padding: 0.1em 0.4em;
+    /* margin-bottom: 3px; */
+    margin-left: 3px;
+    margin-right: 3px;
 }
 table.data th,
 table.data td {
-    /* border: 2px solid transparent; */
+    background: var(--text-main);
+    color: var(--bg-primary);
     padding: 0.1em 0.4em;
-    border: 1px solid var(--border-color);
     text-align: left;
 }
 table.data th {
     background: var(--accent);
-    color: var(--bg-primary);
     font-weight: 700;
-}
-table.data tr:nth-child(even) {
-    background: rgba(255, 255, 255, 0.02);
 }
 /* -tabelle */
 

@@ -25,12 +25,12 @@
         <h3>Esempio</h3>
         <p>Data la relazione <em>Studenti</em>:</p>
         <div class="table-container">
-            <table>
+            <table class="data">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Eta</th>
+                        <th>id</th>
+                        <th>nome</th>
+                        <th>eta</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -54,14 +54,14 @@
         </div>
         <div class="vspace"></div>
 
-        <p>Applicando &sigma;<sub>Eta &gt; 20</sub>(Studenti):</p>
+        <p>Applicando &sigma;<sub>eta &gt; 20</sub>(Studenti):</p>
         <div class="table-container">
-            <table>
+            <table class="data">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Eta</th>
+                        <th>id</th>
+                        <th>nome</th>
+                        <th>eta</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -87,12 +87,12 @@
         <p>Lavora in verticale: riduce il numero di attributi dello schema.</p>
 
         <h3>Esempio</h3>
-        <p>Data la stessa relazione <em>Studenti</em>, applicando &pi;<sub>Nome</sub>(Studenti):</p>
+        <p>Data la stessa relazione <em>Studenti</em>, applicando &pi;<sub>nome</sub>(Studenti):</p>
         <div class="table-container">
-            <table>
+            <table class="data">
                 <thead>
                     <tr>
-                        <th>Nome</th>
+                        <th>nome</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -119,11 +119,11 @@
         <h3>Esempio (Natural Join)</h3>
         <p><em>Tabella Studenti:</em></p>
         <div class="table-container">
-            <table>
+            <table class="data">
                 <thead>
                     <tr>
-                        <th>ID_Studente</th>
-                        <th>Nome</th>
+                        <th>id_studente</th>
+                        <th>nome</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -142,12 +142,12 @@
 
         <p><em>Tabella Esami:</em></p>
         <div class="table-container">
-            <table>
+            <table class="data">
                 <thead>
                     <tr>
-                        <th>ID_Studente</th>
-                        <th>Materia</th>
-                        <th>Voto</th>
+                        <th>id_studente</th>
+                        <th>materia</th>
+                        <th>voto</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -174,12 +174,13 @@
         <p>Risultato di <em>Studenti &bowtie; Esami</em>:</p>
         <div class="table-container">
             <table class="data">
+                <caption class="table-name">studenti_esami</caption>
                 <thead>
                     <tr>
-                        <th>ID_Studente</th>
-                        <th>Nome</th>
-                        <th>Materia</th>
-                        <th>Voto</th>
+                        <th>id_studente</th>
+                        <th>nome</th>
+                        <th>materia</th>
+                        <th>voto</th>
                     </tr>
                 </thead>
                 <tbody>
