@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algebra Relazionale</title>
+    <link rel="stylesheet" href="../../common.css">
+    <link rel="stylesheet" href="../common.css">
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Algebra Relazionale</h1>
+        <p>Operazioni fondamentali: Selezione, Proiezione e Congiunzione</p>
+    </header>
+
+    <section>
+        <h2><span class="num">1</span> Selezione (&sigma;)</h2>
+        <p>L'operazione di selezione è un operatore unario che restituisce un sottoinsieme delle righe (tuple) della relazione di partenza che soddisfano una determinata condizione (predicato).</p>
+        <p><strong>Sintassi:</strong> &sigma;<sub>condizione</sub>(R)</p>
+        <p>Lavora in orizzontale: filtra le righe senza modificare le colonne disponibili.</p>
+
+        <h3>Esempio</h3>
+        <p>Data la relazione <em>Studenti</em>:</p>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Eta</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Mario</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Elena</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Luca</td>
+                        <td>19</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="vspace"></div>
+
+        <p>Applicando &sigma;<sub>Eta &gt; 20</sub>(Studenti):</p>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Eta</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Mario</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Elena</td>
+                        <td>25</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section>
+        <h2><span class="num">2</span> Proiezione (&pi;)</h2>
+        <p>L'operazione di proiezione è un operatore unario che seleziona un sottoinsieme di colonne (attributi) specificate. Elimina le colonne non richieste e rimuove automaticamente le tuple duplicate risultanti.</p>
+        <p><strong>Sintassi:</strong> &pi;<sub>A1, A2, ...</sub>(R)</p>
+        <p>Lavora in verticale: riduce il numero di attributi dello schema.</p>
+
+        <h3>Esempio</h3>
+        <p>Data la stessa relazione <em>Studenti</em>, applicando &pi;<sub>Nome</sub>(Studenti):</p>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Mario</td>
+                    </tr>
+                    <tr>
+                        <td>Elena</td>
+                    </tr>
+                    <tr>
+                        <td>Luca</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section>
+        <h2><span class="num">3</span> Congiunzione / Join (&bowtie;)</h2>
+        <p>L'operazione di congiunzione è un operatore binario che combina le tuple di due relazioni sulla base di una condizione di confronto tra attributi.</p>
+        <p><strong>Sintassi generale (Theta-Join):</strong> R &bowtie;<sub>condizione</sub> S</p>
+        <p><strong>Natural Join (&bowtie;):</strong> unisce automaticamente le tuple che hanno valori uguali negli attributi omonimi, eliminando i duplicati delle colonne comuni.</p>
+
+        <h3>Esempio (Natural Join)</h3>
+        <p><em>Tabella Studenti:</em></p>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID_Studente</th>
+                        <th>Nome</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Mario</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Elena</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="vspace"></div>
+
+        <p><em>Tabella Esami:</em></p>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID_Studente</th>
+                        <th>Materia</th>
+                        <th>Voto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Basi di Dati</td>
+                        <td>28</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Reti</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Basi di Dati</td>
+                        <td>25</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="vspace"></div>
+
+        <p>Risultato di <em>Studenti &bowtie; Esami</em>:</p>
+        <div class="table-container">
+            <table class="data">
+                <thead>
+                    <tr>
+                        <th>ID_Studente</th>
+                        <th>Nome</th>
+                        <th>Materia</th>
+                        <th>Voto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Mario</td>
+                        <td>Basi di Dati</td>
+                        <td>28</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Mario</td>
+                        <td>Reti</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Elena</td>
+                        <td>Basi di Dati</td>
+                        <td>25</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>

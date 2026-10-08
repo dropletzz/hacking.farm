@@ -47,7 +47,7 @@ section {
 
 h2 {
     font-size: 1.4rem;
-    color: #ffffff;
+    color: var(--text-main);
     margin-bottom: 1.25rem;
     display: flex;
     align-items: center;
@@ -59,8 +59,8 @@ h2 {
 h2 .num {
     background: var(--accent);
     color: var(--bg-primary);
-    width: 28px;
-    height: 28px;
+    width: 1.4rem;
+    height: 1.4rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -94,6 +94,11 @@ li::marker {
     /* color: var(--accent); */
 }
 
+.vspace {
+    height: 1rem;
+}
+
+/* +codice */
 pre {
     background: var(--bg-primary);
     border-radius: 8px;
@@ -121,9 +126,64 @@ pre code {
     color: inherit;
     padding: 0;
 }
-
 .cmt { color: var(--text-code-comment); font-style: italic; }
+/* -codice */
 
+/* +tabelle */
+.table-container {
+    overflow-x: auto;
+}
+
+table.default {
+    width: 100%;
+    border-collapse: collapse;
+}
+table.default th,
+table.default td {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    text-align: left;
+}
+table.default th {
+    background: var(--bg-primary);
+    color: var(--accent);
+    font-weight: 700;
+    text-align: center;
+}
+table.default.col-header td:first-child {
+    background: var(--bg-primary);
+    color: var(--accent);
+    font-weight: 700;
+    text-align: right;
+}
+table.default.col-header th:first-child {
+    background: transparent;
+    border-top: none;
+    border-left: none;
+}
+
+table.data {
+    width: 100%;
+    border-collapse: collapse;
+}
+table.data th,
+table.data td {
+    /* border: 2px solid transparent; */
+    padding: 0.1em 0.4em;
+    border: 1px solid var(--border-color);
+    text-align: left;
+}
+table.data th {
+    background: var(--accent);
+    color: var(--bg-primary);
+    font-weight: 700;
+}
+table.data tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.02);
+}
+/* -tabelle */
+
+/* +callout */
 .callout {
     border-left: 4px solid var(--notify);
     background: color-mix(in srgb, black 90%, var(--notify));
@@ -151,17 +211,17 @@ pre code {
 .callout.success .callout-title { color: var(--success); }
 .callout.warning .callout-title { color: var(--warning); }
 .callout.error .callout-title { color: var(--error); }
+/* -callout */
 
+/* +citazioni */
 .quote {
     margin: 1.5rem 0;
     padding: 0 2rem;
 }
-
 .quote p {
     margin: 0;
     color: var(--text-main);
 }
-
 .quote p::before,
 .quote p::after {
     font-family: Georgia, "Times New Roman", serif;
@@ -169,21 +229,19 @@ pre code {
     line-height: 0.1em;
     color: var(--accent);
 }
-
 .quote p::before {
     content: "\201C";
     margin-right: 0.15em;
     vertical-align: -0.35em;
 }
-
 .quote p::after {
     content: "\201D";
     margin-left: 0.15em;
     vertical-align: -0.35em;
 }
-
 .quote footer {
     text-align: right;
     font-style: italic;
     color: var(--text-muted);
 }
+/* -citazioni */

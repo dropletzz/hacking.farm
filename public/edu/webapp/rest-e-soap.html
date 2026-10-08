@@ -7,30 +7,6 @@
     <title>REST e SOAP</title>
     <link rel="stylesheet" href="../../common.css">
     <link rel="stylesheet" href="../common.css">
-    <style>
-        .table-container {
-            overflow-x: auto;
-            margin-top: 1rem;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-        }
-        th, td {
-            padding: 0.75rem 1rem;
-            border: 1px solid var(--border-color);
-            text-align: left;
-        }
-        th {
-            background: var(--bg-primary);
-            color: var(--accent);
-            font-weight: 700;
-        }
-        tr:nth-child(even) {
-            background: rgba(255, 255, 255, 0.02);
-        }
-    </style>
 </head>
 <body>
 
@@ -123,10 +99,10 @@ Host: api.meteo.com</code></pre>
     <section>
         <h2><span class="num">4</span> Tabella comparativa</h2>
         <div class="table-container">
-            <table>
+            <table class="default col-header">
                 <thead>
                     <tr>
-                        <th>Caratteristica</th>
+                        <th></th>
                         <th>SOAP</th>
                         <th>REST</th>
                     </tr>
@@ -160,6 +136,7 @@ Host: api.meteo.com</code></pre>
                 </tbody>
             </table>
         </div>
+        <div class="vspace"></div>
 
         <h3>In sintesi</h3>
         <p>REST ha vinto la battaglia della popolarità per la maggior parte delle applicazioni web e mobili perché è molto più semplice, veloce e flessibile.</p>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forme normali nei database relazionali</title>
+    <link rel="stylesheet" href="../../common.css">
+    <link rel="stylesheet" href="../common.css">
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Forme normali nei database relazionali</h1>
+        <p>Regole ed esempi pratici per 1NF, 2NF e 3NF</p>
+    </header>
+
+    <section>
+        <h2><span class="num">1</span> Prima Forma Normale (1NF)</h2>
+        <p>Una tabella è in 1NF quando rispetta i seguenti requisiti:</p>
+        <ul>
+            <li>I valori in ogni colonna sono atomici (non divisibili; non sono ammesse liste, array o gruppi di valori nella stessa cella).</li>
+            <li>Tutte le righe sono distinte grazie a una chiave primaria definita.</li>
+            <li>Non esistono colonne duplicate o gruppi di colonne simili per memorizzare elenchi di dati.</li>
+        </ul>
+
+        <h3>Esempio</h3>
+        <p><strong>Non in 1NF:</strong> la colonna <code>Telefoni</code> contiene più valori nella stessa cella.</p>
+        <div class="table-container">
+            <table class="data">
+                <thead>
+                    <tr>
+                        <th>ID_Studente</th>
+                        <th>Nome</th>
+                        <th>Telefoni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Mario</td>
+                        <td>3331111, 3332222</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="vspace"></div>
+
+        <p><strong>In 1NF:</strong> ogni riga contiene un singolo valore atomico per colonna.</p>
+        <div class="table-container">
+            <table class="data">
+                <thead>
+                    <tr>
+                        <th>ID_Studente</th>
+                        <th>Nome</th>
+                        <th>Telefono</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Mario</td>
+                        <td>3331111</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Mario</td>
+                        <td>3332222</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section>
+        <h2><span class="num">2</span> Seconda Forma Normale (2NF)</h2>
+        <p>Una tabella è in 2NF quando rispetta i seguenti requisiti:</p>
+        <ul>
+            <li>È già in 1NF.</li>
+            <li>Ogni attributo non chiave dipende dall'intera chiave primaria e non solo da una parte di essa (assenza di dipendenze parziali). Questa regola si applica alle tabelle con chiavi primarie composte.</li>
+        </ul>
+
+        <h3>Esempio</h3>
+        <p><strong>Non in 2NF:</strong> la chiave primaria è composta da <code>(ID_Studente, ID_Corso)</code>. L'attributo <code>Nome_Studente</code> dipende soltanto da <code>ID_Studente</code>, non dall'intera chiave.</p>
+        <div class="table-container">
+            <table class="data">
+                <thead>
+                    <tr>
+                        <th>ID_Studente</th>
+                        <th>ID_Corso</th>
+                        <th>Nome_Studente</th>
+                        <th>Voto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>101</td>
+                        <td>Mario Rossi</td>
+                        <td>28</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>102</td>
+                        <td>Mario Rossi</td>
+                        <td>30</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="vspace"></div>
+
+        <p><strong>In 2NF:</strong> i dati vengono separati in due tabelle distinte.</p>
+        <p><em>Tabella Studenti:</em></p>
+        <div class="table-container">
+            <table class="data">
+                <thead>
+                    <tr>
+                        <th>ID_Studente</th>
+                        <th>Nome_Studente</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Mario Rossi</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="vspace"></div>
+
+        <p><em>Tabella Esami:</em></p>
+        <div class="table-container">
+            <table class="data">
+                <thead>
+                    <tr>
+                        <th>ID_Studente</th>
+                        <th>ID_Corso</th>
+                        <th>Voto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>101</td>
+                        <td>28</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>102</td>
+                        <td>30</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section>
+        <h2><span class="num">3</span> Terza Forma Normale (3NF)</h2>
+        <p>Una tabella è in 3NF quando rispetta i seguenti requisiti:</p>
+        <ul>
+            <li>È già in 2NF.</li>
+            <li>Nessun attributo non chiave dipende da un altro attributo non chiave (assenza di dipendenze transitive).</li>
+        </ul>
+
+        <h3>Esempio</h3>
+        <p><strong>Non in 3NF:</strong> la chiave primaria è <code>ID_Impiegato</code>. L'attributo <code>Nome_Dipartimento</code> dipende da <code>ID_Dipartimento</code>, che a sua volta dipende da <code>ID_Impiegato</code>.</p>
+        <div class="table-container">
+            <table class="data">
+                <thead>
+                    <tr>
+                        <th>ID_Impiegato</th>
+                        <th>Nome</th>
+                        <th>ID_Dipartimento</th>
+                        <th>Nome_Dipartimento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>10</td>
+                        <td>Luca</td>
+                        <td>D1</td>
+                        <td>Informatica</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="vspace"></div>
+
+        <p><strong>In 3NF:</strong> rimozione della dipendenza transitiva dividendo l'entità dipartimento in una tabella separata.</p>
+        <p><em>Tabella Impiegati:</em></p>
+        <div class="table-container">
+            <table class="data">
+                <thead>
+                    <tr>
+                        <th>ID_Impiegato</th>
+                        <th>Nome</th>
+                        <th>ID_Dipartimento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>10</td>
+                        <td>Luca</td>
+                        <td>D1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="vspace"></div>
+
+        <p><em>Tabella Dipartimenti:</em></p>
+        <div class="table-container">
+            <table class="data">
+                <thead>
+                    <tr>
+                        <th>ID_Dipartimento</th>
+                        <th>Nome_Dipartimento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>D1</td>
+                        <td>Informatica</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>
