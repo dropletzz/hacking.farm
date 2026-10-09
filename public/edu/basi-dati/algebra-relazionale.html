@@ -13,19 +13,22 @@
 
     <header>
         <h1>Algebra Relazionale</h1>
-        <p>Operazioni fondamentali: Selezione, Proiezione e Congiunzione</p>
+        <p>Un linguaggio matematico per operare su dati in formato tabellare</p>
     </header>
+
+    <p>L'algebra relazionale è un linguaggio formale per interrogare i database relazionali. Si compone di operatori che, applicati a una o più tabelle (relazioni), producono come risultato una nuova tabella. Serve per descrivere in modo rigoroso le operazioni di lettura, combinazione e trasformazione dei dati. E' il fondamento teorico del linguaggio SQL.</p>
 
     <section>
         <h2><span class="num">1</span> Selezione (&sigma;)</h2>
         <p>L'operazione di selezione è un operatore unario che restituisce un sottoinsieme delle righe (tuple) della relazione di partenza che soddisfano una determinata condizione (predicato).</p>
-        <p><strong>Sintassi:</strong> &sigma;<sub>condizione</sub>(R)</p>
-        <p>Lavora in orizzontale: filtra le righe senza modificare le colonne disponibili.</p>
+        <p><strong>Sintassi:</strong> &sigma;<sub>condizione</sub>(A)</p>
+        <p>Lavora in orizzontale: tiene solo le righe della tabella A che rispettano la condizione.</p>
 
         <h3>Esempio</h3>
-        <p>Data la relazione <em>Studenti</em>:</p>
+        <p>Data la seguente relazione:</p>
         <div class="table-container">
             <table class="data">
+                <caption>studenti</caption>
                 <thead>
                     <tr>
                         <th>id</th>
@@ -54,9 +57,10 @@
         </div>
         <div class="vspace"></div>
 
-        <p>Applicando &sigma;<sub>eta &gt; 20</sub>(Studenti):</p>
+        <p>Applichiamo una selezione per filtrare solo gli studenti con più di 20 anni:</p>
         <div class="table-container">
             <table class="data">
+                <caption>&sigma;<sub>eta &gt; 20</sub>(studenti):</caption>
                 <thead>
                     <tr>
                         <th>id</th>
@@ -82,28 +86,34 @@
 
     <section>
         <h2><span class="num">2</span> Proiezione (&pi;)</h2>
-        <p>L'operazione di proiezione è un operatore unario che seleziona un sottoinsieme di colonne (attributi) specificate. Elimina le colonne non richieste e rimuove automaticamente le tuple duplicate risultanti.</p>
-        <p><strong>Sintassi:</strong> &pi;<sub>A1, A2, ...</sub>(R)</p>
-        <p>Lavora in verticale: riduce il numero di attributi dello schema.</p>
+        <p>L'operazione di proiezione è un operatore unario che seleziona un sottoinsieme di colonne (attributi) specificate.</p>
+        <p><strong>Sintassi:</strong> &pi;<sub>attr1, attr2, ...</sub>(A)</p>
+        <p>Lavora in verticale: tiene solo gli attributi della tabella A che sono specificati (attr1, attr2, ...) .</p>
 
         <h3>Esempio</h3>
-        <p>Data la stessa relazione <em>Studenti</em>, applicando &pi;<sub>nome</sub>(Studenti):</p>
+        <p>Applichiamo una proiezione alla tabella <code>studenti</code> dell'esempio precedente:</p>
         <div class="table-container">
             <table class="data">
+                <caption>&pi;<sub>nome, eta</sub>(studenti):
+                </caption>
                 <thead>
                     <tr>
                         <th>nome</th>
+                        <th>eta</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>Mario</td>
+                        <td>22</td>
                     </tr>
                     <tr>
                         <td>Elena</td>
+                        <td>25</td>
                     </tr>
                     <tr>
                         <td>Luca</td>
+                        <td>19</td>
                     </tr>
                 </tbody>
             </table>
@@ -111,15 +121,212 @@
     </section>
 
     <section>
-        <h2><span class="num">3</span> Congiunzione / Join (&bowtie;)</h2>
-        <p>L'operazione di congiunzione è un operatore binario che combina le tuple di due relazioni sulla base di una condizione di confronto tra attributi.</p>
-        <p><strong>Sintassi generale (Theta-Join):</strong> R &bowtie;<sub>condizione</sub> S</p>
-        <p><strong>Natural Join (&bowtie;):</strong> unisce automaticamente le tuple che hanno valori uguali negli attributi omonimi, eliminando i duplicati delle colonne comuni.</p>
+        <h2><span class="num">3</span> Prodotto cartesiano (&times;)</h2>
+
+        <p>Il prodotto cartesiano è un operatore binario che combina ogni riga della prima tabella con ogni riga della seconda. Se la prima tabella ha <em>n</em> righe e la seconda ne ha <em>m</em>, il risultato contiene <em>n &times; m</em> righe e unisce gli attributi di entrambe le tabelle.</p>
+        <p><strong>Sintassi:</strong> A &times; B</p>
+
+        <h3>Esempio</h3>
+        <p>Combiniamo le tabelle <code>forme</code> e <code>colori</code> per ottenere tutte le combinazioni possibili:</p>
+
+        <div class="table-container">
+            <table class="data">
+                <caption>forme</caption>
+                <thead>
+                    <tr>
+                        <th>nome_forma</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>cerchio</td>
+                    </tr>
+                    <tr>
+                        <td>quadrato</td>
+                    </tr>
+                    <tr>
+                        <td>triangolo</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="vspace"></div>
+
+        <div class="table-container">
+            <table class="data">
+                <caption>colori</caption>
+                <thead>
+                    <tr>
+                        <th>nome_colore</th>
+                        <th>codice_rgb</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>rosso</td>
+                        <td>#ff0000</td>
+                    </tr>
+                    <tr>
+                        <td>blu</td>
+                        <td>#0000ff</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="vspace"></div>
+
+        <p>Calcoliamo il prodotto cartesiano di queste due tabelle producendone una tabella con 3 &times; 2 = 6 righe:</p>
+        <div class="table-container">
+            <table class="data">
+                <caption>forme &times; colori</caption>
+                <thead>
+                    <tr>
+                        <th>nome_forma</th>
+                        <th>nome_colore</th>
+                        <th>codice_rgb</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>cerchio</td>
+                        <td>rosso</td>
+                        <td>#ff0000</td>
+                    </tr>
+                    <tr>
+                        <td>cerchio</td>
+                        <td>blu</td>
+                        <td>#0000ff</td>
+                    </tr>
+                    <tr>
+                        <td>quadrato</td>
+                        <td>rosso</td>
+                        <td>#ff0000</td>
+                    </tr>
+                    <tr>
+                        <td>quadrato</td>
+                        <td>blu</td>
+                        <td>#0000ff</td>
+                    </tr>
+                    <tr>
+                        <td>triangolo</td>
+                        <td>rosso</td>
+                        <td>#ff0000</td>
+                    </tr>
+                    <tr>
+                        <td>triangolo</td>
+                        <td>blu</td>
+                        <td>#0000ff</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section>
+        <h2><span class="num">4</span> Congiunzione / Join (&bowtie;)</h2>
+        <p>L'operazione di congiunzione è un operatore binario che combina le righe di due tabelle sulla base di una condizione che associa gli attributi di una tabella con quelli dell'altra.</p>
+        <p>Dal punto di vista pratico, fare una join equivale a calcolare prima il prodotto cartesiano delle due tabelle e poi filtrare il risultato tenendo solo le righe che soddisfano la condizione.</p>
+        <p><strong>Sintassi generale:</strong> A &bowtie;<sub>condizione</sub> B</p>
+        <p>Unisce in un'unica tabella le righe delle tabelle A e B che rispettano la condizione</p>
+        <p><strong>Natural Join:</strong> A &bowtie; B</p>
+        <p>Unisce automaticamente le righe di A e B che hanno valori uguali negli attributi omonimi.</p>
+
+        <h3>Esempio</h3>
+
+        <div class="table-container">
+            <table class="data">
+                <caption>persone</caption>
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>nome</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Mario</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Elena</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Luca</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="vspace"></div>
+
+        <div class="table-container">
+            <table class="data">
+                <caption>auto</caption>
+                <thead>
+                    <tr>
+                        <th>targa</th>
+                        <th>id_proprietario</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>AB123CD</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>EF456GH</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>IL789MN</td>
+                        <td>1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="vspace"></div>
+
+        <p>Possiamo unire le tabelle <code>persone</code> e <code>auto</code> usanto una join:</p>
+
+        <div class="table-container">
+            <table class="data">
+                <caption>persone &bowtie;<sub>persone.id = auto.id_proprietario</sub> auto</caption>
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>nome</th>
+                        <th>targa</th>
+                        <th>id_proprietario</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Mario</td>
+                        <td>AB123CD</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Mario</td>
+                        <td>IL789MN</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Elena</td>
+                        <td>EF456GH</td>
+                        <td>2</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
         <h3>Esempio (Natural Join)</h3>
-        <p><em>Tabella Studenti:</em></p>
         <div class="table-container">
             <table class="data">
+                <caption>studenti</caption>
                 <thead>
                     <tr>
                         <th>id_studente</th>
@@ -140,9 +347,9 @@
         </div>
         <div class="vspace"></div>
 
-        <p><em>Tabella Esami:</em></p>
         <div class="table-container">
             <table class="data">
+                <caption>esami</caption>
                 <thead>
                     <tr>
                         <th>id_studente</th>
@@ -171,10 +378,10 @@
         </div>
         <div class="vspace"></div>
 
-        <p>Risultato di <em>Studenti &bowtie; Esami</em>:</p>
+
         <div class="table-container">
             <table class="data">
-                <caption class="table-name">studenti_esami</caption>
+                <caption>studenti &bowtie; esami</caption>
                 <thead>
                     <tr>
                         <th>id_studente</th>
@@ -205,6 +412,9 @@
                 </tbody>
             </table>
         </div>
+        <div class="vspace"></div>
+
+        <p>Applicare una join naturale a queste tabelle equivale ad applicare la join:<br/> studenti &bowtie;<sub>studenti.id_studente = esami.id_studente</sub> esami</p>
     </section>
 
 </div>

@@ -166,13 +166,12 @@ table.data {
     border-collapse: separate;
     border-spacing: 3px;
 }
-table.data caption.table-name {
+table.data caption {
     background: var(--accent);
     color: var(--bg-primary);
     font-weight: 700;
     text-align: center;
     padding: 0.1em 0.4em;
-    /* margin-bottom: 3px; */
     margin-left: 3px;
     margin-right: 3px;
 }
