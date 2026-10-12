@@ -97,6 +97,10 @@ li::marker {
     height: 1rem;
 }
 
+.vspace-2 {
+    height: 2rem;
+}
+
 /* +codice */
 pre {
     background: var(--bg-primary);
@@ -136,6 +140,15 @@ pre code {
 table.default {
     width: 100%;
     border-collapse: collapse;
+}
+table.default caption {
+    background: var(--bg-primary);
+    color: var(--text-main);
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-bottom: none;
+    text-align: center;
+    font-weight: 700;
 }
 table.default th,
 table.default td {

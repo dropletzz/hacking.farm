@@ -9,10 +9,10 @@
     <style>
         .canvas-container {
             margin: 1rem 0;
-            overflow-x: auto;
         }
         canvas {
             display: block;
+            width: 100%;
             background-color: #ffffff;
             border: 1px solid var(--border-color, #ccc);
             border-radius: 4px;
@@ -30,32 +30,32 @@
 
     <section>
         <h2><span class="num">1</span> Architettura della persistenza dei dati</h2>
-        <p>L'archiviazione dei dati può avvenire direttamente sul file system oppure delegando la gestione ad un sistema intermedio chiamato DBMS (Database Management System).</p>
+        <p>L'archiviazione dei dati può avvenire direttamente sul file system oppure delegando la gestione ad un sistema intermedio chiamato DBMS (database management system).</p>
 
         <h3>Salvataggio diretto su file</h3>
         <p>L'applicazione interagisce direttamente con il sistema operativo eseguendo operazioni di lettura (read) e scrittura (write) sui file.</p>
         
         <div class="canvas-container">
-            <canvas id="canvasDirect" width="550" height="120"></canvas>
+            <canvas id="canvasDirect"></canvas>
         </div>
 
         <h3>Utilizzo di un DBMS</h3>
         <p>L'applicazione non accede direttamente ai file, ma invia interrogazioni (query) al DBMS. Il DBMS elabora la richiesta, gestisce le operazioni fisiche sul file system e restituisce i dati (risposta) all'applicazione.</p>
 
         <div class="canvas-container">
-            <canvas id="canvasDBMS" width="550" height="120"></canvas>
+            <canvas id="canvasDBMS"></canvas>
         </div>
     </section>
 
     <section>
-        <h2><span class="num">2</span> Confronto tra File System e DBMS</h2>
+        <h2><span class="num">2</span> Confronto tra file system e DBMS</h2>
 
-        <h3>Struttura e tipologia dei dati</h3>
         <div class="table-container">
             <table class="default">
+                <caption>Struttura e tipologia dei dati</caption>
                 <thead>
                     <tr>
-                        <th>File System</th>
+                        <th>File system</th>
                         <th>DBMS</th>
                     </tr>
                 </thead>
@@ -67,13 +67,14 @@
                 </tbody>
             </table>
         </div>
+        <div class="vspace-2"></div>
 
-        <h3>Integrità e validazione dei dati</h3>
         <div class="table-container">
             <table class="default">
+                <caption>Integrità e validazione dei dati</caption>
                 <thead>
                     <tr>
-                        <th>File System</th>
+                        <th>File system</th>
                         <th>DBMS</th>
                     </tr>
                 </thead>
@@ -85,13 +86,14 @@
                 </tbody>
             </table>
         </div>
+        <div class="vspace-2"></div>
 
-        <h3>Concorrenza e accessi simultanei</h3>
         <div class="table-container">
             <table class="default">
+                <caption>Concorrenza e accessi simultanei</caption>
                 <thead>
                     <tr>
-                        <th>File System</th>
+                        <th>File system</th>
                         <th>DBMS</th>
                     </tr>
                 </thead>
@@ -103,13 +105,14 @@
                 </tbody>
             </table>
         </div>
+        <div class="vspace-2"></div>
 
-        <h3>Interrogazione e ricerca</h3>
         <div class="table-container">
             <table class="default">
+                <caption>Interrogazione e ricerca</caption>
                 <thead>
                     <tr>
-                        <th>File System</th>
+                        <th>File system</th>
                         <th>DBMS</th>
                     </tr>
                 </thead>
@@ -121,13 +124,14 @@
                 </tbody>
             </table>
         </div>
+        <div class="vspace-2"></div>
 
-        <h3>Sicurezza e controllo degli accessi</h3>
         <div class="table-container">
             <table class="default">
+                <caption>Sicurezza e controllo degli accessi</caption>
                 <thead>
                     <tr>
-                        <th>File System</th>
+                        <th>File system</th>
                         <th>DBMS</th>
                     </tr>
                 </thead>
@@ -139,34 +143,36 @@
                 </tbody>
             </table>
         </div>
+        <div class="vspace-2"></div>
 
-        <h3>Affidabilità e ripristino</h3>
         <div class="table-container">
             <table class="default">
+                <caption>Affidabilità e ripristino</caption>
                 <thead>
                     <tr>
-                        <th>File System</th>
+                        <th>File system</th>
                         <th>DBMS</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Un'interruzione di corrente o un crash durante la scrittura su file system può compromettere la struttura del file o causare la perdita parziale dei dati.</td>
+                        <td>Un'interruzione di corrente o un crash durante la scrittura su file system può compromettere la struttura del file e renderlo illeggibile, causando la perdita di dati.</td>
                         <td>Utilizza meccanismi specifici che, in caso di incidenti, consentono di riportare il database in uno stato coerente, evitando (o comunque riducendo al minimo) la perdita di dati.</td>
                     </tr>
                 </tbody>
             </table>
         </div>
+        <div class="vspace-2"></div>
     </section>
 
     <section>
         <h2><span class="num">3</span> Tabella comparativa e linee guida</h2>
         <div class="table-container">
-            <table class="default">
+            <table class="default col-header">
                 <thead>
                     <tr>
-                        <th>Caratteristica</th>
-                        <th>File System</th>
+                        <th></th>
+                        <th>File system</th>
                         <th>DBMS</th>
                     </tr>
                 </thead>
@@ -194,36 +200,51 @@
                 </tbody>
             </table>
         </div>
+        <div class="vspace"></div>
 
         <h3>Nella pratica: architettura ibrida</h3>
-        <p>Nei sistemi moderni si adotta spesso un approccio combinato: il DBMS viene usato per salvare i dati semplici (es. numeri, stringhe, data/ora) e strutturarli in tabelle, il file system é utilizzato prevalentemente per i file binari che possono anche avere grandi dimensioni (immagini, video, allegati). Anche se i file veri e propri sono nel file system, nel DBMS viene comunque salvato l'URL che permette accedere a questi file e scaricarli, insieme ad eventuali informazioni aggiuntive (metadati, collegamenti con altre tabelle, ...).</p>
+        <p>Nei sistemi moderni si adotta spesso un approccio combinato: il DBMS viene usato per salvare i dati semplici (es. numeri, stringhe, data/ora) e strutturarli in tabelle, il file system é utilizzato prevalentemente per i file binari che possono anche avere grandi dimensioni (immagini, video, allegati). Anche se i file veri e propri sono nel file system, nel DBMS viene comunque salvato l'URL che permette accedere a questi file e scaricarli, insieme ad eventuali informazioni aggiuntive (es. metadati, collegamenti con altre tabelle).</p>
     </section>
 
 </div>
 
 <script>
-function drawBox(ctx, x, y, width, height, text, bg, border) {
-    ctx.fillStyle = bg;
-    ctx.fillRect(x, y, width, height);
-    ctx.strokeStyle = border;
-    ctx.lineWidth = 2;
-    ctx.strokeRect(x, y, width, height);
-    ctx.fillStyle = "#000";
-    ctx.font = "14px sans-serif";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(text, x + width / 2, y + height / 2);
+const RATIO_W = 16;
+const RATIO_H = 3;
+
+function setupCanvas(canvas) {
+    const W = canvas.clientWidth || canvas.parentElement.clientWidth;
+    const H = W * RATIO_H / RATIO_W;
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
+    const ctx = canvas.getContext("2d");
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return { ctx, W, H };
 }
 
-function drawArrow(ctx, fromX, fromY, toX, toY, label, isAbove) {
+function drawBox(ctx, x, y, w, h, text, bg, border, u) {
+    ctx.fillStyle = bg;
+    ctx.fillRect(x, y, w, h);
+    ctx.strokeStyle = border;
+    ctx.lineWidth = Math.max(1, u * 0.004);
+    ctx.strokeRect(x, y, w, h);
+    ctx.fillStyle = "#000";
+    ctx.font = Math.max(14, Math.round(u * 0.026)) + "px 'Atkinson', sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(text, x + w / 2, y + h / 2);
+}
+
+function drawArrow(ctx, fromX, fromY, toX, toY, label, isAbove, u) {
     ctx.beginPath();
     ctx.moveTo(fromX, fromY);
     ctx.lineTo(toX, toY);
     ctx.strokeStyle = "#333";
-    ctx.lineWidth = 1.5;
+    ctx.lineWidth = Math.max(1, u * 0.003);
     ctx.stroke();
 
-    const headlen = 7;
+    const headlen = Math.max(5, u * 0.012);
     const angle = Math.atan2(toY - fromY, toX - fromX);
     ctx.beginPath();
     ctx.moveTo(toX, toY);
@@ -233,34 +254,86 @@ function drawArrow(ctx, fromX, fromY, toX, toY, label, isAbove) {
     ctx.fill();
 
     ctx.fillStyle = "#222";
-    ctx.font = "12px sans-serif";
+    ctx.font = Math.max(10, Math.round(u * 0.022)) + "px 'Atkinson', sans-serif";
     ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
     const midX = (fromX + toX) / 2;
-    const offsetY = isAbove ? -8 : 14;
+    const offsetY = isAbove ? -u * 0.016 : u * 0.020;
     ctx.fillText(label, midX, fromY + offsetY);
 }
 
-const c1 = document.getElementById("canvasDirect");
-if (c1) {
-    const ctx1 = c1.getContext("2d");
-    drawBox(ctx1, 30, 35, 120, 50, "Software", "#eef2ff", "#4f46e5");
-    drawBox(ctx1, 380, 35, 120, 50, "File System", "#fef3c7", "#d97706");
-    drawArrow(ctx1, 150, 48, 380, 48, "write", true);
-    drawArrow(ctx1, 380, 72, 150, 72, "read", false);
+function drawDirect(canvas) {
+    const { ctx, W, H } = setupCanvas(canvas);
+
+    const boxW = W * 0.24;
+    const boxH = W * 0.10;
+    const gap = W * 0.12;
+    const total = boxW * 2 + gap;
+    const x1 = (W - total) / 2;
+    const x2 = x1 + boxW + gap;
+    const y = (H - boxH) / 2;
+    const yTop = y + boxH * 0.28;
+    const yBottom = y + boxH * 0.72;
+
+    drawBox(ctx, x1, y, boxW, boxH, "Software", "#eef2ff", "#4f46e5", W);
+    drawBox(ctx, x2, y, boxW, boxH, "File system", "#fef3c7", "#d97706", W);
+
+    drawArrow(ctx, x1 + boxW, yTop, x2, yTop, "write", true, W);
+    drawArrow(ctx, x2, yBottom, x1 + boxW, yBottom, "read", false, W);
 }
 
-const c2 = document.getElementById("canvasDBMS");
-if (c2) {
-    const ctx2 = c2.getContext("2d");
-    drawBox(ctx2, 20, 35, 100, 50, "Software", "#eef2ff", "#4f46e5");
-    drawBox(ctx2, 220, 35, 100, 50, "DBMS", "#fee2e2", "#dc2626");
-    drawBox(ctx2, 420, 35, 100, 50, "File System", "#fef3c7", "#d97706");
+function drawDbms(canvas) {
+    const { ctx, W, H } = setupCanvas(canvas);
 
-    drawArrow(ctx2, 120, 48, 220, 48, "query", true);
-    drawArrow(ctx2, 220, 72, 120, 72, "risposta", false);
+    const boxW = W * 0.20;
+    const boxH = W * 0.10;
+    const gap = W * 0.14;
+    const total = boxW * 3 + gap * 2;
+    const x1 = (W - total) / 2;
+    const x2 = x1 + boxW + gap;
+    const x3 = x2 + boxW + gap;
+    const y = (H - boxH) / 2;
+    const yTop = y + boxH * 0.28;
+    const yBottom = y + boxH * 0.72;
 
-    drawArrow(ctx2, 320, 48, 420, 48, "write", true);
-    drawArrow(ctx2, 420, 72, 320, 72, "read", false);
+    drawBox(ctx, x1, y, boxW, boxH, "Software", "#eef2ff", "#4f46e5", W);
+    drawBox(ctx, x2, y, boxW, boxH, "DBMS", "#fee2e2", "#dc2626", W);
+    drawBox(ctx, x3, y, boxW, boxH, "File system", "#fef3c7", "#d97706", W);
+
+    drawArrow(ctx, x1 + boxW, yTop, x2, yTop, "query", true, W);
+    drawArrow(ctx, x2, yBottom, x1 + boxW, yBottom, "risposta", false, W);
+    drawArrow(ctx, x2 + boxW, yTop, x3, yTop, "write", true, W);
+    drawArrow(ctx, x3, yBottom, x2 + boxW, yBottom, "read", false, W);
+}
+
+function initCanvas(id, draw) {
+    const canvas = document.getElementById(id);
+    if (!canvas) return;
+
+    const render = () => draw(canvas);
+    render();
+
+    if (typeof ResizeObserver !== "undefined") {
+        new ResizeObserver(render).observe(canvas.parentElement);
+    } else {
+        window.addEventListener("resize", render);
+    }
+}
+
+const diagrams = [
+    { id: "canvasDirect", draw: drawDirect },
+    { id: "canvasDBMS", draw: drawDbms },
+];
+
+diagrams.forEach(({ id, draw }) => initCanvas(id, draw));
+
+if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => {
+        diagrams.forEach(({ id, draw }) => {
+            const canvas = document.getElementById(id);
+            if (canvas) draw(canvas);
+        });
+    });
 }
 </script>
 
