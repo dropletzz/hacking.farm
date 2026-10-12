@@ -55,6 +55,7 @@ const rainbowColors = [
     "#732982",
 ];
 
+const fontSizeMultiplier = 1.1;
 const dimensionNameMaxCharsBase = 30;
 const levelMaxCharsBase = 20;
 const radialLevelMaxChars = 12;
@@ -68,6 +69,10 @@ function getSliceColor(index) {
     const goldenAngle = 137.508;
     const hue = (45 + index * goldenAngle) % 360;
     return `hsl(${hue}, 100%, 75%)`;
+}
+
+function getFont(size) {
+    return `${Math.round(size * fontSizeMultiplier)}px 'Atkinson', sans-serif`;
 }
 
 const TAU = 2 * Math.PI;
@@ -180,7 +185,7 @@ function drawSlice(ctx, index, radius, margin, outerMargin) {
     }
 
     ctx.fillStyle = "#111";
-    ctx.font = `${labelFontSize}px sans-serif`;
+    ctx.font = getFont(labelFontSize);
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
@@ -208,7 +213,7 @@ function drawCenter(ctx, text, centerRadius) {
 
     const lines = splitIntoLines(text, 12);
     const fontSize = centerRadius * 0.4;
-    ctx.font = `${fontSize}px sans-serif`;
+    ctx.font = getFont(fontSize);
 
     const lineHeight = fontSize * 1.2;
     const totalHeight = lines.length * lineHeight;
@@ -239,7 +244,7 @@ function drawSlicePiece(ctx, radialStart, radialEnd, startAngle, endAngle, color
         ? radialHeight * 0.13
         : Math.min(arcLength * 0.1, radialHeight * 0.25);
 
-    ctx.font = `${fontSize}px sans-serif`;
+    ctx.font = getFont(fontSize);
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
