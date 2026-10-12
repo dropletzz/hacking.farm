@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Persistenza dei dati: file system e DBMS</title>
+    <link rel="stylesheet" href="../../common.css">
+    <link rel="stylesheet" href="../common.css">
+    <style>
+        .canvas-container {
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+        canvas {
+            display: block;
+            background-color: #ffffff;
+            border: 1px solid var(--border-color, #ccc);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Persistenza dei dati: file system vs DBMS</h1>
+        <p>Modelli di archiviazione, architetture a confronto e criteri di scelta</p>
+    </header>
+
+    <section>
+        <h2><span class="num">1</span> Architettura della persistenza dei dati</h2>
+        <p>L'archiviazione dei dati può avvenire direttamente sul file system oppure delegando la gestione ad un sistema intermedio chiamato DBMS (Database Management System).</p>
+
+        <h3>Salvataggio diretto su file</h3>
+        <p>L'applicazione interagisce direttamente con il sistema operativo eseguendo operazioni di lettura (read) e scrittura (write) sui file.</p>
+        
+        <div class="canvas-container">
+            <canvas id="canvasDirect" width="550" height="120"></canvas>
+        </div>
+
+        <h3>Utilizzo di un DBMS</h3>
+        <p>L'applicazione non accede direttamente ai file, ma invia interrogazioni (query) al DBMS. Il DBMS elabora la richiesta, gestisce le operazioni fisiche sul file system e restituisce i dati (risposta) all'applicazione.</p>
+
+        <div class="canvas-container">
+            <canvas id="canvasDBMS" width="550" height="120"></canvas>
+        </div>
+    </section>
+
+    <section>
+        <h2><span class="num">2</span> Confronto tra File System e DBMS</h2>
+
+        <h3>Struttura e tipologia dei dati</h3>
+        <div class="table-container">
+            <table class="default">
+                <thead>
+                    <tr>
+                        <th>File System</th>
+                        <th>DBMS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Gestisce i dati come sequenze indifferenziate di byte. Non comprende il contenuto informativo del file, che deve essere interpretato interamente dall'applicazione.</td>
+                        <td>Impone una struttura logica sui dati (tabelle, relazioni, documenti JSON, grafi), permettendo di definire uno <em>schema</em>: una struttura che i dati devono rispettare per essere considerati validi.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Integrità e validazione dei dati</h3>
+        <div class="table-container">
+            <table class="default">
+                <thead>
+                    <tr>
+                        <th>File System</th>
+                        <th>DBMS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>La validazione dei dati è interamente a carico del codice dell'applicazione. Se l'applicazione presenta un bug, è possibile salvare dati corrotti o inconsistenti senza che il sistema operativo intervenga.</td>
+                        <td>I vincoli di integrità (chiavi primarie, chiavi esterne, vincoli <code>NOT NULL</code>, <code>CHECK</code>, tipi di dato) sono definiti nello schema ed applicati in modo automatico dal DBMS.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Concorrenza e accessi simultanei</h3>
+        <div class="table-container">
+            <table class="default">
+                <thead>
+                    <tr>
+                        <th>File System</th>
+                        <th>DBMS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Offrono meccanismi di blocco (lock) rudimentali a livello di intero file. Se più processi tentano di scrivere simultaneamente sullo stesso file, si verificano race condition o blocchi delle operazioni di I/O che rischiano di rallentare notevolmente l'applicazione.</td>
+                        <td>Gestiscono la concorrenza ad alta granularità, anche a livello di singola riga di una tabella. Permettono di risolvere in modo semplice i problemi legati all'accesso simultaneo tramite le <em>transazioni</em> che garantiscono le proprietà ACID (atomicity, consistency, isolation, durability).</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Interrogazione e ricerca</h3>
+        <div class="table-container">
+            <table class="default">
+                <thead>
+                    <tr>
+                        <th>File System</th>
+                        <th>DBMS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Per cercare un'informazione specifica l'applicazione deve aprire il file ed implementare un algoritmo di ricerca. Il modo più semplice è la ricerca sequenziale che però non è particolarmente efficiente.</td>
+                        <td>Forniscono linguaggi di interrogazione dichiarativi (come SQL) che permettono di cercare i dati in modo semplice. Internamente utilizzano strutture dati di indicizzazione (alberi binari di ricerca, hash) che permettono trovare ed accedere ai dati in modo efficiente.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Sicurezza e controllo degli accessi</h3>
+        <div class="table-container">
+            <table class="default">
+                <thead>
+                    <tr>
+                        <th>File System</th>
+                        <th>DBMS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Gestisce la sicurezza tramite i permessi del sistema operativo (POSIX/ACL) limitati al livello di file o cartella (lettura, scrittura, esecuzione).</td>
+                        <td>Offre un controllo granulare e flessibile degli accessi basato su ruoli ed utenti, che permette di definire permessi specifici su singole tabelle, colonne o righe.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Affidabilità e ripristino</h3>
+        <div class="table-container">
+            <table class="default">
+                <thead>
+                    <tr>
+                        <th>File System</th>
+                        <th>DBMS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Un'interruzione di corrente o un crash durante la scrittura su file system può compromettere la struttura del file o causare la perdita parziale dei dati.</td>
+                        <td>Utilizza meccanismi specifici che, in caso di incidenti, consentono di riportare il database in uno stato coerente, evitando (o comunque riducendo al minimo) la perdita di dati.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section>
+        <h2><span class="num">3</span> Tabella comparativa e linee guida</h2>
+        <div class="table-container">
+            <table class="default">
+                <thead>
+                    <tr>
+                        <th>Caratteristica</th>
+                        <th>File System</th>
+                        <th>DBMS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Dati gestiti</td>
+                        <td>File di grandi dimensioni, dati non strutturati (media, PDF, log).</td>
+                        <td>Dati strutturati e relazionali con schemi ben definiti.</td>
+                    </tr>
+                    <tr>
+                        <td>Accesso ai dati</td>
+                        <td>Lettura/scrittura sequenziale o casuale grezza.</td>
+                        <td>Query dichiarative (SQL/NoSQL) con indici.</td>
+                    </tr>
+                    <tr>
+                        <td>Concorrenza</td>
+                        <td>Lock a livello di file, scarsa scalabilità in scrittura.</td>
+                        <td>Lock a livello di riga/pagina, transazioni ACID.</td>
+                    </tr>
+                    <tr>
+                        <td>Controllo integrità</td>
+                        <td>A carico dell'applicazione.</td>
+                        <td>Nativo tramite vincoli di schema.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Nella pratica: architettura ibrida</h3>
+        <p>Nei sistemi moderni si adotta spesso un approccio combinato: il DBMS viene usato per salvare i dati semplici (es. numeri, stringhe, data/ora) e strutturarli in tabelle, il file system é utilizzato prevalentemente per i file binari che possono anche avere grandi dimensioni (immagini, video, allegati). Anche se i file veri e propri sono nel file system, nel DBMS viene comunque salvato l'URL che permette accedere a questi file e scaricarli, insieme ad eventuali informazioni aggiuntive (metadati, collegamenti con altre tabelle, ...).</p>
+    </section>
+
+</div>
+
+<script>
+function drawBox(ctx, x, y, width, height, text, bg, border) {
+    ctx.fillStyle = bg;
+    ctx.fillRect(x, y, width, height);
+    ctx.strokeStyle = border;
+    ctx.lineWidth = 2;
+    ctx.strokeRect(x, y, width, height);
+    ctx.fillStyle = "#000";
+    ctx.font = "14px sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(text, x + width / 2, y + height / 2);
+}
+
+function drawArrow(ctx, fromX, fromY, toX, toY, label, isAbove) {
+    ctx.beginPath();
+    ctx.moveTo(fromX, fromY);
+    ctx.lineTo(toX, toY);
+    ctx.strokeStyle = "#333";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    const headlen = 7;
+    const angle = Math.atan2(toY - fromY, toX - fromX);
+    ctx.beginPath();
+    ctx.moveTo(toX, toY);
+    ctx.lineTo(toX - headlen * Math.cos(angle - Math.PI / 6), toY - headlen * Math.sin(angle - Math.PI / 6));
+    ctx.lineTo(toX - headlen * Math.cos(angle + Math.PI / 6), toY - headlen * Math.sin(angle + Math.PI / 6));
+    ctx.fillStyle = "#333";
+    ctx.fill();
+
+    ctx.fillStyle = "#222";
+    ctx.font = "12px sans-serif";
+    ctx.textAlign = "center";
+    const midX = (fromX + toX) / 2;
+    const offsetY = isAbove ? -8 : 14;
+    ctx.fillText(label, midX, fromY + offsetY);
+}
+
+const c1 = document.getElementById("canvasDirect");
+if (c1) {
+    const ctx1 = c1.getContext("2d");
+    drawBox(ctx1, 30, 35, 120, 50, "Software", "#eef2ff", "#4f46e5");
+    drawBox(ctx1, 380, 35, 120, 50, "File System", "#fef3c7", "#d97706");
+    drawArrow(ctx1, 150, 48, 380, 48, "write", true);
+    drawArrow(ctx1, 380, 72, 150, 72, "read", false);
+}
+
+const c2 = document.getElementById("canvasDBMS");
+if (c2) {
+    const ctx2 = c2.getContext("2d");
+    drawBox(ctx2, 20, 35, 100, 50, "Software", "#eef2ff", "#4f46e5");
+    drawBox(ctx2, 220, 35, 100, 50, "DBMS", "#fee2e2", "#dc2626");
+    drawBox(ctx2, 420, 35, 100, 50, "File System", "#fef3c7", "#d97706");
+
+    drawArrow(ctx2, 120, 48, 220, 48, "query", true);
+    drawArrow(ctx2, 220, 72, 120, 72, "risposta", false);
+
+    drawArrow(ctx2, 320, 48, 420, 48, "write", true);
+    drawArrow(ctx2, 420, 72, 320, 72, "read", false);
+}
+</script>
+
+</body>
+</html>
