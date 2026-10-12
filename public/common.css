@@ -22,25 +22,6 @@ body {
     padding: 0;
 }
 
-.card {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    padding: 1.2rem;
-    text-align: center;
-}
-
-.card h4 {
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-    color: var(--accent);
-}
-
-.card p {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-}
-
-
 @font-face {
     font-family: 'AtkinsonMono';
     src: url('fonts/Atkinson Hyperlegible Mono/AtkinsonHyperlegibleMono-ExtraLight.otf') format('opentype');
