@@ -417,6 +417,209 @@
         <p>Applicare una join naturale a queste tabelle equivale ad applicare la join:<br/> studenti &bowtie;<sub>studenti.id_studente = esami.id_studente</sub> esami</p>
     </section>
 
+    <section>
+        <h2><span class="num">5</span> Esercizi</h2>
+
+        <h3>Esercizio 1</h3>
+        <p>Data la seguente relazione:</p>
+        <div class="table-container">
+            <table class="data">
+                <caption>dipendenti</caption>
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>nome</th>
+                        <th>stipendio</th>
+                        <th>dipartimento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Marco</td>
+                        <td>2500</td>
+                        <td>IT</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Sara</td>
+                        <td>3200</td>
+                        <td>Marketing</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Luca</td>
+                        <td>4000</td>
+                        <td>IT</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="vspace"></div>
+        <p><strong>Obiettivo:</strong> Scrivere l'espressione in algebra relazionale per ricavare l'elenco contenente unicamente i nomi dei dipendenti che guadagnano più di 3000.</p>
+
+        <h3>Esercizio 2</h3>
+        <p>Date le seguenti relazioni:</p>
+        <div class="table-container">
+            <table class="data">
+                <caption>taglie</caption>
+                <thead>
+                    <tr>
+                        <th>taglia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>S</td>
+                    </tr>
+                    <tr>
+                        <td>M</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="vspace"></div>
+
+        <div class="table-container">
+            <table class="data">
+                <caption>colori</caption>
+                <thead>
+                    <tr>
+                        <th>colore</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Rosso</td>
+                    </tr>
+                    <tr>
+                        <td>Nero</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="vspace"></div>
+        <p><strong>Obiettivo:</strong> Scrivere l'espressione in algebra relazionale per generare un'unica tabella contenente tutte le possibili combinazioni tra ogni taglia e ogni colore disponibile.</p>
+
+        <h3>Esercizio 3</h3>
+        <p>Date le seguenti relazioni:</p>
+        <div class="table-container">
+            <table class="data">
+                <caption>clienti</caption>
+                <thead>
+                    <tr>
+                        <th>id_cliente</th>
+                        <th>nome</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>101</td>
+                        <td>Anna</td>
+                    </tr>
+                    <tr>
+                        <td>102</td>
+                        <td>Paolo</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="vspace"></div>
+
+        <div class="table-container">
+            <table class="data">
+                <caption>ordini</caption>
+                <thead>
+                    <tr>
+                        <th>id_ordine</th>
+                        <th>id_cliente</th>
+                        <th>importo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>101</td>
+                        <td>150</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>101</td>
+                        <td>45</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>102</td>
+                        <td>80</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="vspace"></div>
+        <p><strong>Obiettivo:</strong> Scrivere l'espressione in algebra relazionale per associare le informazioni dei clienti a ciascun ordine effettuato, sulla base della corrispondenza dell'identificativo del cliente.</p>
+
+        <h3>Esercizio 4</h3>
+        <p>Date le seguenti relazioni:</p>
+        <div class="table-container">
+            <table class="data">
+                <caption>autori</caption>
+                <thead>
+                    <tr>
+                        <th>id_autore</th>
+                        <th>nome_autore</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Italo Calvino</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Umberto Eco</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="vspace"></div>
+
+        <div class="table-container">
+            <table class="data">
+                <caption>libri</caption>
+                <thead>
+                    <tr>
+                        <th>id_libro</th>
+                        <th>titolo</th>
+                        <th>prezzo</th>
+                        <th>id_autore</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>10</td>
+                        <td>Il barone rampante</td>
+                        <td>15</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td>Il nome della rosa</td>
+                        <td>22</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>12</td>
+                        <td>Le citta invisibili</td>
+                        <td>12</td>
+                        <td>1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="vspace"></div>
+        <p><strong>Obiettivo:</strong> Scrivere l'espressione in algebra relazionale per ottenere una tabella contenente esclusivamente le colonne <code>nome_autore</code> e <code>titolo</code> riferite ai soli libri con un prezzo inferiore a 20.</p>
+    </section>
+
 </div>
 
 </body>
