@@ -10,6 +10,15 @@
     font-size: 18px;
 }
 
+:root[data-theme="light"] {
+    --bg-primary: #ededda;
+    --bg-secondary: #fafaef;
+    --accent: #74175cff;
+    --text-main: #181818;
+    --text-muted: color-mix(in srgb, white 15%, var(--text-main));
+    --border-color: color-mix(in srgb, black 20%, var(--bg-primary));
+}
+
 body {
     background-color: var(--bg-primary);
     color: var(--text-main);

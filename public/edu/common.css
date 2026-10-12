@@ -221,21 +221,21 @@ table.data th {
 /* +callout */
 .callout {
     border-left: 4px solid var(--notify);
-    background: color-mix(in srgb, black 90%, var(--notify));
+    background: color-mix(in srgb, var(--bg-secondary) 90%, var(--notify));
     padding: 1rem 1.2rem;
     margin: 1rem 0;
 }
 .callout.success {
     border-left-color: var(--success);
-    background: color-mix(in srgb, black 90%, var(--success));
+    background: color-mix(in srgb, var(--bg-secondary) 90%, var(--success));
 }
 .callout.warning {
     border-left-color: var(--warning);
-    background: color-mix(in srgb, black 90%, var(--warning));
+    background: color-mix(in srgb, var(--bg-secondary) 90%, var(--warning));
 }
 .callout.error {
     border-left-color: var(--error);
-    background: color-mix(in srgb, black 90%, var(--error));
+    background: color-mix(in srgb, var(--bg-secondary) 90%, var(--error));
 }
 .callout-title {
     font-weight: 700;

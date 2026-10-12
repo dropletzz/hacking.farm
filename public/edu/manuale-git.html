@@ -11,6 +11,10 @@
             --text-code: #68dd02;
             --text-code-comment: #7c91ad;
         }
+        :root[data-theme="light"] {
+            --text-code: #2a6900ff;
+            --text-code-comment: #7c91ad;
+        }
 
         .architecture-grid {
             display: grid;
@@ -44,6 +48,13 @@
             background-color: rgba(255, 255, 255, 0.02);
         }
     </style>
+
+    <script src="../../common.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        _components.themeSelector();
+    });
+    </script>
 </head>
 <body>
 
