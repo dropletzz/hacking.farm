@@ -1,34 +1,35 @@
-<script>
-(function () {
-    const root = document.documentElement;
-    const toggle = document.getElementById('theme-toggle');
-    if (!toggle) return;
+<script>(() => {
 
-    const getStoredTheme = () => {
-        try {
-            return localStorage.getItem('theme');
-        } catch (error) {
-            return null;
-        }
-    };
+const root = document.documentElement;
+const toggle = document.getElementById('theme-toggle');
+if (!toggle) return;
 
-    const applyTheme = (theme) => {
-        root.dataset.theme = theme;
-        toggle.checked = theme === 'light';
-        try {
-            localStorage.setItem('theme', theme);
-        } catch (error) {
-            // no local storage
-        }
-    };
+const getStoredTheme = () => {
+    try {
+        return localStorage.getItem('theme');
+    } catch (error) {
+        return null;
+    }
+};
 
-    applyTheme(getStoredTheme() || 'dark');
+const applyTheme = (theme) => {
+    root.dataset.theme = theme;
+    toggle.checked = theme === 'light';
+    try {
+        localStorage.setItem('theme', theme);
+    } catch (error) {
+        // no local storage i guess
+    }
+};
 
-    toggle.addEventListener('change', () => {
-        applyTheme(toggle.checked ? 'light' : 'dark');
-    });
-})();
-</script>
+applyTheme(getStoredTheme() || 'dark');
+
+toggle.addEventListener('change', () => {
+    applyTheme(toggle.checked ? 'light' : 'dark');
+});
+
+})();</script>
+
 
 <div class="theme-selector">
     <span class="icon" aria-hidden="true"></span>
@@ -41,7 +42,9 @@
 
 <div class="theme-selector_vspace"></div>
 
+
 <style>
+
 .theme-selector {
     position: fixed;
     right: 1rem;
@@ -108,5 +111,6 @@
 .theme-selector_vspace {
     height: calc(18px + 1.5rem);
 }
+
 </style>
 

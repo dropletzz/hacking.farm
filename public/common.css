@@ -13,8 +13,8 @@
 :root[data-theme="light"] {
     --bg-primary: #ededda;
     --bg-secondary: #fafaef;
-    --accent: #74175cff;
-    --text-main: #181818;
+    --accent: #5c3067ff;
+    --text-main: #1e1e1e;
     --text-muted: color-mix(in srgb, white 15%, var(--text-main));
     --border-color: color-mix(in srgb, black 20%, var(--bg-primary));
 }
