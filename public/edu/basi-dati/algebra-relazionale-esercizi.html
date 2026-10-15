@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esercizi di Algebra Relazionale</title>
+    <link rel="stylesheet" href="../../common.css">
+    <link rel="stylesheet" href="../common.css">
+    <style>
+        .schema-box {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            font-family: monospace;
+            line-height: 1.6;
+        }
+        .exercise {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .exercise:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Esercizi di Algebra Relazionale</h1>
+        <p>Esercitazione pratica su selezione, proiezione e congiunzione</p>
+    </header>
+
+    <section>
+        <h2><span class="num">1</span> Schema del Database</h2>
+        <p>Tutti gli esercizi fanno riferimento al seguente schema relazionale per una piattaforma di condivisione video:</p>
+        
+        <div class="schema-box">
+            <strong>Utenti</strong>(<u>id_utente</u>, email, nome, cognome)<br>
+            <strong>Video</strong>(<u>id_video</u>, id_utente, url, titolo, descrizione)<br>
+            <strong>Commenti</strong>(<u>id_commento</u>, id_utente, id_video, testo)<br>
+            <strong>Iscrizioni</strong>(<u>id_iscritto</u>, <u>id_destinatario</u>)
+        </div>
+
+        <p><em>Chiavi esterne:</em></p>
+        <ul>
+            <li><code>Video.id_utente</code> &rarr; <code>Utenti.id_utente</code></li>
+            <li><code>Commenti.id_utente</code> &rarr; <code>Utenti.id_utente</code></li>
+            <li><code>Commenti.id_video</code> &rarr; <code>Video.id_video</code></li>
+            <li><code>Iscrizioni.id_iscritto</code> &rarr; <code>Utenti.id_utente</code></li>
+            <li><code>Iscrizioni.id_destinatario</code> &rarr; <code>Utenti.id_utente</code></li>
+        </ul>
+    </section>
+
+    <section>
+        <h2><span class="num">2</span> Quesiti</h2>
+
+        <div class="exercise">
+            <h3>Esercizio 1</h3>
+            <p>Trovare l'email e il nome di tutti gli utenti che hanno il cognome "Rossi".</p>
+        </div>
+
+        <div class="exercise">
+            <h3>Esercizio 2</h3>
+            <p>Selezionare la URL e la descrizione di tutti i video pubblicati dall'utente con email <code>maria.verdi@example.com</code>.</p>
+        </div>
+
+        <div class="exercise">
+            <h3>Esercizio 3</h3>
+            <p>Ricavare il nome, il cognome e il testo del commento di tutti gli utenti che hanno lasciato un commento sotto il video con identificativo <code>id_video = 105</code>.</p>
+        </div>
+
+        <div class="exercise">
+            <h3>Esercizio 4</h3>
+            <p>Selezionare il testo di tutti i commenti insieme all'email dell'utente che ha creato il commento ed al titolo del video commentato.</p>
+        </div>
+
+        <div class="exercise">
+            <h3>Esercizio 5</h3>
+            <p>Selezionare id ed email di tutti gli utenti che hanno commentato almeno un video.</p>
+        </div>
+
+        <div class="exercise">
+            <h3>Esercizio 6</h3>
+            <p>Selezionare l'email di tutti gli utenti che hanno almeno un iscritto al proprio canale ed hanno pubblicato almeno un video.</p>
+        </div>
+
+        <div class="exercise">
+            <h3>Esercizio 7</h3>
+            <p>Selezionare l'id, il nome e il cognome di tutti gli utenti che hanno inserito almeno un commento sotto un video dell'utente <code>gennaro.gattuso@example.com</code>.</p>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>
