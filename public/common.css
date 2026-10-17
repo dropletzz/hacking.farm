@@ -229,8 +229,43 @@ body {
 
 @font-face {
     font-family: 'Monoid';
-    src: url('fonts/MonoidNerdFont-Regular.ttf') format('truetype');
-    font-weight: normal;
+    src: url('fonts/Monoid/Monoid-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Monoid';
+    src: url('fonts/Monoid/Monoid-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Monoid';
+    src: url('fonts/Monoid/Monoid-Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Monoid Retina';
+    src: url('fonts/Monoid/Monoid-Retina.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NerdFontSymbols';
+    src: url('fonts/NerdFontSymbols/SymbolsNerdFont-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NerdFontSymbolsMono';
+    src: url('fonts/NerdFontSymbols/SymbolsNerdFontMono-Regular.ttf') format('truetype');
+    font-weight: 400;
     font-style: normal;
 }
 
