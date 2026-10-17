@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teoria delle chiavi e dipendenze funzionali</title>
+    <link rel="stylesheet" href="../../common.css">
+    <link rel="stylesheet" href="../common.css">
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Teoria delle chiavi e dipendenze funzionali</h1>
+        <p>Fondamenti matematici e classificazione delle chiavi nei database relazionali</p>
+    </header>
+
+    <section>
+        <h2><span class="num">1</span> Dipendenze funzionali e chiusura</h2>
+        <p>Sia <em>R</em> uno schema di relazione e <em>X, Y</em> due sottoinsiemi di attributi. Una dipendenza funzionale <code>X &rarr; Y</code> impone che se due tuple concordano sui valori di <em>X</em>, devono concordare anche sui valori di <em>Y</em> (<em>X</em> determina <em>Y</em>).</p>
+        <p>La <strong>chiusura</strong> <code>X<sup>+</sup></code> è l'insieme di tutti gli attributi dello schema determinati funzionalmente da <em>X</em> applicando le dipendenze note.</p>
+
+        <div class="callout">
+            <div class="callout-title">Ad esempio</div>
+            <p>Nello schema <code>Studenti(cf, nome, cognome, comune_nascita, provincia_nascita)</code>:</p>
+            <p><code>cf &rarr; nome, cognome</code> (Il codice fiscale identifica la persona).</p>
+            <p><code>comune_nascita &rarr; provincia_nascita</code> (Il comune determina la provincia).</p>
+            <p>La chiusura di <code>{cf, comune_nascita}<sup>+</sup></code> contiene l'intero schema.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2><span class="num">2</span> Tipologie di Chiavi</h2>
+        <p><strong>Superchiave:</strong> un insieme di attributi <em>K</em> tale che <code>K<sup>+</sup> = R</code>. Identifica univocamente ogni tupla della tabella.</p>
+        <p><strong>Chiave candidata:</strong> una superchiave minimale. Nessun sottoinsieme proprio di <em>K</em> è una superchiave.</p>
+        <p><strong>Chiave primaria (PK):</strong> la chiave candidata scelta dal progettista per identificare le tuple. Nessun suo attributo può essere <code>NULL</code>.</p>
+        <p><strong>Chiave alternativa:</strong> una chiave candidata non scelta come primaria (gestita con vincolo <code>UNIQUE</code>).</p>
+        <p><strong>Chiave surrogata/naturale:</strong> una chiave naturale usa dati reali del dominio (es. codice fiscale). Una chiave surrogata è un identificatore artificiale generato dal sistema (es. ID autoincrementante).</p>
+        <p><strong>Chiave esterna (FK):</strong> attributo che fa riferimento alla chiave primaria di un'altra tabella.</p>
+
+        <div class="callout">
+            <div class="callout-title">Ad esempio</div>
+            <p>Data la tabella <code>Dipendenti(id_dipendente, cf, email, nome)</code> con dipendenze <code>id_dipendente &rarr; R</code> e <code>cf &rarr; R</code>:</p>
+            <ul>
+                <li><strong>Superchiavi:</strong> <code>{id_dipendente}</code>, <code>{cf}</code>, <code>{id_dipendente, nome}</code>, <code>{cf, email}</code></li>
+                <li><strong>Chiavi candidate:</strong> <code>{id_dipendente}</code>, <code>{cf}</code></li>
+                <li><strong>Chiave primaria scelta:</strong> <code>id_dipendente</code> (surrogata)</li>
+                <li><strong>Chiave alternativa:</strong> <code>cf</code> (naturale)</li>
+            </ul>
+        </div>
+    </section>
+</div>
+
+</body>
+</html>
