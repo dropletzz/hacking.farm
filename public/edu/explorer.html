@@ -10,54 +10,83 @@ const icons = {
     left: '',
 };
 
+const basiDati = [
+    {
+        name: 'Modello concettuale e logico',
+        url: '/edu/basi-dati/modello-concettuale-e-logico.html'
+    },
+    {
+        name: 'Persistenza: file system e DBMS',
+        url: '/edu/basi-dati/filesystem-vs-dbms.html'
+    },
+    {
+        name: 'Chiavi e dipendenze funzionali',
+        url: '/edu/basi-dati/chiavi-e-dipendenze.html'
+    },
+    {
+        name: 'Le forme normali',
+        url: '/edu/basi-dati/forme-normali.html'
+    },
+    {
+        name: 'Algebra relazionale',
+        content: [
+            {
+                name: 'Teoria',
+                url: '/edu/basi-dati/algebra-relazionale.html'
+            },
+            {
+                name: 'Esercizi',
+                icon: icons.pen,
+                url: '/edu/basi-dati/algebra-relazionale-esercizi.html'
+            },
+        ]
+    }
+];
+
+const webApp = [
+    {
+        name: 'Sistemi distribuiti',
+        url: '/edu/webapp/sistemi-distribuiti.html'
+    },
+    {
+        name: 'Le applicazioni web',
+        icon: icons.ppt,
+        url: 'https://docs.google.com/presentation/d/14nNV28D-ktGTRXgYpn-6kJD7fPNWQ3VTTAOxdqPZNEw/edit?usp=drive_link'
+    },
+    {
+        name: 'HTTP ed altri protocolli del web',
+        icon: icons.ppt,
+        url: 'https://docs.google.com/presentation/d/1cnBzWwU7da8rIEnIwLYyRC3ddKbUZS5rx-Tgq6wFocA/edit?usp=drive_link'
+    },
+    {
+        name: 'Paradigmi di comunicazione',
+        url: '/edu/webapp/paradigmi-di-comunicazione.html'
+    },
+    {
+        name: 'REST e SOAP',
+        url: '/edu/webapp/rest-e-soap.html'
+    },
+];
+
 const items = [
     {
         name: 'Basi di dati',
-        content: [
-            {
-                name: 'Le forme normali',
-                icon: icons.doc,
-                url: '/edu/basi-dati/forme-normali.html'
-            },
-            {
-                name: 'Algebra relazionale',
-                content: [
-                    {
-                        name: 'Teoria',
-                        icon: icons.doc,
-                        url: '/edu/basi-dati/algebra-relazionale.html'
-                    },
-                    {
-                        name: 'Esercizi',
-                        icon: icons.pen,
-                        url: '/edu/basi-dati/algebra-relazionale-esercizi.html'
-                    },
-                ]
-            }
-        ]
+        content: basiDati,
     },
     {
         name: 'Applicazioni web',
+        content: webApp,
+    },
+    {
+        name: 'Git',
         content: [
             {
-                name: 'Sistemi distribuiti',
-                icon: icons.doc,
-                url: '/edu/webapp/sistemi-distribuiti.html'
-            },
-            {
-                name: 'Le applicazioni web',
-                icon: icons.ppt,
-                url: 'https://docs.google.com/presentation/d/14nNV28D-ktGTRXgYpn-6kJD7fPNWQ3VTTAOxdqPZNEw/edit?usp=drive_link'
-            },
-            {
-                name: 'Paradigmi di comunicazione',
-                icon: icons.doc,
-                url: '/edu/webapp/paradigmi-di-comunicazione.html'
-            },
-        ]
+                name: 'Manuale',
+                url: '/edu/manuale-git.html'
+            }
+        ],
     },
-]
-
+];
 
 const explorer = document.getElementById('edu-explorer');
 if (explorer) {
