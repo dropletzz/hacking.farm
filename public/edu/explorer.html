@@ -1,0 +1,365 @@
+<script>(() => {
+
+const icons = {
+    doc: '󰧮',
+    ppt: '󰐩',
+    pen: '',
+    ext: '',
+    dir: '',
+    dirOpen: '',
+    left: '',
+};
+
+const items = [
+    {
+        name: 'Basi di dati',
+        content: [
+            {
+                name: 'Le forme normali',
+                icon: icons.doc,
+                url: '/edu/basi-dati/forme-normali.html'
+            },
+            {
+                name: 'Algebra relazionale',
+                content: [
+                    {
+                        name: 'Teoria',
+                        icon: icons.doc,
+                        url: '/edu/basi-dati/algebra-relazionale.html'
+                    },
+                    {
+                        name: 'Esercizi',
+                        icon: icons.pen,
+                        url: '/edu/basi-dati/algebra-relazionale-esercizi.html'
+                    },
+                ]
+            }
+        ]
+    },
+    {
+        name: 'Applicazioni web',
+        content: [
+            {
+                name: 'Sistemi distribuiti',
+                icon: icons.doc,
+                url: '/edu/webapp/sistemi-distribuiti.html'
+            },
+            {
+                name: 'Le applicazioni web',
+                icon: icons.ppt,
+                url: 'https://docs.google.com/presentation/d/14nNV28D-ktGTRXgYpn-6kJD7fPNWQ3VTTAOxdqPZNEw/edit?usp=drive_link'
+            },
+            {
+                name: 'Paradigmi di comunicazione',
+                icon: icons.doc,
+                url: '/edu/webapp/paradigmi-di-comunicazione.html'
+            },
+        ]
+    },
+]
+
+
+const explorer = document.getElementById('edu-explorer');
+if (explorer) {
+    const tab = explorer.querySelector('.edu-explorer__tab');
+    const panel = explorer.querySelector('.edu-explorer__panel');
+    const tree = explorer.querySelector('.edu-explorer__tree');
+    const tabIcon = tab.querySelector('.edu-explorer__tab-icon');
+
+    const isExternal = (url) => /^https?:\/\//i.test(url);
+
+    const currentPath = window.location.pathname;
+
+    const isCurrent = (item) => {
+        if (item.url) return item.url === currentPath;
+        if (item.content) return item.content.some(isCurrent);
+        return false;
+    };
+
+    const renderLink = (item) => {
+        const li = document.createElement('li');
+
+        const link = document.createElement('a');
+        link.className = 'edu-explorer__link';
+        link.href = item.url;
+
+        if (item.url === currentPath) {
+            link.classList.add('edu-explorer__link--current');
+        }
+
+        const external = isExternal(item.url);
+        if (external) {
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+        }
+
+        const icon = document.createElement('span');
+        icon.className = 'edu-explorer__icon';
+        icon.setAttribute('aria-hidden', 'true');
+        icon.textContent = item.icon || icons.doc;
+
+        const name = document.createElement('span');
+        name.className = 'edu-explorer__name';
+        name.textContent = item.name;
+
+        link.append(icon, name);
+
+        if (external) {
+            const ext = document.createElement('span');
+            ext.className = 'edu-explorer__ext';
+            ext.setAttribute('aria-hidden', 'true');
+            ext.textContent = icons.ext;
+            ext.title = 'Apre in una nuova scheda';
+            link.append(ext);
+        }
+
+        li.append(link);
+        return li;
+    };
+
+    const renderFolder = (item) => {
+        const li = document.createElement('li');
+        li.className = 'edu-explorer__folder';
+
+        const open = isCurrent(item);
+        li.classList.toggle('is-collapsed', !open);
+
+        const head = document.createElement('button');
+        head.type = 'button';
+        head.className = 'edu-explorer__folder-head';
+        head.setAttribute('aria-expanded', String(open));
+
+        const folderIcon = document.createElement('span');
+        folderIcon.className = 'edu-explorer__folder-icon';
+        folderIcon.setAttribute('aria-hidden', 'true');
+        folderIcon.textContent = open ? icons.dirOpen : icons.dir;
+
+        const folderName = document.createElement('span');
+        folderName.className = 'edu-explorer__folder-name';
+        folderName.textContent = item.name;
+
+        head.append(folderIcon, folderName);
+
+        const children = document.createElement('ul');
+        children.className = 'edu-explorer__items';
+        for (const child of item.content) {
+            children.append(renderItem(child));
+        }
+
+        head.addEventListener('click', () => {
+            const collapsed = head.getAttribute('aria-expanded') === 'true';
+            head.setAttribute('aria-expanded', String(!collapsed));
+            li.classList.toggle('is-collapsed', collapsed);
+            folderIcon.textContent = collapsed ? icons.dir : icons.dirOpen;
+        });
+
+        li.append(head, children);
+        return li;
+    };
+
+    const renderItem = (item) => item.content ? renderFolder(item) : renderLink(item);
+
+    for (const item of items) {
+        tree.append(renderItem(item));
+    }
+
+    const setOpen = (open) => {
+        explorer.dataset.open = String(open);
+        tab.setAttribute('aria-expanded', String(open));
+        panel.setAttribute('aria-hidden', String(!open));
+        tab.setAttribute('aria-label', open ? 'Chiudi esplora file' : 'Apri esplora file');
+        tabIcon.textContent = open ? icons.left : icons.dir;
+    };
+
+    tab.addEventListener('click', () => {
+        setOpen(explorer.dataset.open !== 'true');
+    });
+}
+
+})();</script>
+
+
+<div class="edu-explorer" id="edu-explorer" data-open="false">
+    <button type="button" class="edu-explorer__tab" aria-controls="edu-explorer-panel" aria-expanded="false" aria-label="Apri esplora file">
+        <span class="edu-explorer__tab-icon" aria-hidden="true">&#xF024B;</span>
+    </button>
+    <aside class="edu-explorer__panel" id="edu-explorer-panel" aria-hidden="true">
+        <nav class="edu-explorer__nav">
+            <ul class="edu-explorer__tree" id="edu-explorer-tree"></ul>
+        </nav>
+    </aside>
+</div>
+
+<style>
+
+.edu-explorer {
+    --edu-explorer-width: 16rem;
+}
+
+.edu-explorer__tab {
+    position: fixed;
+    top: 1rem;
+    left: 0;
+    z-index: 902;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 2.5rem;
+    padding: 0;
+    margin: 0;
+    background: var(--accent);
+    border-radius: 0;
+    color: var(--bg-secondary);
+    cursor: pointer;
+    transition: left 0.25s ease, filter 0.2s ease;
+    border: none;
+}
+
+.edu-explorer[data-open="true"] .edu-explorer__tab {
+    left: var(--edu-explorer-width);
+}
+
+.edu-explorer__tab:hover {
+    filter: brightness(1.1);
+}
+
+.edu-explorer__tab-icon {
+    font-family: 'NerdFontSymbols';
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.edu-explorer__panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: var(--edu-explorer-width);
+    max-width: 85vw;
+    z-index: 901;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-secondary);
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    border-right: 1px solid var(--accent);
+}
+
+.edu-explorer[data-open="true"] .edu-explorer__panel {
+    transform: translateX(0);
+}
+
+.edu-explorer__nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5rem 0;
+}
+
+.edu-explorer__tree,
+.edu-explorer__items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.edu-explorer__folder-head {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    width: 100%;
+    padding: 0.4rem 0.75rem;
+    margin: 0;
+    background: none;
+    border: none;
+    color: var(--text-main);
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+}
+
+.edu-explorer__folder-head:hover {
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+.edu-explorer__folder-icon {
+    font-family: 'NerdFontSymbols';
+    font-size: 1rem;
+    line-height: 1;
+    color: var(--text-muted);
+    flex: 0 0 auto;
+}
+
+.edu-explorer__folder-name {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.edu-explorer__items {
+    padding-left: 1.1rem;
+}
+
+.edu-explorer__link {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
+    color: var(--text-main);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.edu-explorer__link:hover {
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    color: var(--accent);
+}
+
+.edu-explorer__icon {
+    font-family: 'NerdFontSymbols';
+    font-size: 0.9rem;
+    line-height: 1;
+    color: var(--text-muted);
+    flex: 0 0 auto;
+}
+
+.edu-explorer__name {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.edu-explorer__ext {
+    font-family: 'NerdFontSymbols';
+    font-size: 0.7rem;
+    line-height: 1;
+    color: var(--text-muted);
+    flex: 0 0 auto;
+}
+
+.edu-explorer__link:hover .edu-explorer__icon,
+.edu-explorer__link:hover .edu-explorer__ext {
+    color: var(--accent);
+}
+
+.edu-explorer__link--current .edu-explorer__name {
+    color: var(--accent);
+}
+
+.edu-explorer__folder.is-collapsed .edu-explorer__items {
+    display: none;
+}
+
+.edu-explorer__tab:focus-visible,
+.edu-explorer__folder-head:focus-visible,
+.edu-explorer__link:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+</style>
+

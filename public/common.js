@@ -3,7 +3,12 @@ const _components = {
         const response = await fetch('/theme-selector.html');
         const html = await response.text();
         _mountComponent(mount, html);
-    }
+    },
+    eduExplorer: async (mount = document.body) => {
+        const response = await fetch('/edu/explorer.html');
+        const html = await response.text();
+        _mountComponent(mount, html);
+    },
 };
 
 const _mountComponent = (mount, html) => {
