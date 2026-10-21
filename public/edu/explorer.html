@@ -90,12 +90,12 @@ const items = [
 
 const explorer = document.getElementById('edu-explorer');
 if (explorer) {
-    const panel = explorer.querySelector('.edu-explorer__panel');
-    const tree = explorer.querySelector('.edu-explorer__tree');
-    const breadcrumbs = explorer.querySelector('.edu-explorer__breadcrumbs');
-    const topbarIcon = explorer.querySelector('.edu-explorer__topbar-icon');
-    const closeButton = explorer.querySelector('.edu-explorer__close');
-    const toggleButton = explorer.querySelector('.edu-explorer__topbar-toggle');
+    const panel = explorer.querySelector('.panel');
+    const tree = explorer.querySelector('.tree');
+    const breadcrumbs = explorer.querySelector('.breadcrumbs');
+    const topbarIcon = explorer.querySelector('.topbar-icon');
+    const closeButton = explorer.querySelector('.close');
+    const toggleButton = explorer.querySelector('.topbar-toggle');
 
     const isExternal = (url) => /^https?:\/\//i.test(url);
 
@@ -147,7 +147,7 @@ if (explorer) {
             if (item.content) {
                 const crumb = document.createElement('button');
                 crumb.type = 'button';
-                crumb.className = 'edu-explorer__crumb edu-explorer__crumb--folder';
+                crumb.className = 'crumb folder';
                 crumb.textContent = item.name;
                 crumb.addEventListener('click', () => {
                     openFolders = new Set(getOpenFolders(items, item));
@@ -157,14 +157,14 @@ if (explorer) {
                 breadcrumbs.append(crumb);
             } else {
                 const crumb = document.createElement('span');
-                crumb.className = 'edu-explorer__crumb';
+                crumb.className = 'crumb';
                 crumb.textContent = item.name;
                 breadcrumbs.append(crumb);
             }
 
             if (i < pathItems.length - 1) {
                 const sep = document.createElement('span');
-                sep.className = 'edu-explorer__crumb-sep';
+                sep.className = 'crumb-sep';
                 sep.setAttribute('aria-hidden', 'true');
                 sep.textContent = '/';
                 breadcrumbs.append(sep);
@@ -178,11 +178,11 @@ if (explorer) {
         const li = document.createElement('li');
 
         const link = document.createElement('a');
-        link.className = 'edu-explorer__link';
+        link.className = 'link';
         link.href = item.url;
 
         if (item.url === currentPath) {
-            link.classList.add('edu-explorer__link--current');
+            link.classList.add('current');
         }
 
         const external = isExternal(item.url);
@@ -192,19 +192,19 @@ if (explorer) {
         }
 
         const icon = document.createElement('span');
-        icon.className = 'edu-explorer__icon';
+        icon.className = 'icon';
         icon.setAttribute('aria-hidden', 'true');
         icon.textContent = item.icon || icons.doc;
 
         const name = document.createElement('span');
-        name.className = 'edu-explorer__name';
+        name.className = 'name';
         name.textContent = item.name;
 
         link.append(icon, name);
 
         if (external) {
             const ext = document.createElement('span');
-            ext.className = 'edu-explorer__ext';
+            ext.className = 'ext';
             ext.setAttribute('aria-hidden', 'true');
             ext.textContent = icons.ext;
             ext.title = 'Apre in una nuova scheda';
@@ -217,29 +217,29 @@ if (explorer) {
 
     const renderFolder = (item) => {
         const li = document.createElement('li');
-        li.className = 'edu-explorer__folder';
+        li.className = 'folder';
 
         const open = openFolders.has(item);
-        li.classList.toggle('is-collapsed', !open);
+        li.classList.toggle('collapsed', !open);
 
         const head = document.createElement('button');
         head.type = 'button';
-        head.className = 'edu-explorer__folder-head';
+        head.className = 'folder-head';
         head.setAttribute('aria-expanded', String(open));
 
         const folderIcon = document.createElement('span');
-        folderIcon.className = 'edu-explorer__folder-icon';
+        folderIcon.className = 'folder-icon';
         folderIcon.setAttribute('aria-hidden', 'true');
         folderIcon.textContent = open ? icons.dirOpen : icons.dir;
 
         const folderName = document.createElement('span');
-        folderName.className = 'edu-explorer__folder-name';
+        folderName.className = 'folder-name';
         folderName.textContent = item.name;
 
         head.append(folderIcon, folderName);
 
         const children = document.createElement('ul');
-        children.className = 'edu-explorer__items';
+        children.className = 'items';
         for (const child of item.content) {
             children.append(renderItem(child));
         }
@@ -247,7 +247,7 @@ if (explorer) {
         head.addEventListener('click', () => {
             const collapsed = head.getAttribute('aria-expanded') === 'true';
             head.setAttribute('aria-expanded', String(!collapsed));
-            li.classList.toggle('is-collapsed', collapsed);
+            li.classList.toggle('collapsed', collapsed);
             folderIcon.textContent = collapsed ? icons.dir : icons.dirOpen;
         });
 
@@ -294,21 +294,21 @@ if (explorer) {
 
 
 <div class="edu-explorer" id="edu-explorer" data-open="false">
-    <div class="edu-explorer__topbar-spacing"></div>
-    <header class="edu-explorer__topbar">
-        <button type="button" class="edu-explorer__topbar-toggle" aria-expanded="false" aria-label="Mostra o nascondi esplora file">
-            <span class="edu-explorer__topbar-icon" aria-hidden="true"></span>
+    <div class="topbar-spacing"></div>
+    <header class="topbar">
+        <button type="button" class="topbar-toggle" aria-expanded="false" aria-label="Mostra o nascondi esplora file">
+            <span class="topbar-icon" aria-hidden="true"></span>
         </button>
-        <nav class="edu-explorer__breadcrumbs" aria-label="Percorso"></nav>
+        <nav class="breadcrumbs" aria-label="Percorso"></nav>
     </header>
-    <aside class="edu-explorer__panel" id="edu-explorer-panel" aria-hidden="true">
-        <div class="edu-explorer__panel-head">
+    <aside class="panel" id="edu-explorer-panel" aria-hidden="true">
+        <div class="panel-head">
         </div>
-        <nav class="edu-explorer__nav">
-            <button type="button" class="edu-explorer__close" aria-label="Chiudi esplora file">
-                <span class="edu-explorer__close-icon" aria-hidden="true">&#xF0156;</span>
+        <nav class="nav">
+            <button type="button" class="close" aria-label="Chiudi esplora file">
+                <span class="close-icon" aria-hidden="true">&#xF0156;</span>
             </button>
-            <ul class="edu-explorer__tree" id="edu-explorer-tree"></ul>
+            <ul class="tree" id="edu-explorer-tree"></ul>
         </nav>
     </aside>
 </div>
@@ -320,11 +320,11 @@ if (explorer) {
     --edu-explorer-topbar-height: 2.6rem;
 }
 
-.edu-explorer__topbar-spacing {
+.edu-explorer .topbar-spacing {
     height: var(--edu-explorer-topbar-height);
 }
 
-.edu-explorer__topbar {
+.edu-explorer .topbar {
     position: fixed;
     top: 0;
     left: 0;
@@ -339,7 +339,7 @@ if (explorer) {
     border-bottom: 1px solid var(--accent);
 }
 
-.edu-explorer__topbar-toggle {
+.edu-explorer .topbar-toggle {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -352,13 +352,13 @@ if (explorer) {
     flex: 0 0 auto;
 }
 
-.edu-explorer__topbar-icon {
+.edu-explorer .topbar-icon {
     font-family: 'NerdFontSymbols';
     font-size: 1.2rem;
     line-height: 1;
 }
 
-.edu-explorer__breadcrumbs {
+.edu-explorer .breadcrumbs {
     flex: 1;
     display: flex;
     align-items: center;
@@ -367,7 +367,7 @@ if (explorer) {
     white-space: nowrap;
 }
 
-.edu-explorer__crumb {
+.edu-explorer .crumb {
     color: var(--text-main);
     font-size: 1rem;
     overflow: hidden;
@@ -375,7 +375,7 @@ if (explorer) {
     min-width: 0;
 }
 
-.edu-explorer__crumb--folder {
+.edu-explorer .crumb.folder {
     background: none;
     border: none;
     padding: 0;
@@ -385,17 +385,17 @@ if (explorer) {
     cursor: pointer;
 }
 
-.edu-explorer__crumb--folder:hover {
+.edu-explorer .crumb.folder:hover {
     color: var(--accent);
 }
 
-.edu-explorer__crumb-sep {
+.edu-explorer .crumb-sep {
     color: var(--text-muted);
     font-size: 0.8rem;
     flex: 0 0 auto;
 }
 
-.edu-explorer__close {
+.edu-explorer .close {
     position: absolute;
     right: 0;
     top: 0;
@@ -414,17 +414,17 @@ if (explorer) {
     flex: 0 0 auto;
 }
 
-.edu-explorer__close:hover {
+.edu-explorer .close:hover {
     color: var(--bg-secondary);
 }
 
-.edu-explorer__close-icon {
+.edu-explorer .close-icon {
     font-family: 'NerdFontSymbols';
     font-size: 0.9rem;
     line-height: 1;
 }
 
-.edu-explorer__panel {
+.edu-explorer .panel {
     position: fixed;
     top: var(--edu-explorer-topbar-height);
     left: 0;
@@ -440,24 +440,24 @@ if (explorer) {
     border-right: 1px solid var(--accent);
 }
 
-.edu-explorer[data-open="true"] .edu-explorer__panel {
+.edu-explorer[data-open="true"] .panel {
     transform: translateX(0);
 }
 
-.edu-explorer__nav {
+.edu-explorer .nav {
     flex: 1;
     overflow-y: auto;
     padding: 0.5rem 0;
 }
 
-.edu-explorer__tree,
-.edu-explorer__items {
+.edu-explorer .tree,
+.edu-explorer .items {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.edu-explorer__folder-head {
+.edu-explorer .folder-head {
     display: flex;
     align-items: center;
     gap: 0.4rem;
@@ -474,11 +474,11 @@ if (explorer) {
     cursor: pointer;
 }
 
-.edu-explorer__folder-head:hover {
+.edu-explorer .folder-head:hover {
     background: color-mix(in srgb, var(--accent) 8%, transparent);
 }
 
-.edu-explorer__folder-icon {
+.edu-explorer .folder-icon {
     font-family: 'NerdFontSymbols';
     font-size: 1rem;
     line-height: 1;
@@ -486,18 +486,18 @@ if (explorer) {
     flex: 0 0 auto;
 }
 
-.edu-explorer__folder-name {
+.edu-explorer .folder-name {
     flex: 1;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
-.edu-explorer__items {
+.edu-explorer .items {
     padding-left: 1.1rem;
 }
 
-.edu-explorer__link {
+.edu-explorer .link {
     display: flex;
     align-items: center;
     gap: 0.4rem;
@@ -507,12 +507,12 @@ if (explorer) {
     font-size: 0.9rem;
 }
 
-.edu-explorer__link:hover {
+.edu-explorer .link:hover {
     background: color-mix(in srgb, var(--accent) 8%, transparent);
     color: var(--accent);
 }
 
-.edu-explorer__icon {
+.edu-explorer .icon {
     font-family: 'NerdFontSymbols';
     font-size: 0.9rem;
     line-height: 1;
@@ -520,14 +520,14 @@ if (explorer) {
     flex: 0 0 auto;
 }
 
-.edu-explorer__name {
+.edu-explorer .name {
     flex: 1;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
-.edu-explorer__ext {
+.edu-explorer .ext {
     font-family: 'NerdFontSymbols';
     font-size: 0.7rem;
     line-height: 1;
@@ -535,27 +535,26 @@ if (explorer) {
     flex: 0 0 auto;
 }
 
-.edu-explorer__link:hover .edu-explorer__icon,
-.edu-explorer__link:hover .edu-explorer__ext {
+.edu-explorer .link:hover .icon,
+.edu-explorer .link:hover .ext {
     color: var(--accent);
 }
 
-.edu-explorer__link--current .edu-explorer__name {
+.edu-explorer .link.current .name {
     color: var(--accent);
 }
 
-.edu-explorer__folder.is-collapsed .edu-explorer__items {
+.edu-explorer .folder.collapsed .items {
     display: none;
 }
 
-.edu-explorer__topbar-toggle:focus-visible,
-.edu-explorer__crumb--folder:focus-visible,
-.edu-explorer__close:focus-visible,
-.edu-explorer__folder-head:focus-visible,
-.edu-explorer__link:focus-visible {
+.edu-explorer .topbar-toggle:focus-visible,
+.edu-explorer .crumb.folder:focus-visible,
+.edu-explorer .close:focus-visible,
+.edu-explorer .folder-head:focus-visible,
+.edu-explorer .link:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
 }
 
 </style>
-
