@@ -90,20 +90,89 @@ const items = [
 
 const explorer = document.getElementById('edu-explorer');
 if (explorer) {
-    const tab = explorer.querySelector('.edu-explorer__tab');
     const panel = explorer.querySelector('.edu-explorer__panel');
     const tree = explorer.querySelector('.edu-explorer__tree');
-    const tabIcon = tab.querySelector('.edu-explorer__tab-icon');
+    const breadcrumbs = explorer.querySelector('.edu-explorer__breadcrumbs');
+    const topbarIcon = explorer.querySelector('.edu-explorer__topbar-icon');
+    const closeButton = explorer.querySelector('.edu-explorer__close');
+    const toggleButton = explorer.querySelector('.edu-explorer__topbar-toggle');
 
     const isExternal = (url) => /^https?:\/\//i.test(url);
 
     const currentPath = window.location.pathname;
 
-    const isCurrent = (item) => {
-        if (item.url) return item.url === currentPath;
-        if (item.content) return item.content.some(isCurrent);
-        return false;
+    const findItem = (list, predicate) => {
+        for (const item of list) {
+            if (predicate(item)) return item;
+            if (item.content) {
+                const found = findItem(item.content, predicate);
+                if (found) return found;
+            }
+        }
+        return null;
     };
+
+    const getPathItems = (list, target, trail = []) => {
+        for (const item of list) {
+            if (item === target) return [...trail, item];
+            if (item.content) {
+                const sub = getPathItems(item.content, target, [...trail, item]);
+                if (sub) return sub;
+            }
+        }
+        return null;
+    };
+
+    const getOpenFolders = (list, target, trail = []) => {
+        for (const item of list) {
+            if (item === target) {
+                return item.content ? [...trail, item] : trail;
+            }
+            if (item.content) {
+                const sub = getOpenFolders(item.content, target, [...trail, item]);
+                if (sub) return sub;
+            }
+        }
+        return null;
+    };
+
+    const currentItem = findItem(items, (item) => item.url === currentPath);
+    let openFolders = new Set(currentItem ? getOpenFolders(items, currentItem) : []);
+
+    const renderBreadcrumbs = () => {
+        breadcrumbs.textContent = '';
+        const pathItems = currentItem ? getPathItems(items, currentItem) : [];
+        for (let i = 0; i < pathItems.length; i++) {
+            const item = pathItems[i];
+            if (item.content) {
+                const crumb = document.createElement('button');
+                crumb.type = 'button';
+                crumb.className = 'edu-explorer__crumb edu-explorer__crumb--folder';
+                crumb.textContent = item.name;
+                crumb.addEventListener('click', () => {
+                    openFolders = new Set(getOpenFolders(items, item));
+                    renderTree();
+                    setOpen(true);
+                });
+                breadcrumbs.append(crumb);
+            } else {
+                const crumb = document.createElement('span');
+                crumb.className = 'edu-explorer__crumb';
+                crumb.textContent = item.name;
+                breadcrumbs.append(crumb);
+            }
+
+            if (i < pathItems.length - 1) {
+                const sep = document.createElement('span');
+                sep.className = 'edu-explorer__crumb-sep';
+                sep.setAttribute('aria-hidden', 'true');
+                sep.textContent = '/';
+                breadcrumbs.append(sep);
+            }
+        }
+    };
+
+    renderBreadcrumbs();
 
     const renderLink = (item) => {
         const li = document.createElement('li');
@@ -150,7 +219,7 @@ if (explorer) {
         const li = document.createElement('li');
         li.className = 'edu-explorer__folder';
 
-        const open = isCurrent(item);
+        const open = openFolders.has(item);
         li.classList.toggle('is-collapsed', !open);
 
         const head = document.createElement('button');
@@ -188,20 +257,36 @@ if (explorer) {
 
     const renderItem = (item) => item.content ? renderFolder(item) : renderLink(item);
 
-    for (const item of items) {
-        tree.append(renderItem(item));
-    }
+    const renderTree = () => {
+        tree.textContent = '';
+        for (const item of items) {
+            tree.append(renderItem(item));
+        }
+    };
+
+    renderTree();
 
     const setOpen = (open) => {
         explorer.dataset.open = String(open);
-        tab.setAttribute('aria-expanded', String(open));
         panel.setAttribute('aria-hidden', String(!open));
-        tab.setAttribute('aria-label', open ? 'Chiudi esplora file' : 'Apri esplora file');
-        tabIcon.textContent = open ? icons.left : icons.dir;
+        toggleButton.setAttribute('aria-expanded', String(open));
+        topbarIcon.textContent = open ? icons.dirOpen : icons.dir;
     };
 
-    tab.addEventListener('click', () => {
+    topbarIcon.textContent = icons.dir;
+
+    toggleButton.addEventListener('click', () => {
         setOpen(explorer.dataset.open !== 'true');
+    });
+
+    closeButton.addEventListener('click', () => {
+        setOpen(false);
+    });
+
+    document.addEventListener('click', (event) => {
+        if (explorer.dataset.open === 'true' && !explorer.contains(event.target)) {
+            setOpen(false);
+        }
     });
 }
 
@@ -209,11 +294,20 @@ if (explorer) {
 
 
 <div class="edu-explorer" id="edu-explorer" data-open="false">
-    <button type="button" class="edu-explorer__tab" aria-controls="edu-explorer-panel" aria-expanded="false" aria-label="Apri esplora file">
-        <span class="edu-explorer__tab-icon" aria-hidden="true">&#xF024B;</span>
-    </button>
+    <div class="edu-explorer__topbar-spacing"></div>
+    <header class="edu-explorer__topbar">
+        <button type="button" class="edu-explorer__topbar-toggle" aria-expanded="false" aria-label="Mostra o nascondi esplora file">
+            <span class="edu-explorer__topbar-icon" aria-hidden="true"></span>
+        </button>
+        <nav class="edu-explorer__breadcrumbs" aria-label="Percorso"></nav>
+    </header>
     <aside class="edu-explorer__panel" id="edu-explorer-panel" aria-hidden="true">
+        <div class="edu-explorer__panel-head">
+        </div>
         <nav class="edu-explorer__nav">
+            <button type="button" class="edu-explorer__close" aria-label="Chiudi esplora file">
+                <span class="edu-explorer__close-icon" aria-hidden="true">&#xF0156;</span>
+            </button>
             <ul class="edu-explorer__tree" id="edu-explorer-tree"></ul>
         </nav>
     </aside>
@@ -223,47 +317,118 @@ if (explorer) {
 
 .edu-explorer {
     --edu-explorer-width: 16rem;
+    --edu-explorer-topbar-height: 2.6rem;
 }
 
-.edu-explorer__tab {
+.edu-explorer__topbar-spacing {
+    height: var(--edu-explorer-topbar-height);
+}
+
+.edu-explorer__topbar {
     position: fixed;
-    top: 1rem;
+    top: 0;
     left: 0;
+    width: 100%;
+    height: var(--edu-explorer-topbar-height);
     z-index: 902;
     display: flex;
     align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--accent);
+}
+
+.edu-explorer__topbar-toggle {
+    display: flex;
+    align-items: center;
     justify-content: center;
-    width: 1.5rem;
-    height: 2.5rem;
     padding: 0;
     margin: 0;
-    background: var(--accent);
-    border-radius: 0;
-    color: var(--bg-secondary);
-    cursor: pointer;
-    transition: left 0.25s ease, filter 0.2s ease;
+    background: none;
     border: none;
+    color: var(--accent);
+    cursor: pointer;
+    flex: 0 0 auto;
 }
 
-.edu-explorer[data-open="true"] .edu-explorer__tab {
-    left: var(--edu-explorer-width);
-}
-
-.edu-explorer__tab:hover {
-    filter: brightness(1.1);
-}
-
-.edu-explorer__tab-icon {
+.edu-explorer__topbar-icon {
     font-family: 'NerdFontSymbols';
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+.edu-explorer__breadcrumbs {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.edu-explorer__crumb {
+    color: var(--text-main);
+    font-size: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+
+.edu-explorer__crumb--folder {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.edu-explorer__crumb--folder:hover {
+    color: var(--accent);
+}
+
+.edu-explorer__crumb-sep {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    flex: 0 0 auto;
+}
+
+.edu-explorer__close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: var(--accent);
+    color: var(--bg-primary);
+    width: 1.5rem;
+    height: 1.5rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    border: none;
+    cursor: pointer;
+    flex: 0 0 auto;
+}
+
+.edu-explorer__close:hover {
+    color: var(--bg-secondary);
+}
+
+.edu-explorer__close-icon {
+    font-family: 'NerdFontSymbols';
+    font-size: 0.9rem;
     line-height: 1;
 }
 
 .edu-explorer__panel {
     position: fixed;
-    top: 0;
+    top: var(--edu-explorer-topbar-height);
     left: 0;
-    height: 100vh;
+    height: calc(100vh - var(--edu-explorer-topbar-height));
     width: var(--edu-explorer-width);
     max-width: 85vw;
     z-index: 901;
@@ -383,7 +548,9 @@ if (explorer) {
     display: none;
 }
 
-.edu-explorer__tab:focus-visible,
+.edu-explorer__topbar-toggle:focus-visible,
+.edu-explorer__crumb--folder:focus-visible,
+.edu-explorer__close:focus-visible,
 .edu-explorer__folder-head:focus-visible,
 .edu-explorer__link:focus-visible {
     outline: 2px solid var(--accent);
