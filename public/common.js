@@ -15,27 +15,25 @@ const _mountComponent = (mount, html, prepend = false) => {
     const template = document.createElement('template');
     template.innerHTML = html;
 
-    const scripts = Array.from(template.content.querySelectorAll('script'));
-    scripts.forEach((script) => script.remove());
-
-    const styles = Array.from(template.content.querySelectorAll('style'));
-    styles.forEach((style) => style.remove());
-
-    if (prepend) mount.prepend(template.content)
-    else         mount.append(template.content)
-
-    const recreateAndMountOn = (mountPoint, prepend = false) => {
+    const recreateAndMountOn = mountPoint => {
         return sourceElem => {
             const newElem = document.createElement(sourceElem.tagName);
             for (const attr of sourceElem.attributes) {
                 newElem.setAttribute(attr.name, attr.value);
             }
             newElem.textContent = sourceElem.textContent;
-            if (prepend) mountPoint.prepend(newElem);
-            else         mountPoint.append(newElem);
+            mountPoint.append(newElem);
         }
     }
 
+    const styles = Array.from(template.content.querySelectorAll('style'));
+    styles.forEach((style) => style.remove());
     styles.forEach(recreateAndMountOn(document.head));
-    scripts.forEach(recreateAndMountOn(mount, prepend));
+
+    const scripts = Array.from(template.content.querySelectorAll('script'));
+    scripts.forEach((script) => script.remove());
+    scripts.forEach(recreateAndMountOn(template.content));
+
+    if (prepend) mount.prepend(template.content)
+    else         mount.append(template.content)
 }
