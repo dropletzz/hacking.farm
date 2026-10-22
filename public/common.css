@@ -249,13 +249,6 @@ body {
 }
 
 @font-face {
-    font-family: 'Monoid Retina';
-    src: url('fonts/Monoid/Monoid-Retina.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
-}
-
-@font-face {
     font-family: 'NerdFontSymbols';
     src: url('fonts/NerdFontSymbols/SymbolsNerdFont-Regular.ttf') format('truetype');
     font-weight: 400;
