@@ -1,0 +1,374 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esercizi sulla normalizzazione</title>
+    <link rel="stylesheet" href="../../common.css">
+    <link rel="stylesheet" href="../common.css">
+
+    <script src="../../common.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        _components.themeSelector();
+        _components.eduExplorer();
+    });
+    </script>
+</head>
+<body>
+
+<div class="edu-container">
+
+    <header>
+        <h1>Esercizi sulla normalizzazione</h1>
+        <p>Analisi delle dipendenze funzionali e decomposizione in 3NF</p>
+    </header>
+
+    <p class="abstract">Per ciascuna tabella individua la <strong>chiave primaria</strong>, le <strong>dipendenze funzionali</strong> e applica il processo di normalizzazione fino alla <strong>terza forma normale (3NF)</strong>.</p>
+
+    <section>
+        <h2><span class="num">1</span> Tabella Voli</h2>
+        <p>La tabella registra l'orario e le caratteristiche dei voli operati dalle varie tratte e aerei.</p>
+
+        <div class="table-container">
+            <table class="data">
+                <caption>Voli</caption>
+                <thead>
+                    <tr>
+                        <th>ora_volo</th>
+                        <th>tratta</th>
+                        <th>partenza</th>
+                        <th>arrivo</th>
+                        <th>aereo</th>
+                        <th>posti</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>07.00</td>
+                        <td>T1</td>
+                        <td>Milano</td>
+                        <td>Napoli</td>
+                        <td>A01</td>
+                        <td>90</td>
+                    </tr>
+                    <tr>
+                        <td>07.00</td>
+                        <td>T2</td>
+                        <td>Roma</td>
+                        <td>Milano</td>
+                        <td>A05</td>
+                        <td>80</td>
+                    </tr>
+                    <tr>
+                        <td>12.30</td>
+                        <td>T1</td>
+                        <td>Milano</td>
+                        <td>Napoli</td>
+                        <td>A02</td>
+                        <td>70</td>
+                    </tr>
+                    <tr>
+                        <td>10.00</td>
+                        <td>T2</td>
+                        <td>Roma</td>
+                        <td>Milano</td>
+                        <td>A01</td>
+                        <td>90</td>
+                    </tr>
+                    <tr>
+                        <td>10.00</td>
+                        <td>T3</td>
+                        <td>Roma</td>
+                        <td>Napoli</td>
+                        <td>A07</td>
+                        <td>85</td>
+                    </tr>
+                    <tr>
+                        <td>11.30</td>
+                        <td>T1</td>
+                        <td>Milano</td>
+                        <td>Napoli</td>
+                        <td>A05</td>
+                        <td>80</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section>
+        <h2><span class="num">2</span> Tabella Ordini</h2>
+        <p>La tabella traccia gli ordini effettuati dai clienti, gli articoli acquistati, i dettagli del prezzo e le quantità ordinate.</p>
+
+        <div class="table-container">
+            <table class="data">
+                <caption>Ordini</caption>
+                <thead>
+                    <tr>
+                        <th>cliente</th>
+                        <th>indirizzo</th>
+                        <th>articolo</th>
+                        <th>descrizione</th>
+                        <th>prezzo</th>
+                        <th>n_ordine</th>
+                        <th>quantita</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>C1</td>
+                        <td>I1</td>
+                        <td>A1</td>
+                        <td>D1</td>
+                        <td>15</td>
+                        <td>1</td>
+                        <td>50</td>
+                    </tr>
+                    <tr>
+                        <td>C1</td>
+                        <td>I1</td>
+                        <td>A2</td>
+                        <td>D2</td>
+                        <td>10</td>
+                        <td>1</td>
+                        <td>50</td>
+                    </tr>
+                    <tr>
+                        <td>C1</td>
+                        <td>I1</td>
+                        <td>A1</td>
+                        <td>D1</td>
+                        <td>15</td>
+                        <td>2</td>
+                        <td>100</td>
+                    </tr>
+                    <tr>
+                        <td>C1</td>
+                        <td>I1</td>
+                        <td>A3</td>
+                        <td>D3</td>
+                        <td>5</td>
+                        <td>3</td>
+                        <td>50</td>
+                    </tr>
+                    <tr>
+                        <td>C2</td>
+                        <td>I2</td>
+                        <td>A2</td>
+                        <td>D2</td>
+                        <td>10</td>
+                        <td>1</td>
+                        <td>60</td>
+                    </tr>
+                    <tr>
+                        <td>C2</td>
+                        <td>I2</td>
+                        <td>A4</td>
+                        <td>D4</td>
+                        <td>20</td>
+                        <td>2</td>
+                        <td>100</td>
+                    </tr>
+                    <tr>
+                        <td>C3</td>
+                        <td>I3</td>
+                        <td>A1</td>
+                        <td>D1</td>
+                        <td>15</td>
+                        <td>1</td>
+                        <td>60</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section>
+        <h2><span class="num">3</span> Tabella Corsi</h2>
+        <p>La tabella gestisce i dati relativi agli allievi iscritti ai corsi, le informazioni sul tipo di corso, il saldo dovuto e la sede dell'insegnante.</p>
+
+        <div class="table-container">
+            <table class="data">
+                <caption>Corsi</caption>
+                <thead>
+                    <tr>
+                        <th>Allievo</th>
+                        <th>Telefono</th>
+                        <th>Corso</th>
+                        <th>TipoCorso</th>
+                        <th>Saldo</th>
+                        <th>Insegnante</th>
+                        <th>Indirizzo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Matteo</td>
+                        <td>303180</td>
+                        <td>C1</td>
+                        <td>Ju-jitsu</td>
+                        <td>250.00</td>
+                        <td>Giovanni</td>
+                        <td>Via Roma</td>
+                    </tr>
+                    <tr>
+                        <td>Pietro</td>
+                        <td>304140</td>
+                        <td>C1</td>
+                        <td>Ju-jitsu</td>
+                        <td>200.00</td>
+                        <td>Giovanni</td>
+                        <td>Via Roma</td>
+                    </tr>
+                    <tr>
+                        <td>Matteo</td>
+                        <td>303180</td>
+                        <td>C4</td>
+                        <td>Karate</td>
+                        <td>300.00</td>
+                        <td>Marco</td>
+                        <td>Via Bini</td>
+                    </tr>
+                    <tr>
+                        <td>Andrea</td>
+                        <td>303530</td>
+                        <td>C3</td>
+                        <td>Judo</td>
+                        <td>300.00</td>
+                        <td>Luca</td>
+                        <td>Via Roma</td>
+                    </tr>
+                    <tr>
+                        <td>Pietro</td>
+                        <td>304140</td>
+                        <td>C7</td>
+                        <td>Judo</td>
+                        <td>250.00</td>
+                        <td>Giovanni</td>
+                        <td>Via Roma</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section>
+        <h2><span class="num">4</span> Spedizioni e magazzini</h2>
+        <p>La tabella traccia i prodotti spediti nei vari ordini di logistica, il magazzino di partenza, la sua ubicazione e la quantità spedita.</p>
+
+        <div class="table-container">
+            <table class="data">
+                <caption>Spedizioni</caption>
+                <thead>
+                    <tr>
+                        <th>id_spedizione</th>
+                        <th>id_prodotto</th>
+                        <th>nome_prodotto</th>
+                        <th>id_magazzino</th>
+                        <th>citta_magazzino</th>
+                        <th>quantita</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>S1</td>
+                        <td>P10</td>
+                        <td>Monitor</td>
+                        <td>M1</td>
+                        <td>Milano</td>
+                        <td>50</td>
+                    </tr>
+                    <tr>
+                        <td>S1</td>
+                        <td>P20</td>
+                        <td>Tastiera</td>
+                        <td>M1</td>
+                        <td>Milano</td>
+                        <td>100</td>
+                    </tr>
+                    <tr>
+                        <td>S2</td>
+                        <td>P10</td>
+                        <td>Monitor</td>
+                        <td>M2</td>
+                        <td>Roma</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <td>S3</td>
+                        <td>P30</td>
+                        <td>Mouse</td>
+                        <td>M1</td>
+                        <td>Milano</td>
+                        <td>200</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section>
+        <h2><span class="num">5</span> Noleggio veicoli</h2>
+        <p>La tabella registra i noleggi effettuati dai clienti, i dettagli dell'auto scelta e la tariffa giornaliera legata alla categoria del veicolo.</p>
+
+        <div class="table-container">
+            <table class="data">
+                <caption>Noleggi</caption>
+                <thead>
+                    <tr>
+                        <th>id_noleggio</th>
+                        <th>codice_fiscale</th>
+                        <th>nome_cliente</th>
+                        <th>targa</th>
+                        <th>modello</th>
+                        <th>categoria</th>
+                        <th>tariffa_giornaliera</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>N1</td>
+                        <td>RSSMRA80A01H501U</td>
+                        <td>Mario Rossi</td>
+                        <td>AB123CD</td>
+                        <td>Panda</td>
+                        <td>Citycar</td>
+                        <td>40</td>
+                    </tr>
+                    <tr>
+                        <td>N2</td>
+                        <td>VRDLGI85M02F205Z</td>
+                        <td>Luigi Verdi</td>
+                        <td>EF456GH</td>
+                        <td>Golf</td>
+                        <td>Compact</td>
+                        <td>60</td>
+                    </tr>
+                    <tr>
+                        <td>N3</td>
+                        <td>RSSMRA80A01H501U</td>
+                        <td>Mario Rossi</td>
+                        <td>EF456GH</td>
+                        <td>Golf</td>
+                        <td>Compact</td>
+                        <td>60</td>
+                    </tr>
+                    <tr>
+                        <td>N4</td>
+                        <td>BNCGLI90S03H501X</td>
+                        <td>Giulia Bianchi</td>
+                        <td>AB123CD</td>
+                        <td>Panda</td>
+                        <td>Citycar</td>
+                        <td>40</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+</div>
+
+</body>
+</html>
