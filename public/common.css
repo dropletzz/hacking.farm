@@ -31,6 +31,39 @@ body {
     padding: 0;
 }
 
+.btn {
+    border: 1px solid var(--text-main);
+    color: var(--text-main);
+    background: transparent;
+    font-size: 1rem;
+    padding: 0.2rem 0.4rem 0.2rem 0.4rem;
+    cursor: pointer;
+}
+.btn:hover {
+    background: var(--text-main);
+    color: var(--bg-secondary);
+}
+.btn--accent {
+    border: 1px solid var(--accent);
+    color: var(--accent);
+}
+.btn--accent:hover {
+    background: var(--accent);
+    color: var(--bg-secondary);
+}
+
+.hidden {
+    display: none;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.icon {
+    font-family: 'NerdFontSymbols';
+}
+
 @font-face {
     font-family: 'AtkinsonMono';
     src: url('fonts/Atkinson Hyperlegible Mono/AtkinsonHyperlegibleMono-ExtraLight.otf') format('opentype');

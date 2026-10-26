@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Algebra Relazionale</title>
+    <title>Algebra relazionale</title>
     <link rel="stylesheet" href="../../common.css">
     <link rel="stylesheet" href="../common.css">
 
     <script src="../../common.js"></script>
+    <script src="../common.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         _components.themeSelector();
@@ -464,7 +465,33 @@
             </table>
         </div>
         <div class="vspace"></div>
-        <p><strong>Obiettivo:</strong> Scrivere l'espressione in algebra relazionale per ricavare l'elenco contenente unicamente i nomi dei dipendenti che guadagnano più di 3000.</p>
+        <p>Scrivere l'espressione in algebra relazionale per ricavare l'elenco contenente unicamente i nomi dei dipendenti che guadagnano più di 3000, rappresentare anche la tabella risultante dall'espressione.</p>
+
+        <div class="solution-container">
+            <div class="align-right">
+                <button class="btn btn--accent show-solution"><span class="icon" aria-hidden="true"></span> soluzione</button>
+            </div>
+            <div class="solution hidden">
+                <div class="table-container">
+                    <table class="data">
+                        <caption>&pi;<sub>nome</sub>(&sigma;<sub>stipendio &gt; 3000</sub>(dipendenti))</caption>
+                        <thead>
+                            <tr>
+                                <th>nome</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Sara</td>
+                            </tr>
+                            <tr>
+                                <td>Luca</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
         <h3>Esercizio 2</h3>
         <p>Date le seguenti relazioni:</p>
@@ -474,14 +501,17 @@
                 <thead>
                     <tr>
                         <th>taglia</th>
+                        <th>descrizione</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>S</td>
+                        <td>piccola</td>
                     </tr>
                     <tr>
                         <td>M</td>
+                        <td>media</td>
                     </tr>
                 </tbody>
             </table>
@@ -494,20 +524,70 @@
                 <thead>
                     <tr>
                         <th>colore</th>
+                        <th>codice_rgb</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Rosso</td>
+                        <td>rosso</td>
+                        <td>#ff0000</td>
                     </tr>
                     <tr>
-                        <td>Nero</td>
+                        <td>nero</td>
+                        <td>#000000</td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div class="vspace"></div>
-        <p><strong>Obiettivo:</strong> Scrivere l'espressione in algebra relazionale per generare un'unica tabella contenente tutte le possibili combinazioni tra ogni taglia e ogni colore disponibile.</p>
+        <p>Scrivere l'espressione in algebra relazionale per generare un'unica tabella contenente tutte le possibili combinazioni tra ogni taglia e ogni colore disponibile, rappresentare anche la tabella risultante dall'espressione.</p>
+
+        <div class="solution-container">
+            <div class="align-right">
+                <button class="btn btn--accent show-solution"><span class="icon" aria-hidden="true"></span> soluzione</button>
+            </div>
+            <div class="solution hidden">
+                <div class="table-container">
+                    <table class="data">
+                        <caption>taglie &times; colori</caption>
+                        <thead>
+                            <tr>
+                                <th>taglia</th>
+                                <th>descrizione</th>
+                                <th>colore</th>
+                                <th>codice_rgb</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>S</td>
+                                <td>piccola</td>
+                                <td>rosso</td>
+                                <td>#ff0000</td>
+                            </tr>
+                            <tr>
+                                <td>S</td>
+                                <td>piccola</td>
+                                <td>nero</td>
+                                <td>#000000</td>
+                            </tr>
+                            <tr>
+                                <td>M</td>
+                                <td>media</td>
+                                <td>rosso</td>
+                                <td>#ff0000</td>
+                            </tr>
+                            <tr>
+                                <td>M</td>
+                                <td>media</td>
+                                <td>nero</td>
+                                <td>#000000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
         <h3>Esercizio 3</h3>
         <p>Date le seguenti relazioni:</p>
@@ -528,6 +608,10 @@
                     <tr>
                         <td>102</td>
                         <td>Paolo</td>
+                    </tr>
+                    <tr>
+                        <td>103</td>
+                        <td>Miria</td>
                     </tr>
                 </tbody>
             </table>
@@ -564,7 +648,48 @@
             </table>
         </div>
         <div class="vspace"></div>
-        <p><strong>Obiettivo:</strong> Scrivere l'espressione in algebra relazionale per associare le informazioni dei clienti a ciascun ordine effettuato, sulla base della corrispondenza dell'identificativo del cliente.</p>
+        <p>Scrivere l'espressione in algebra relazionale per associare le informazioni dei clienti a ciascun ordine effettuato, sulla base della corrispondenza dell'identificativo del cliente, rappresentare anche la tabella risultante dall'espressione.</p>
+
+        <div class="solution-container">
+            <div class="align-right">
+                <button class="btn btn--accent show-solution"><span class="icon" aria-hidden="true"></span> soluzione</button>
+            </div>
+            <div class="solution hidden">
+                <div class="table-container">
+                    <table class="data">
+                        <caption>clienti &bowtie;<sub>clienti.id_cliente = ordini.id_cliente</sub> ordini</caption>
+                        <thead>
+                            <tr>
+                                <th>id_cliente</th>
+                                <th>nome</th>
+                                <th>id_ordine</th>
+                                <th>importo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>101</td>
+                                <td>Anna</td>
+                                <td>1</td>
+                                <td>150</td>
+                            </tr>
+                            <tr>
+                                <td>101</td>
+                                <td>Anna</td>
+                                <td>2</td>
+                                <td>45</td>
+                            </tr>
+                            <tr>
+                                <td>102</td>
+                                <td>Paolo</td>
+                                <td>3</td>
+                                <td>80</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
         <h3>Esercizio 4</h3>
         <p>Date le seguenti relazioni:</p>
@@ -625,7 +750,38 @@
             </table>
         </div>
         <div class="vspace"></div>
-        <p><strong>Obiettivo:</strong> Scrivere l'espressione in algebra relazionale per ottenere una tabella contenente esclusivamente le colonne <code>nome_autore</code> e <code>titolo</code> riferite ai soli libri con un prezzo inferiore a 20.</p>
+        <p>Scrivere l'espressione in algebra relazionale per ottenere una tabella contenente esclusivamente le colonne <code>nome_autore</code> e <code>titolo</code> riferite ai soli libri con un prezzo inferiore a 20, rappresentare anche la tabella risultante dall'espressione.</p>
+
+        <div class="solution-container">
+            <div class="align-right">
+                <button class="btn btn--accent show-solution"><span class="icon" aria-hidden="true"></span> soluzione</button>
+            </div>
+            <div class="solution hidden">
+                <div class="table-container">
+                    <table class="data">
+                        <caption>
+                            &pi;<sub>nome_autore, titolo</sub>(&sigma;<sub>prezzo &lt; 20</sub>(libri) &bowtie;<sub>libri.id_autore = autori.id_autore</sub> autori)
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>nome_autore</th>
+                                <th>titolo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Italo Calvino</td>
+                                <td>Il barone rampante</td>
+                            </tr>
+                            <tr>
+                                <td>Italo Calvino</td>
+                                <td>Le citta invisibili</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </section>
 
 </div>
