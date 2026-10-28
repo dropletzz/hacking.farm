@@ -28,7 +28,7 @@
     <p class="abstract">L'algebra relazionale è un linguaggio formale per interrogare i database relazionali. Si compone di operatori che, applicati a una o più tabelle (relazioni), producono come risultato una nuova tabella. Serve per descrivere in modo rigoroso le operazioni di lettura, combinazione e trasformazione dei dati. E' il fondamento teorico del linguaggio SQL.</p>
 
     <section>
-        <h2><span class="num">1</span> Selezione (&sigma;)</h2>
+        <h2><span class="num">0</span> Selezione (&sigma;)</h2>
         <p>L'operazione di selezione è un operatore unario che restituisce un sottoinsieme delle righe (tuple) della relazione di partenza che soddisfano una determinata condizione (predicato).</p>
         <p><strong>Sintassi:</strong> &sigma;<sub>condizione</sub>(A)</p>
         <p>Lavora in orizzontale: tiene solo le righe della tabella A che rispettano la condizione.</p>
@@ -94,7 +94,7 @@
     </section>
 
     <section>
-        <h2><span class="num">2</span> Proiezione (&pi;)</h2>
+        <h2><span class="num">1</span> Proiezione (&pi;)</h2>
         <p>L'operazione di proiezione è un operatore unario che seleziona un sottoinsieme di colonne (attributi) specificate.</p>
         <p><strong>Sintassi:</strong> &pi;<sub>attr1, attr2, ...</sub>(A)</p>
         <p>Lavora in verticale: tiene solo gli attributi della tabella A che sono specificati (attr1, attr2, ...) .</p>
@@ -130,7 +130,7 @@
     </section>
 
     <section>
-        <h2><span class="num">3</span> Prodotto cartesiano (&times;)</h2>
+        <h2><span class="num">2</span> Prodotto cartesiano (&times;)</h2>
 
         <p>Il prodotto cartesiano è un operatore binario che combina ogni riga della prima tabella con ogni riga della seconda. Se la prima tabella ha <em>n</em> righe e la seconda ne ha <em>m</em>, il risultato contiene <em>n &times; m</em> righe e unisce gli attributi di entrambe le tabelle.</p>
         <p><strong>Sintassi:</strong> A &times; B</p>
@@ -232,7 +232,7 @@
     </section>
 
     <section>
-        <h2><span class="num">4</span> Congiunzione / Join (&bowtie;)</h2>
+        <h2><span class="num">3</span> Congiunzione / Join (&bowtie;)</h2>
         <p>L'operazione di congiunzione è un operatore binario che combina le righe di due tabelle sulla base di una condizione che associa gli attributi di una tabella con quelli dell'altra.</p>
         <p>Dal punto di vista pratico, fare una join equivale a calcolare prima il prodotto cartesiano delle due tabelle e poi filtrare il risultato tenendo solo le righe che soddisfano la condizione.</p>
         <p><strong>Sintassi generale:</strong> A &bowtie;<sub>condizione</sub> B</p>
@@ -427,7 +427,7 @@
     </section>
 
     <section>
-        <h2><span class="num">5</span> Esercizi</h2>
+        <h2><span class="num">4</span> Esercizi</h2>
 
         <h3>Esercizio 1</h3>
         <p>Data la seguente relazione:</p>

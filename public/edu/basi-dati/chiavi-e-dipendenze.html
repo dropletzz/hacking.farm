@@ -26,7 +26,7 @@
     </header>
 
     <section>
-        <h2><span class="num">1</span> Dipendenze funzionali e chiusura</h2>
+        <h2><span class="num">0</span> Dipendenze funzionali e chiusura</h2>
         <p>Sia <em>R</em> uno schema di relazione e <em>X, Y</em> due sottoinsiemi di attributi. Una dipendenza funzionale <code>X &rarr; Y</code> impone che se due tuple concordano sui valori di <em>X</em>, devono concordare anche sui valori di <em>Y</em> (<em>X</em> determina <em>Y</em>).</p>
         <p>La <strong>chiusura</strong> <code>X<sup>+</sup></code> è l'insieme di tutti gli attributi dello schema determinati funzionalmente da <em>X</em> applicando le dipendenze note.</p>
 
@@ -40,7 +40,7 @@
     </section>
 
     <section>
-        <h2><span class="num">2</span> Tipologie di Chiavi</h2>
+        <h2><span class="num">1</span> Tipologie di Chiavi</h2>
         <p><strong>Superchiave:</strong> un insieme di attributi <em>K</em> tale che <code>K<sup>+</sup> = R</code>. Identifica univocamente ogni tupla della tabella.</p>
         <p><strong>Chiave candidata:</strong> una superchiave minimale. Nessun sottoinsieme proprio di <em>K</em> è una superchiave.</p>
         <p><strong>Chiave primaria (PK):</strong> la chiave candidata scelta dal progettista per identificare le tuple. Nessun suo attributo può essere <code>NULL</code>.</p>
