@@ -29,6 +29,7 @@
     </style>
 
     <script src="../../common.js"></script>
+    <script src="../common.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         _components.themeSelector();
@@ -72,41 +73,134 @@
         <div class="exercise">
             <h3>Esercizio 1</h3>
             <p>Trovare l'email e il nome di tutti gli utenti che hanno il cognome "Rossi".</p>
+
+            <div class="solution-container">
+                <div class="align-right">
+                    <button class="btn btn--accent show-solution"><span class="icon" aria-hidden="true">&#xF070;</span> soluzione</button>
+                </div>
+                <div class="solution hidden"><div class="solution-inner">
+                    &pi;<sub>email, nome</sub>(&sigma;<sub>cognome = "Rossi"</sub>(Utenti))
+                </div></div>
+            </div>
         </div>
 
         <div class="exercise">
             <h3>Esercizio 2</h3>
             <p>Selezionare la URL e la descrizione di tutti i video pubblicati dall'utente con email <code>maria.verdi@example.com</code>.</p>
+
+            <div class="solution-container">
+                <div class="align-right">
+                    <button class="btn btn--accent show-solution"><span class="icon" aria-hidden="true">&#xF070;</span> soluzione</button>
+                </div>
+                <div class="solution hidden"><div class="solution-inner">
+                    &pi;<sub>url, descrizione</sub>(&sigma;<sub>email = "maria.verdi@example.com"</sub>(Utenti &bowtie;<sub>Utenti.id_utente = Video.id_utente</sub> Video))
+
+                    <div class="vspace"></div><hr/>
+                    <h4>Soluzione alternativa: join naturale</h4>
+                    &pi;<sub>url, descrizione</sub>(&sigma;<sub>email = "maria.verdi@example.com"</sub>(Utenti &bowtie; Video))
+
+                    <div class="vspace"></div><hr/>
+                    <h4>Soluzione alternativa: ordine delle operazioni ottimizzato</h4>
+                    &pi;<sub>url, descrizione</sub>(&sigma;<sub>email = "maria.verdi@example.com"</sub>(Utenti) &bowtie; Video)
+
+                </div></div>
+            </div>
         </div>
 
         <div class="exercise">
             <h3>Esercizio 3</h3>
             <p>Ricavare il nome, il cognome e il testo del commento di tutti gli utenti che hanno lasciato un commento sotto il video con identificativo <code>id_video = 105</code>.</p>
+
+            <div class="solution-container">
+                <div class="align-right">
+                    <button class="btn btn--accent show-solution"><span class="icon" aria-hidden="true">&#xF070;</span> soluzione</button>
+                </div>
+                <div class="solution hidden"><div class="solution-inner">
+                    &pi;<sub>nome, cognome, testo</sub>(Utenti &bowtie; &sigma;<sub>id_video = 105</sub>(Commenti))
+                </div></div>
+            </div>
         </div>
 
         <div class="exercise">
             <h3>Esercizio 4</h3>
             <p>Selezionare il testo di tutti i commenti insieme all'email dell'utente che ha creato il commento ed al titolo del video commentato.</p>
+
+            <div class="solution-container">
+                <div class="align-right">
+                    <button class="btn btn--accent show-solution"><span class="icon" aria-hidden="true">&#xF070;</span> soluzione</button>
+                </div>
+                <div class="solution hidden"><div class="solution-inner">
+                    &pi;<sub>testo, email, titolo</sub>(Commenti &bowtie; (Utenti &bowtie; Video))
+                </div></div>
+            </div>
         </div>
 
         <div class="exercise">
             <h3>Esercizio 5</h3>
             <p>Selezionare id ed email di tutti gli utenti che hanno commentato almeno un video.</p>
+
+            <div class="solution-container">
+                <div class="align-right">
+                    <button class="btn btn--accent show-solution"><span class="icon" aria-hidden="true">&#xF070;</span> soluzione</button>
+                </div>
+                <div class="solution hidden"><div class="solution-inner">
+                    &pi;<sub>id_utente, email</sub>(Utenti &bowtie; Commenti)
+                </div></div>
+            </div>
         </div>
 
         <div class="exercise">
             <h3>Esercizio 6</h3>
             <p>Selezionare l'email di tutti gli utenti che hanno almeno un iscritto al proprio canale ed hanno pubblicato almeno un video.</p>
+
+            <div class="solution-container">
+                <div class="align-right">
+                    <button class="btn btn--accent show-solution"><span class="icon" aria-hidden="true">&#xF070;</span> soluzione</button>
+                </div>
+                <div class="solution hidden"><div class="solution-inner">
+                    &pi;<sub>email</sub>(
+                        (Utenti &bowtie; <sub>Utenti.id_utente = Iscrizioni.id_destinatario</sub> Iscrizioni)
+                        &bowtie; <sub>Utenti.id_utente = Video.id_utente</sub> Video
+                    )
+                </div></div>
+            </div>
         </div>
 
         <div class="exercise">
             <h3>Esercizio 7</h3>
             <p>Selezionare il testo e l'id di tutti i commenti rivolti ai video di dell'utente <code>gennaro.gattuso@example.com</code>.</p>
+
+            <div class="solution-container">
+                <div class="align-right">
+                    <button class="btn btn--accent show-solution"><span class="icon" aria-hidden="true">&#xF070;</span> soluzione</button>
+                </div>
+                <div class="solution hidden"><div class="solution-inner">
+                    &pi;<sub>testo, id_commento</sub>(
+                        &sigma;<sub>email = "gennaro.gattuso@example.com"</sub>(Utenti)
+                        &bowtie;<sub>Video.id_utente = Utenti.id_utente</sub> 
+                        (Video &bowtie; Commenti) 
+                    )
+                </div></div>
+            </div>
         </div>
 
         <div class="exercise">
             <h3>Esercizio 8</h3>
             <p>Selezionare l'id, il nome e il cognome di tutti gli utenti che hanno inserito almeno un commento sotto un video dell'utente <code>gennaro.gattuso@example.com</code>.</p>
+
+            <div class="solution-container">
+                <div class="align-right">
+                    <button class="btn btn--accent show-solution"><span class="icon" aria-hidden="true">&#xF070;</span> soluzione</button>
+                </div>
+                <div class="solution hidden"><div class="solution-inner">
+                    &pi;<sub>Commentatori.id_utente, Commentatori.nome, Commentatori.cognome</sub>(
+                        ( &sigma;<sub>email = "gennaro.gattuso@example.com"</sub>(Utenti)
+                        &bowtie;<sub>Video.id_utente = Utenti.id_utente</sub>
+                        (Video &bowtie; Commenti) )
+                        &bowtie;<sub>Commenti.id_utente = Commentatori.id_utente</sub> (Utenti AS Commentatori)
+                    )
+                </div></div>
+            </div>
         </div>
     </section>
 

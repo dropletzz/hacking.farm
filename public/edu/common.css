@@ -315,21 +315,30 @@ table.data th {
 
 
 .solution {
+    display: grid;
+    grid-template-rows: 1fr;
     padding: 0.75rem 1rem;
     background: transparent;
     border: 1px solid var(--accent);
     font-size: 0.95rem;
-    max-height: 40rem;
-    overflow-x: auto;
-    overflow-y: hidden;
-    transition: max-height 0.3s ease, padding 0.3s ease, border-width 0.3s ease;
+    transition: grid-template-rows 0.3s ease, padding 0.3s ease, border-width 0.3s ease;
+}
+
+.solution-container:has(.solution:not(.hidden)) .btn.show-solution {
+    border-bottom: 1px solid transparent;
+}
+
+.solution-inner {
+    overflow: hidden;
+    min-height: 0;
 }
 
 .solution.hidden {
-    display: block;
-    max-height: 0;
+    display: grid;
+    grid-template-rows: 0fr;
     padding-top: 0;
     padding-bottom: 0;
     border-width: 0;
 }
+
 
