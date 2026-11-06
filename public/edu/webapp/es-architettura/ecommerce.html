@@ -60,7 +60,6 @@
                 </ul>
 
                 <img src="ecommerce-arch.svg"/>
-
                 <div class="vspace"></div>
 
                 <h3>Client</h3>
@@ -108,6 +107,24 @@
         <p>
             Un utente visita la pagina di un prodotto e scorre la galleria di immagini associate a quel prodotto. Descrivi dettagliatamente il flusso dei dati di questo caso d'uso.
         </p>
+        <div class="solution-container">
+            <div class="align-right">
+                <button class="btn btn--accent show-solution"><span class="icon" aria-hidden="true">&#xF070;</span> soluzione</button>
+            </div>
+            <div class="solution hidden"><div class="solution-inner">
+                <img src="ecommerce-flusso.svg"/>
+                <div class="vspace"></div>
+
+                <ol>
+                    <li><strong>Client &rarr; Server web:</strong> il client invia una richiesta HTTP (es. <code>GET /prodotti/:id</code>) al server web per richiedere la pagina html del prodotto selezionato.</li>
+                    <li><strong>Server web &rarr; DB relazionale:</strong> il server web esegue una query SQL sul database per recuperare le informazioni del prodotto e gli URL delle immagini collegate.</li>
+                    <li><strong>DB relazionale &rarr; Server web:</strong> il database restituisce i record contenenti i dati del prodotto e la lista degli URL delle immagini.</li>
+                    <li><strong>Server web &rarr; Client:</strong> il server web costruisce in modo dinamico la pagina HTML del prodotto inserendovi i dati presi dal db e la invia al client.</li>
+                    <li><strong>Client &rarr; Object storage:</strong> il client riceve la pagina HTTP del prodotto, quindi, per ogni immagine connenuta nella pagina effettua una richiesta HTTP all'object storage (es. <code>GET /immagini/:id</code>).</li>
+                    <li><strong>Object storage &rarr; Client:</strong> l'object storage restituisce i file binari delle immagini al client, che provvede a mostrarle nella galleria della pagina web.</li>
+                </ol>
+            </div></div>
+        </div>
     </section>
 
 </div>
