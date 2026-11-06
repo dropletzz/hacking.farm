@@ -94,6 +94,10 @@ li::marker {
     /* color: var(--accent); */
 }
 
+img {
+    width: 100%;
+}
+
 .vspace {
     height: 1rem;
 }

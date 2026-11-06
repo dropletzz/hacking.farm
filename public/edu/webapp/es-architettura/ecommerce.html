@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../common.css">
 
     <script src="../../../common.js"></script>
+    <script src="../../common.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         _components.themeSelector();
@@ -31,12 +32,7 @@
             Un'azienda vuole lanciare una piattaforma e-commerce per la vendita online di prodotti artigianali. La piattaforma deve permettere ai venditori di creare un catalogo prodotti (ogni prodotto può avere una o più immagini associate), gestire ordini e pagamenti.  I clienti devono poter navigare il catalogo, effettuare acquisti e gestire i propri ordini.
         </p>
         <p>
-            L’applicazione dovrà supportare tre metodi di pagamento:
-            <ul>
-                <li>PayPal</li>
-                <li>Satispay</li>
-                <li>Carta di credito (API fornite da una banca)</li>
-            </ul>
+            L’applicazione dovrà supportare tre metodi di pagamento: PayPal, Satispay e carta di credito. Per interfacciarsi con ognuno di questi sistemi di pagamento si utilizzano delle API HTTP che forniscono le stesse funzionalità ma sono leggermente diverse tra loro.
         </p>
 
     </section>
@@ -45,9 +41,69 @@
 
         <h3>1) Architettura</h3>
         <p>
-            Descrivi l'architettura informatica essenziale per questa piattaforma e-commerce, evidenziando i componenti principali, le tecnologie utilizzate ed il modo in cui le componenti comunicano tra loro. Rappresenta l’architettura con un grafico e motiva le tue scelte.  Concentrati sugli aspetti fondamentali come la gestione dei dati, il salvataggio dei file e la scalabilità della piattaforma.
+            Descrivi l'architettura informatica essenziale per questa piattaforma e-commerce, evidenziando i componenti principali, le tecnologie utilizzate ed il modo in cui le componenti comunicano tra loro. Rappresenta l’architettura con un grafico e motiva le tue scelte.  Concentrati sugli aspetti fondamentali come la gestione dei dati, il salvataggio dei file, i pagamenti e la scalabilità della piattaforma.
         </p>
 
+        <div class="solution-container">
+            <div class="align-right">
+                <button class="btn btn--accent show-solution"><span class="icon" aria-hidden="true">&#xF070;</span> soluzione</button>
+            </div>
+            <div class="solution hidden"><div class="solution-inner">
+
+                <p>Si propone un sistema informatico con le seguenti componenti:</p>
+                <ul>
+                    <li><strong>Client:</strong> interfaccia utente per dell'applicazione, utilizzabile da browser.</li>
+                    <li><strong>Server web:</strong> backend applicativo, gestisce la logica di business e la base di dati.</li>
+                    <li><strong>DB relazionale:</strong> database per la memorizzazione dei dati strutturati (utenti, prodotti, ordini...).</li>
+                    <li><strong>Object storage:</strong> sistema di archiviazione per salvare le immagini dei prodotti.</li>
+                    <li><strong>API gateway pagamenti:</strong> servizio intermedio che si occupa di interfacciarsi con i servizi esterni di pagamento.</li>
+                </ul>
+
+                <img src="ecommerce-arch.svg"/>
+
+                <div class="vspace"></div>
+
+                <h3>Client</h3>
+                <p>Applicazione MPA (multiple page application) implementata con HTML, CSS e JavaScript (senza utilizzare nessun framework JavaScript). Famework come React e Vue facilitano il lavoro dei programmatori ma introducono una complessità nascosta e non sempre giustificata. Si é scelto di evitarne l'utilizzo per semplicità ed efficienza, considerando anche che l'interfaccia grafica dell'applicazione non sarà particolarmente complicata.</p>
+
+                <h3>Server web</h3>
+                <p>Il nucleo centrale del backend, si occupa di comunicare col client (in questo caso il browser) e coordinare il lavoro di tutte le altre parti del backend. Costruisce le pagine HTML dinamiche che vengono mandate al client, gestisce l'autenticazione, il database, la comunicazione con il gateway pagamenti e con l'object storage.</p>
+                <p>Si è scelto di implementarlo con Node.js, che permette di gestire un elevato numero di connessioni simultanee grazie alla sua architettura non bloccante basata su event-loop. Inoltre utilizzare JavaScript sia sul backend che sul frontend può essere vantaggioso, in quanto agli sviluppatori è richiesto di conoscere un solo linguaggio.</p>
+
+                <h3>DB relazionale</h3>
+                <p>Database MariaDB che persiste i dati necessari al funzionamento dell'applicazione come ad esempio: le informazioni relative agli utenti, gli ordini, il catalogo dei prodotti in vendita (con URL delle immagini associate), ecc...</p>
+                <p>
+                    Si è scelto un db relazionale, piuttosto che un db NoSQL, perchè:
+                    <ul>
+                        <li>i dati da persistere sono ben strutturati, non c'è bisogno della flessibilità di un db NoSQL,</li>
+                        <li>i db relazionali forniscono maggiori garanzie di integrità e consistenza dei dati.</li>
+                    </ul>
+                </p>
+                
+
+                <h3>Object storage</h3>
+                <p>Servizio dedicato alla conservazione dei file binari delle immagini dei prodotti. Nel database relazionale vengono salvati unicamente i percorsi (URL) delle immagini, mentre i file fisici risiedono nello storage.</p>
+                <p>
+                    Salvare i file nell'object storage anziché nel database è un approccio migliore per diversi motivi:
+                    <ul>
+                        <li>evita l'aumento sproporzionato della dimensione del database e non degrada le prestazioni delle query,</li>
+                        <li>garantisce la scalabilità nella gestione dei contenuti multimediali,</li>
+                        <li>permette al client di scaricare le immagini direttamente, senza passare dal web server alleggerendo il suo carico di richieste.</li>
+                    </ul>
+                </p>
+
+                <h3>API gateway pagamenti</h3>
+                <p>Componente intermedio che espone al server web un'unica API standardizzata per la gestione delle transazioni. Si occupa di tradurre le chiamate generiche del backend nei formati specifici richiesti dai singoli provider (PayPal, Satispay, rete bancaria).</p>
+                <p>
+                    I vantaggi principali di questo approccio sono:
+                    <ul>
+                        <li>disaccoppia il server web dalle specifiche tecniche dei fornitori esterni, mantenendo pulita la logica di backend,</li>
+                        <li>facilita l'aggiunta di nuovi metodi di pagamento o la modifica di quelli esistenti senza dover riadattare l'intera applicazione.</li>
+                    </ul>
+                </p>
+
+            </div></div>
+        </div>
         <h3>2) Flusso dei dati</h3>
         <p>
             Un utente visita la pagina di un prodotto e scorre la galleria di immagini associate a quel prodotto. Descrivi dettagliatamente il flusso dei dati di questo caso d'uso.
