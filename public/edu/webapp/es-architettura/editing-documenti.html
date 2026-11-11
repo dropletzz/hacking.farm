@@ -49,10 +49,10 @@
 
                 <h3>Componenti principali del sistema:</h3>
                 <ul>
-                    <li><strong>Client:</strong> applicazione frontend SPA (single page application) per l'interazione utente e l'editing reattivo.</li>
+                    <li><strong>Client:</strong> applicazione frontend SPA (single page application) con la quale l'utente può creare, modificare e condividere documenti.</li>
                     <li><strong>Web server:</strong> backend applicativo che gestisce l'autenticazione, l'interazione col database ed i permessi degli utenti.</li>
                     <li><strong>Real-time editing:</strong> servizio dedicato alla sincronizzazione in tempo reale dei documenti che vengono modificati.</li>
-                    <li><strong>DB SQL:</strong> database relazionale per la persistenza di dati strutturati (utenti, documenti, permessi...).</li>
+                    <li><strong>DB SQL:</strong> database relazionale per la persistenza di dati strutturati (es. dati degli utenti, documenti, permessi...).</li>
                     <li><strong>Object store:</strong> sistema di archiviazione dei file multimediali allegati ai documenti.</li>
                 </ul>
 
@@ -103,7 +103,7 @@
                     <li><strong>Client B &rarr; Real-time editing:</strong> il client B apre il documento e crea una connessione WebSocket con il servizio real-time editing.</li>
                     <li><strong>Real-time editing &rarr; Client B:</strong> poiché lo ha già in memoria, il servizio trasmette il contenuto del documento al client B.</li>
                     <li><strong>Client A &rarr; Real-time editing:</strong> l'utente effettua una modifica, il client A invia l'operazione tramite il canale WebSocket. Il servizio applica la modifica al documento in memoria RAM.</li>
-                    <li><strong>Real-time editing &rarr; Client B:</strong> il servizio real-time editing manda al client B la modifica al documento effettuata dal client A. Il client B aggiorna la sua interfaccia di conseguenza.</li>
+                    <li><strong>Real-time editing &rarr; Client B:</strong> il servizio manda al client B la modifica al documento (effettuata dal client A). Il client B aggiorna la sua interfaccia di conseguenza.</li>
                     <li><strong>Real-time editing &rarr; Database:</strong> il servizio invia periodicamente una query al DB per salvare in modo persistente lo stato attuale del documento. <strong>Nota:</strong> questa operazione è stata messa alla fine ma potrebbe avvenire in qualsiasi momento.</li>
                 </ol>
             </div></div>
