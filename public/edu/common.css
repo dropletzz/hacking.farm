@@ -89,7 +89,7 @@ ul {
 li {
     margin-bottom: 0.4rem;
 }
-li::marker {
+ul li::marker {
     font-family: 'NerdFontSymbols';
     /* color: var(--accent); */
 }
