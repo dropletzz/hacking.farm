@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applicazione IoT</title>
+    <link rel="stylesheet" href="../../../common.css">
+    <link rel="stylesheet" href="../../common.css">
+
+    <script src="../../../common.js"></script>
+    <script src="../../common.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        _components.themeSelector();
+        _components.eduExplorer();
+    });
+    </script>
+</head>
+
+<body>
+
+<div class="edu-container">
+
+    <header>
+        <h1>Applicazione IoT</h1>
+        <p>Esercizio sull'architettura di un'applicazione web</p>
+    </header>
+
+    <section>
+        <h2>Requisiti</h2>
+        <p>
+            Si deve realizzare un’applicazione IoT (internet of things). Questa applicazione immagazzina dati che vengono prodotti da dispositivi di vario tipo (sensore di temperatura, sensore di qualità dell’aria, sensori di apertura porte e altri…). 
+        </p>
+        <p>
+            I dispositivi comunicano periodicamente (una volta ogni qualche secondo) le loro misurazioni in formato JSON, il contenuto del JSON può variare tra un dispositivo e l’altro. Le misure vengono raccolte da un broker MQTT (servizio esterno) a cui la nostra applicazione può collegarsi per leggerle.
+        </p>
+        <p>
+            L’applicazione deve salvare le misurazioni prodotte dai dispositivi e permettere agli utenti di visualizzarle con dei grafici che si aggiornano in tempo reale quando arrivano nuove misurazioni. Deve essere utilizzabile sia da browser che da smartphone tramite app (Android e iOS).
+        </p>
+    </section>
+
+    <section>
+        <h2>Richieste</h2>
+        
+        <h3>1) Architettura</h3>
+        <p>
+            Descrivi, aiutandoti con dei grafici, una possibile architettura informatica per questa applicazione, indicando quali specifiche tecnologie e quali protocolli di comunicazione useresti. Motiva le tue scelte.
+        </p>
+
+        <h3>2) Flusso dei dati</h3>
+        <p>
+            Descrivi dettagliatamente il flusso dei dati: dalla generazione di una singola misurazione da parte di un sensore fino all'aggiornamento in tempo reale del grafico sul dispositivo finale dell'utente.
+        </p>
+    </section>
+
+</div>
+
+</body>
+</html>
