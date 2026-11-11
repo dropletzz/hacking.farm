@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../common.css">
 
     <script src="../../../common.js"></script>
+    <script src="../../common.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         _components.themeSelector();
@@ -28,21 +29,85 @@
     <section>
         <h2>Requisiti</h2>
         <p>
-        Un'organizzazione vuole sviluppare una piattaforma collaborativa per la creazione e gestione di documenti online.  Questa piattaforma deve permettere a più utenti di lavorare contemporaneamente sullo stesso documento in tempo reale, con funzionalità di editing testuale, formattazione, e inserimento di elementi multimediali (foto, video, audio ecc…).  La piattaforma deve anche gestire la memorizzazione dei documenti e permettere la condivisione e la gestione degli accessi ai documenti tra gli utenti.
+            Un'organizzazione vuole sviluppare una piattaforma collaborativa per la creazione e gestione di documenti online. Questa piattaforma deve permettere a più utenti di lavorare contemporaneamente sullo stesso documento in tempo reale, con funzionalità di editing testuale, formattazione, e inserimento di elementi multimediali (foto, video, audio ecc…). La piattaforma deve anche gestire la memorizzazione dei documenti e permettere la condivisione e la gestione degli accessi ai documenti tra gli utenti.
         </p>
     </section>
 
     <section>
         <h2>Richieste</h2>
+
         <h3>1) Architettura</h3>
         <p>
             Descrivi l'architettura informatica essenziale per questa applicazione, evidenziando i componenti principali, le tecnologie utilizzate ed il modo in cui le componenti comunicano tra loro. Rappresenta l’architettura con un grafico e motiva le tue scelte. Concentrati sugli aspetti fondamentali come la gestione dei dati, l’editing in tempo reale e la scalabilità della piattaforma.
         </p>
 
+        <div class="solution-container">
+            <div class="align-right">
+                <button class="btn btn--accent show-solution"><span class="icon" aria-hidden="true">&#xF070;</span> soluzione</button>
+            </div>
+            <div class="solution hidden"><div class="solution-inner">
+
+                <h3>Componenti principali del sistema:</h3>
+                <ul>
+                    <li><strong>Client:</strong> applicazione frontend SPA (single page application) per l'interazione utente e l'editing reattivo.</li>
+                    <li><strong>Web server:</strong> backend applicativo che gestisce l'autenticazione, l'interazione col database ed i permessi degli utenti.</li>
+                    <li><strong>Real-time editing:</strong> servizio dedicato alla sincronizzazione in tempo reale dei documenti che vengono modificati.</li>
+                    <li><strong>DB SQL:</strong> database relazionale per la persistenza di dati strutturati (utenti, documenti, permessi...).</li>
+                    <li><strong>Object store:</strong> sistema di archiviazione dei file multimediali allegati ai documenti.</li>
+                </ul>
+
+                <img src="editing-documenti-semplice.svg"/>
+
+                <div class="vspace"></div>
+
+                <h3>Client (Vue.js)</h3>
+                <p>Applicazione single-page eseguita nel browser dell'utente. Si è scelto Vue.js per creare l'interfaccia utente come SPA, che aggiorna DOM senza ricaricare l'intera pagina. Comunica via HTTPS con il web server usando JSON come frmato di scambio, via WebSocket con il servizio di real-time editing per mandare e ricevere le modifiche fatte ai documenti aperti e direttamente via HTTPS con l'object store per il download dei file multimediali.</p>
+
+                <h3>Web server (Node.js)</h3>
+                <p>Gestisce la logica applicativa principale: gestione degli utenti, autenticazione e definizione dei permessi di condivisione dei documenti. Effettua letture e scritture sulla base dati relazionale tramite query SQL e comunica via HTTPS con l'object store per salvare i file multimediali caricati dagli utenti.</p>
+
+                <h3>Real-time editing (Node.js)</h3>
+                <p>Servizio dedicato esclusivamente alla sincronizzazione delle modifiche simultanee sui documenti.</p>
+                <ul>
+                    <li>Mantiene connessioni bidirezionali persistenti tramite WebSocket con i client che stanno lavorando ad un documento, mettendo in comunicazione quelli connessi allo stesso documento.</li>
+                    <li>Tiene in memoria RAM i documenti aperti (su cui qualche utente sta lavorando) e scrive periodicamente lo stato aggiornato del documento nel database relazionale.</li>
+                        <li>Implementa algoritmi per la risoluzione di eventuali conflitti. Ad esempio: se due utenti modificano contemporaneamente la stessa parte di un documento decide come applicare le modifiche e risincronizza i client ad una versione uguale per tutti.</li>
+                </ul>
+
+                <h3>DB SQL (MariaDB)</h3>
+                <p>Database relazionale per memorizzare i dati con forti vincoli di consistenza: anagrafica utenti, liste di controllo accessi (ACL), contenuto dei documenti ed i metadati dei documenti.</p>
+
+                <h3>Object store</h3>
+                <p>Servizio di archiviazione per salvare gli elementi multimediali binari (foto, video, audio) inseriti nei documenti. L'uso dell'object storage evita di appesantire il database relazionale con dati binari di grandi dimensioni e permette ai client di scaricare le risorse direttamente via HTTPS.</p>
+
+            </div></div>
+        </div>
+
         <h3>2) Flusso dei dati</h3>
         <p>
             Due utenti modificano contemporaneamente lo stesso documento. Descrivi dettagliatamente il flusso dei dati di questo caso d'uso.
         </p>
+
+        <div class="solution-container">
+            <div class="align-right">
+                <button class="btn btn--accent show-solution"><span class="icon" aria-hidden="true">&#xF070;</span> soluzione</button>
+            </div>
+            <div class="solution hidden"><div class="solution-inner">
+                <img src="editing-documenti-flusso.svg"/>
+
+                <ol>
+                    <li><strong>Client A &rarr; Real-time editing:</strong> il client A richiede il documento instaurando una connessione WebSocket con il servizio di real-time editing.</li>
+                    <li><strong>Real-time editing &rarr; Database:</strong> il servizio real-time rileva che il documento non è in memoria e lo richiede al database relazionale.</li>
+                    <li><strong>Database &rarr; Real-time editing:</strong> il database SQL restituisce il contenuto del documento al servizio.</li>
+                    <li><strong>Real-time editing &rarr; Client A:</strong> il servizio carica il documento in RAM e invia il suo contenuto al client A tramite WebSocket.</li>
+                    <li><strong>Client B &rarr; Real-time editing:</strong> il client B apre il documento e crea una connessione WebSocket con il servizio real-time editing.</li>
+                    <li><strong>Real-time editing &rarr; Client B:</strong> poiché lo ha già in memoria, il servizio trasmette il contenuto del documento al client B.</li>
+                    <li><strong>Client A &rarr; Real-time editing:</strong> l'utente effettua una modifica, il client A invia l'operazione tramite il canale WebSocket. Il servizio applica la modifica al documento in memoria RAM.</li>
+                    <li><strong>Real-time editing &rarr; Client B:</strong> il servizio real-time editing manda al client B la modifica al documento effettuata dal client A. Il client B aggiorna la sua interfaccia di conseguenza.</li>
+                    <li><strong>Real-time editing &rarr; Database:</strong> il servizio invia periodicamente una query al DB per salvare in modo persistente lo stato attuale del documento. <strong>Nota:</strong> questa operazione è stata messa alla fine ma potrebbe avvenire in qualsiasi momento.</li>
+                </ol>
+            </div></div>
+        </div>
     </section>
 
 </div>
