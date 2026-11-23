@@ -43,6 +43,7 @@
             <div class="callout-title">Ad esempio</div>
             <p><code>{id_utente}<sup>+</sup> = {id_utente, email}</code> la chiusura di id_utente contiene id_utente ed email.</p>
             <p><code>{email}<sup>+</sup> = {id_utente, email}</code> la chiusura di email è uguale a quella di id_utente.</p>
+            <p><code>{id_gioco}<sup>+</sup> = {id_gioco, nome_gioco, prezzo, id_creatore, nome_creatore}</code> la chiusura di id_gioco contiene tutti gli attrubuti tranne quelli relativi all'utente.</p>
             <p>La chiusura <code>{id_utente, id_gioco}<sup>+</sup></code> contiene tutti gli attributi della tabella, lo stesso vale per la chiusura <code>{email, id_gioco}<sup>+</sup></code>.</p>
         </div>
     </section>
@@ -89,7 +90,7 @@
         <p>Una chiave esterna è un attributo (o un insieme di attributi) che fa riferimento alla chiave primaria di un'altra tabella per creare un collegamento tra i dati.</p>
         <div class="callout">
             <div class="callout-title">Ad esempio</div>
-            <p>Se normalizzassimo la tabella <code>AcquistoGiochi</code> creando le tabelle <code>Utenti</code>, <code>Giochi</code> e <code>Acquisti(id_utente, id_gioco)</code>. <code>Acquisti.id_utente</code> della tabella sarebbe una chiave esterna verso la tabella <code>Utenti</code> e <code>Acquisti.id_gioco</code> una chiave esterna verso la tabella <code>Giochi</code>.</p>
+            <p>Se dividessimo la tabella <code>AcquistoGiochi</code> nelle tabelle <code>Utenti</code>, <code>Giochi</code> e <code>Acquisti(id_utente, id_gioco)</code>. <code>Acquisti.id_utente</code> sarebbe una chiave esterna verso la tabella <code>Utenti</code> e <code>Acquisti.id_gioco</code> una chiave esterna verso la tabella <code>Giochi</code>.</p>
         </div>
     </section>
 </div>
