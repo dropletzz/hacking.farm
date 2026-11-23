@@ -47,10 +47,75 @@
             Descrivi, aiutandoti con dei grafici, una possibile architettura informatica per questa applicazione, indicando quali specifiche tecnologie e quali protocolli di comunicazione useresti. Motiva le tue scelte.
         </p>
 
+        <div class="solution-container">
+            <div class="align-right">
+                <button class="btn btn--accent show-solution"><span class="icon" aria-hidden="true">&#xF070;</span> soluzione</button>
+            </div>
+
+            <div class="solution hidden"><div class="solution-inner">
+                <p>Si propone un sistema informatico composto dai seguenti elementi:</p>
+                <ul>
+                    <li><strong>Broker MQTT:</strong> servizio esterno che riceve i dati dai sensori e li rende disponibili ai servizi di backend.</li>
+                    <li><strong>Persistenza misure:</strong> legge le misurazioni dal broker e le salva su database.</li>
+                    <li><strong>Real-time server:</strong> servizio dedicato all'inoltro immediato delle nuove misurazioni ai client connessi.</li>
+                    <li><strong>Web server:</strong> backend applicativo principale gestisce il database relazionale, l'autenticazione ed i permessi utente.</li>
+                    <li><strong>DB relazionale:</strong> database per la memorizzazione dei dati strutturati (utenti, anagrafica sensori, permessi...).</li>
+                    <li><strong>DB NoSQL:</strong> database per salvare le misurazioni in formato JSON variabile.</li>
+                    <li><strong>Client:</strong> interfaccia utente (sito web e app mobile) per consultare i grafici storici e in tempo reale.</li>
+                </ul>
+
+                <img src="app-iot.svg"/>
+                <div class="vspace"></div>
+
+                <h3>Sensori e Broker MQTT</h3>
+                <p>I sensori inviano periodicamente le proprie misurazioni in formato JSON al Broker MQTT tramite il protocollo MQTT (operazione di <em>publish</em>). Questo protocollo è lo standard in ambito IoT perché è estremamente leggero, richiede poca banda ed è progettato per dispositivi con risorse hardware limitate. L'architettura publish/subscribe disaccoppia i sensori dal backend: i servizi dell'applicazione si iscrivono (<em>subscribe</em>) al broker per ricevere i messaggi non appena vengono pubblicati.</p>
+
+                <h3>Persistenza misure (Node.js)</h3>
+                <p>Microservizio dedicato esclusivamente al salvataggio dei dati. Si sottoscrive al Broker MQTT e, per ogni misurazione ricevuta, effettua una query di sola scrittura sul DB NoSQL. Separare questa componente dal Web server evita che il flusso continuo di scritture dei sensori rallenti le richieste degli utenti.</p>
+
+                <h3>DB NoSQL (MongoDB)</h3>
+                <p>Database orientato ai documenti scelto per immagazzinare le misurazioni. Poiché i sensori sono eterogenei e inviano payload JSON con campi diversi tra loro, un database schema-less come MongoDB permette di salvare direttamente i documenti senza dover definire o modificare continuamente una struttura tabellare rigida.</p>
+
+                <h3>Real-time server (Node.js)</h3>
+                <p>Servizio dedicato all'aggiornamento in tempo reale dell'interfaccia utente. Si iscrive al Broker MQTT per ricevere le misurazioni in ingresso e le inoltra istantaneamente ai client connessi usando il protocollo SSE. Inoltre comunica col Web server via HTTP per controllare che l'utente sia autenticato ed abbia i permessi per visualizzare le misure dei sensori che richiede.</p>
+
+                <h3>Web server (Node.js)</h3>
+                <p>Backend principale dell'applicazione. Comunica con i client via HTTPS per gestire l'autenticazione, l'anagrafica dei dispositivi e l'accesso allo storico dei dati. Interroga il DB NoSQL in sola lettura per recuperare le misurazioni passate necessarie a disegnare i grafici all'apertura dell'applicazione.</p>
+
+                <h3>DB relazionale (MariaDB)</h3>
+                <p>Database utilizzato per persistere i dati strutturati e relazionali dell'applicazione, come gli account utente, le associazioni tra utenti e sensori e i metadati dei dispositivi, dove sono necessarie forti garanzie di integrità e consistenza.</p>
+
+                <h3>Client (Sito Web e App Mobile)</h3>
+                <p>Applicazione frontend fruibile da browser (SPA) e da smartphone (app Android e iOS), si è scelto di implementarla usando React Native in modo da avere un'unica base di codice per tutte le piattaforme. Comunica via HTTPS con il Web server per le operazioni standard e il caricamento dello storico delle misure, e mantiene una connessione SSE aperta con il Real-time server per aggiornare i grafici dinamicamente all'arrivo di ogni nuova misurazione.</p>
+
+            </div></div>
+        </div>
+
         <h3>2) Flusso dei dati</h3>
         <p>
             Descrivi dettagliatamente il flusso dei dati: dalla generazione di una singola misurazione da parte di un sensore fino all'aggiornamento in tempo reale del grafico sul dispositivo finale dell'utente.
         </p>
+
+        <div class="solution-container">
+            <div class="align-right">
+                <button class="btn btn--accent show-solution"><span class="icon" aria-hidden="true">&#xF070;</span> soluzione</button>
+            </div>
+            <div class="solution hidden"><div class="solution-inner">
+                <img src="app-iot-flusso.svg"/>
+                <div class="vspace"></div>
+
+                <ol>
+                    <li><strong>Sensore &rarr; Broker MQTT:</strong> un sensore effettua una rilevazione, impacchetta il dato in formato JSON e lo invia al Broker MQTT tramite una chiamata <em>publish</em>.</li>
+                    <li>
+                        <strong>Broker MQTT &rarr; Persistenza misure e Real-time server:</strong> il broker inoltra contemporaneamente il messaggio JSON a entrambi i servizi backend iscritti al topic (<em>subscribe</em>). Da qui partono due flussi di dati paralleli:
+                        <ol type="A">
+                            <li><strong>Persistenza misure &rarr; DB NoSQL:</strong> il servizio di persistenza esegue una query di scrittura su MongoDB per archiviare in modo permanente la misurazione.</li>
+                            <li><strong>Real-time server &rarr; Client:</strong> parallelamente al salvataggio, il real-time server inoltra la misurazione ai client connessi attraverso il canale SSE attivo. Il client, una volta ricevuta la misurazione, la mostra nel grafico senza che l'utente debba ricaricare la pagina.</li>
+                        </ol>
+                    </li>
+                </ol>
+            </div></div>
+        </div>
     </section>
 
 </div>

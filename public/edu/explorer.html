@@ -6,7 +6,7 @@ const icons = {
     pen: '',
     ext: '',
     dir: '',
-    dirOpen: '',
+    odir: '',
     left: '',
 };
 
@@ -102,6 +102,16 @@ const webApp = [
             {
                 name: 'Applicazione IoT',
                 url: '/edu/webapp/es-architettura/app-iot.html',
+                icon: icons.pen,
+            },
+            {
+                name: 'Generazione video con IA',
+                url: '/edu/webapp/es-architettura/video-ia.html',
+                icon: icons.pen,
+            },
+            {
+                name: 'Fleet management',
+                url: '/edu/webapp/es-architettura/fleet-mgmt.html',
                 icon: icons.pen,
             },
         ]
@@ -264,7 +274,7 @@ if (explorer) {
         const folderIcon = document.createElement('span');
         folderIcon.className = 'folder-icon';
         folderIcon.setAttribute('aria-hidden', 'true');
-        folderIcon.textContent = open ? icons.dirOpen : icons.dir;
+        folderIcon.textContent = open ? icons.odir : icons.dir;
 
         const folderName = document.createElement('span');
         folderName.className = 'folder-name';
@@ -282,7 +292,7 @@ if (explorer) {
             const collapsed = head.getAttribute('aria-expanded') === 'true';
             head.setAttribute('aria-expanded', String(!collapsed));
             li.classList.toggle('collapsed', collapsed);
-            folderIcon.textContent = collapsed ? icons.dir : icons.dirOpen;
+            folderIcon.textContent = collapsed ? icons.dir : icons.odir;
         });
 
         li.append(head, children);
@@ -304,7 +314,7 @@ if (explorer) {
         explorer.dataset.open = String(open);
         panel.setAttribute('aria-hidden', String(!open));
         toggleButton.setAttribute('aria-expanded', String(open));
-        topbarIcon.textContent = open ? icons.dirOpen : icons.dir;
+        topbarIcon.textContent = open ? icons.odir : icons.dir;
     };
 
     topbarIcon.textContent = icons.dir;
