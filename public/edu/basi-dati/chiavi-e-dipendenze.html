@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -27,36 +26,70 @@
 
     <section>
         <h2><span class="num">0</span> Dipendenze funzionali e chiusura</h2>
-        <p>Sia <em>R</em> uno schema di relazione e <em>X, Y</em> due sottoinsiemi di attributi. Una dipendenza funzionale <code>X &rarr; Y</code> impone che se due tuple concordano sui valori di <em>X</em>, devono concordare anche sui valori di <em>Y</em> (<em>X</em> determina <em>Y</em>).</p>
-        <p>La <strong>chiusura</strong> <code>X<sup>+</sup></code> è l'insieme di tutti gli attributi dello schema determinati funzionalmente da <em>X</em> applicando le dipendenze note.</p>
-
+        <h3>Dipendenze funzionali</h3>
+        <p>Siano <em>X</em> ed <em>Y</em> due sottoinsiemi di attributi di una tabella, una dipendenza funzionale <code>X &rarr; Y</code> impone che se due tuple (due righe della tabella) concordano sui valori di <em>X</em>, devono concordare anche sui valori di <em>Y</em>. In questo caso di dice che <em>X</em> <strong>determina</strong> <em>Y</em>.</p>
         <div class="callout">
             <div class="callout-title">Ad esempio</div>
-            <p>Nello schema <code>Studenti(cf, nome, cognome, comune_nascita, provincia_nascita)</code>:</p>
-            <p><code>cf &rarr; nome, cognome</code> (Il codice fiscale identifica la persona).</p>
-            <p><code>comune_nascita &rarr; provincia_nascita</code> (Il comune determina la provincia).</p>
-            <p>La chiusura di <code>{cf, comune_nascita}<sup>+</sup></code> contiene l'intero schema.</p>
+            <p>Dato il seguente schema <code>AcquistoGiochi(id_utente, email, id_gioco, nome_gioco, prezzo, id_creatore, nome_creatore)</code> le dipendenze funzionali sono:</p>
+            <p><code>{id_utente} &rarr; {email}</code> l'identificativo utente determina l'email.</p>
+                <p><code>{email} &rarr; {id_utente}</code> l'email determina l'id_utente (ipotizziamo che possano esistere due utenti con la stessa email).</p>
+            <p><code>{id_gioco} &rarr; {nome_gioco, prezzo, id_creatore}</code> l'identificativo del gioco determina i suoi dati e il creatore.</p>
+            <p><code>{id_creatore} &rarr; {nome_creatore}</code> l'identificativo del creatore determina il suo nome.</p>
+        </div>
+
+        <h3>Chiusura</h3>
+        <p>Dato un insime di attributi <em>X</em> la <strong>chiusura</strong> <code>X<sup>+</sup></code> è l'insieme di tutti gli attributi dello schema determinati funzionalmente da <em>X</em> applicando le dipendenze note.</p>
+        <div class="callout">
+            <div class="callout-title">Ad esempio</div>
+            <p><code>{id_utente}<sup>+</sup> = {id_utente, email}</code> la chiusura di id_utente contiene id_utente ed email.</p>
+            <p><code>{email}<sup>+</sup> = {id_utente, email}</code> la chiusura di email è uguale a quella di id_utente.</p>
+            <p>La chiusura <code>{id_utente, id_gioco}<sup>+</sup></code> contiene tutti gli attributi della tabella, lo stesso vale per la chiusura <code>{email, id_gioco}<sup>+</sup></code>.</p>
         </div>
     </section>
 
     <section>
-        <h2><span class="num">1</span> Tipologie di Chiavi</h2>
-        <p><strong>Superchiave:</strong> un insieme di attributi <em>K</em> tale che <code>K<sup>+</sup> = R</code>. Identifica univocamente ogni tupla della tabella.</p>
-        <p><strong>Chiave candidata:</strong> una superchiave minimale. Nessun sottoinsieme proprio di <em>K</em> è una superchiave.</p>
-        <p><strong>Chiave primaria (PK):</strong> la chiave candidata scelta dal progettista per identificare le tuple. Nessun suo attributo può essere <code>NULL</code>.</p>
-        <p><strong>Chiave alternativa:</strong> una chiave candidata non scelta come primaria (gestita con vincolo <code>UNIQUE</code>).</p>
-        <p><strong>Chiave surrogata/naturale:</strong> una chiave naturale usa dati reali del dominio (es. codice fiscale). Una chiave surrogata è un identificatore artificiale generato dal sistema (es. ID autoincrementante).</p>
-        <p><strong>Chiave esterna (FK):</strong> attributo che fa riferimento alla chiave primaria di un'altra tabella.</p>
-
+        <h2><span class="num">1</span> Tipologie di chiavi</h2>
+        <h3>Superchiave</h3>
+        <p>Una superchiave è un insieme di attributi la cui chiusura contiene tutti gli attributi della tabella. Identifica univocamente una riga della tabella.<br>
         <div class="callout">
             <div class="callout-title">Ad esempio</div>
-            <p>Data la tabella <code>Dipendenti(id_dipendente, cf, email, nome)</code> con dipendenze <code>id_dipendente &rarr; R</code> e <code>cf &rarr; R</code>:</p>
-            <ul>
-                <li><strong>Superchiavi:</strong> <code>{id_dipendente}</code>, <code>{cf}</code>, <code>{id_dipendente, nome}</code>, <code>{cf, email}</code></li>
-                <li><strong>Chiavi candidate:</strong> <code>{id_dipendente}</code>, <code>{cf}</code></li>
-                <li><strong>Chiave primaria scelta:</strong> <code>id_dipendente</code> (surrogata)</li>
-                <li><strong>Chiave alternativa:</strong> <code>cf</code> (naturale)</li>
-            </ul>
+            <p>L'insieme di attributi <code>{id_utente, id_gioco}</code> è una superchiave, in quanto, come visto precedentemente, la sua chiusura contiene tutti gli attributi della tabella <code>AcquistoGiochi</code>. Lo stesso vale per <code>{email, id_gioco}</code>.</p>
+            <p>Ci sono molte altre superchiavi, ad esempio <code>{email, id_gioco, id_creatore}</code> o <code>{id_utente, id_gioco, prezzo, nome_gioco}.</code>.</p>
+        </div>
+        
+        <h3>Chiave candidata</h3>
+        <p>Una chiave candidata è una superchiave tale che nessun sottoinsieme dei suoi attributi è una superchiave. Si dice che è una <strong>superchiave minimale</strong>. La parola "candidata" indica che è candidata ad essere una chiave primaria.
+        <div class="callout">
+            <div class="callout-title">Ad esempio</div>
+            Tra tutte le superchiavi di una tabella solo alcune sono chiavi candidate, in particolare <code>{id_utente, id_gioco}</code> é una chiave candidata. Invece <code>{id_utente, id_gioco, id_creatore}</code> non è una chiave candidata perchè id_creatore è di troppo: se lo tolgo ottengo <code>{id_utente, id_gioco}</code> che è ancora una superchiave.
+        </div>
+        
+        <h3>Chiave primaria (PK)</h3>
+        <p>La chiave primaria è la chiave candidata scelta dal progettista per identificare univocamente le righe della tabella. Nessun attributo che ne fa parte può assumere valore <code>NULL</code>.</p>
+        <div class="callout">
+            <div class="callout-title">Ad esempio</div>
+            <p>Tra le chiavi candidate disponibili in <code>AcquistoGiochi</code>, si seleziona <code>{id_utente, id_gioco}</code> come chiave primaria.</p>
+        </div>
+
+        <h3>Chiave alternativa</h3>
+        <p>Una chiave alternativa è una chiave candidata che non è stata scelta come chiave primaria (spesso gestita nel database con un vincolo <code>UNIQUE</code>).</p>
+        <div class="callout">
+            <div class="callout-title">Ad esempio</div>
+            <p>Avendo scelto <code>{id_utente, id_gioco}</code> come chiave primaria, l'altra chiave candidata <code>{email, id_gioco}</code> diventa una chiave alternativa.</p>
+        </div>
+
+        <h3>Chiave surrogata e chiave naturale</h3>
+        <p>Una <strong>chiave naturale</strong> è formata da attributi che hanno un significato reale nel dominio applicativo. Una <strong>chiave surrogata</strong> è un identificatore artificiale generato dal sistema (es. un numero progressivo) privo di significato esterno.</p>
+        <div class="callout">
+            <div class="callout-title">Ad esempio</div>
+            <p>Nello schema <code>AcquistoGiochi</code>, l'attributo <code>email</code> è naturale, mentre <code>id_utente</code> e <code>id_gioco</code> sono surrogati. Inoltre, si potrebbe aggiungere un nuovo attributo surrogato <code>id_acquisto</code> per evitare di usare una chiave primaria composta da due colonne.</p>
+        </div>
+
+        <h3>Chiave esterna (FK)</h3>
+        <p>Una chiave esterna è un attributo (o un insieme di attributi) che fa riferimento alla chiave primaria di un'altra tabella per creare un collegamento tra i dati.</p>
+        <div class="callout">
+            <div class="callout-title">Ad esempio</div>
+            <p>Se normalizzassimo la tabella <code>AcquistoGiochi</code> creando le tabelle <code>Utenti</code>, <code>Giochi</code> e <code>Acquisti(id_utente, id_gioco)</code>. <code>Acquisti.id_utente</code> della tabella sarebbe una chiave esterna verso la tabella <code>Utenti</code> e <code>Acquisti.id_gioco</code> una chiave esterna verso la tabella <code>Giochi</code>.</p>
         </div>
     </section>
 </div>
