@@ -32,7 +32,7 @@
             <div class="callout-title">Ad esempio</div>
             <p>Dato il seguente schema <code>AcquistoGiochi(id_utente, email, id_gioco, nome_gioco, prezzo, id_creatore, nome_creatore)</code> le dipendenze funzionali sono:</p>
             <p><code>{id_utente} &rarr; {email}</code> l'identificativo utente determina l'email.</p>
-                <p><code>{email} &rarr; {id_utente}</code> l'email determina l'id_utente (ipotizziamo che possano esistere due utenti con la stessa email).</p>
+                <p><code>{email} &rarr; {id_utente}</code> l'email determina l'id_utente (ipotizziamo che non possano esistere due utenti con la stessa email).</p>
             <p><code>{id_gioco} &rarr; {nome_gioco, prezzo, id_creatore}</code> l'identificativo del gioco determina i suoi dati e il creatore.</p>
             <p><code>{id_creatore} &rarr; {nome_creatore}</code> l'identificativo del creatore determina il suo nome.</p>
         </div>
